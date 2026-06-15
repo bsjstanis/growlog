@@ -130,6 +130,19 @@ main{max-width:600px;margin:0 auto;padding:16px 14px}
 .year-tab{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);white-space:nowrap;transition:all .15s;flex-shrink:0}
 .year-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
 
+/* CALENDAR SCROLL */
+.cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.cal-months-row{display:flex;gap:16px;min-width:max-content}
+.cal-month{width:280px;flex-shrink:0}
+.cal-month-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
+.cal-dow{font-size:9px;color:var(--text3);padding:3px 0;text-align:center}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;font-size:11px;cursor:default;min-height:32px}
+.cal-day.today{background:var(--green);color:#fff;font-weight:700}
+.cal-day.has-event{cursor:pointer}
+.cal-dots{display:flex;gap:1px;margin-top:1px;justify-content:center}
+.cal-dot{width:4px;height:4px;border-radius:50%}
+
 /* P&L */
 .pnl-box{border-radius:var(--radius);padding:16px;margin-bottom:10px}
 .pnl-green{background:var(--green3);border:1px solid var(--border2)}
@@ -220,25 +233,27 @@ main{max-width:600px;margin:0 auto;padding:16px 14px}
     <div class="modal-handle"></div>
     <div class="modal-title">Додати рослину</div>
     <input type="hidden" id="plant-loc-id">
+    <div style="font-size:12px;color:var(--text3);margin-bottom:14px">Поля з <span style="color:var(--red)">*</span> обов'язкові</div>
     <div class="form-section">Рослина</div>
-    <div class="field"><label>Ім'я / номер (опційно)</label><input id="plant-name" placeholder="#1, Ліва, Маша..."></div>
-    <div class="field"><label>Дата посадки</label><input id="plant-date" type="date"></div>
-    <div class="field"><label>Ґрунт</label><input id="plant-soil" placeholder="Торф, місцева земля, кокос..."></div>
+    <div class="field"><label>Ім'я / номер <span style="color:var(--text3);font-weight:400">(опційно)</span></label><input id="plant-name" placeholder="#1, Ліва, Маша..."></div>
+    <div class="field"><label>Дата посадки <span style="color:var(--red)">*</span></label><input id="plant-date" type="date"></div>
+    <div class="field"><label>Ґрунт <span style="color:var(--text3);font-weight:400">(опційно)</span></label><input id="plant-soil" placeholder="Торф, місцева земля, кокос..."></div>
     <div class="form-section">Сорт</div>
-    <div class="field"><label>Назва сорту</label><input id="var-name" placeholder="Blue Dream, OG Kush..."></div>
-    <div class="field"><label>Сідбанк / виробник</label><input id="var-brand" placeholder="Dinafem, RQS..."></div>
-    <div class="field"><label>Тип</label>
+    <div class="field"><label>Назва сорту <span style="color:var(--red)">*</span></label><input id="var-name" placeholder="Blue Dream, OG Kush..."></div>
+    <div class="field"><label>Сідбанк / виробник <span style="color:var(--text3);font-weight:400">(опційно)</span></label><input id="var-brand" placeholder="Dinafem, RQS..."></div>
+    <div class="field"><label>Тип <span style="color:var(--red)">*</span></label>
       <select id="var-type">
         <option value="auto">🤖 Автоцвіт</option>
         <option value="photo">☀️ Фотоперіод (аутдор)</option>
       </select>
     </div>
     <div class="field-row">
-      <div class="field"><label>Цвітіння від (днів)</label><input id="var-min" type="number" min="30" max="150" placeholder="60"></div>
-      <div class="field"><label>Цвітіння до (днів)</label><input id="var-max" type="number" min="30" max="150" placeholder="70"></div>
+      <div class="field"><label>Цвітіння від (днів) <span style="color:var(--red)">*</span></label><input id="var-min" type="number" min="30" max="150" placeholder="60"></div>
+      <div class="field"><label>Цвітіння до (днів) <span style="color:var(--red)">*</span></label><input id="var-max" type="number" min="30" max="150" placeholder="70"></div>
     </div>
     <div class="form-section">Витрати на насіння</div>
-    <div class="field"><label>Ціна насінини (UAH)</label><input id="plant-seed-cost" type="number" min="0" step="1" placeholder="0"></div>
+    <div class="field"><label>Ціна насінини (UAH) <span style="color:var(--text3);font-weight:400">(опційно)</span></label><input id="plant-seed-cost" type="number" min="0" step="1" placeholder="0"></div>
+    <div id="plant-error" style="display:none;background:var(--red2);color:var(--red);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;margin-top:8px"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-plant')">Скасувати</button>
       <button class="btn btn-primary" onclick="savePlant()">Додати</button>
@@ -645,17 +660,37 @@ function openPlantModal() {
 
 async function savePlant() {
   const varName=document.getElementById('var-name').value.trim();
-  const min=parseInt(document.getElementById('var-min').value);
-  const max=parseInt(document.getElementById('var-max').value);
+  const minVal=document.getElementById('var-min').value;
+  const maxVal=document.getElementById('var-max').value;
+  const min=parseInt(minVal);
+  const max=parseInt(maxVal);
   const date=document.getElementById('plant-date').value;
-  if (!varName||!min||!max||!date) { toast('Заповни назву сорту, цикл і дату'); return; }
-  if (min>max) { toast('Мін. не може бути більше за макс.'); return; }
+  const errEl=document.getElementById('plant-error');
+  errEl.style.display='none';
+
+  // Validate
+  const errors=[];
+  if (!date) errors.push('Вкажи дату посадки');
+  if (!varName) errors.push('Введи назву сорту');
+  if (!minVal) errors.push('Вкажи мінімальну тривалість цвітіння');
+  if (!maxVal) errors.push('Вкажи максимальну тривалість цвітіння');
+  if (minVal&&maxVal&&min>max) errors.push('Мін. цикл не може бути більше за макс.');
+  if (minVal&&(min<30||min>150)) errors.push('Мін. цикл має бути від 30 до 150 днів');
+  if (maxVal&&(max<30||max>150)) errors.push('Макс. цикл має бути від 30 до 150 днів');
+
+  if (errors.length) {
+    errEl.innerHTML=errors.map(e=>'⚠️ '+e).join('<br>');
+    errEl.style.display='block';
+    return;
+  }
+
   try {
     const newVar=await sb('varieties','POST',{
       name:varName, brand:document.getElementById('var-brand').value.trim(),
       seed_type:document.getElementById('var-type').value,
       flowering_days_min:min, flowering_days_max:max
     });
+    if (!newVar||!newVar[0]) throw new Error('Не вдалось створити сорт. Спробуй ще раз.');
     const varId=newVar[0].id;
     const seedCost=parseFloat(document.getElementById('plant-seed-cost').value)||0;
     const newPlant=await sb('plants','POST',{
@@ -665,19 +700,24 @@ async function savePlant() {
       soil_type:document.getElementById('plant-soil').value.trim(),
       current_stage:'seedling', stage_overrides:{}, is_harvested:false
     });
-    // Save seed cost as expense
+    if (!newPlant||!newPlant[0]) throw new Error('Не вдалось додати рослину. Спробуй ще раз.');
     if (seedCost>0) {
       const yr=new Date(date+'T12:00:00').getFullYear();
       await sb('expenses','POST',{
         year:yr, category:'seeds', amount_uah:seedCost,
         plant_id:newPlant[0].id,
-        notes:`Насіння: ${varName}`
+        notes:'Насіння: '+varName
       });
     }
     closeModal('modal-plant');
     toast('Рослину додано ✅');
     renderPlants();
-  } catch(e) { toast('Помилка: '+e.message); }
+  } catch(e) {
+    let msg=e.message;
+    try { const parsed=JSON.parse(msg); msg=parsed.message||parsed.details||msg; } catch(_){}
+    errEl.innerHTML='❌ Помилка: '+msg;
+    errEl.style.display='block';
+  }
 }
 
 async function deletePlant(id) {
