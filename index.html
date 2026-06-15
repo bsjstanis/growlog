@@ -6,34 +6,30 @@
 <title>GrowLog</title>
 <style>
   :root {
-    --bg: #f7f9f7;
-    --bg2: #ffffff;
-    --bg3: #f0f4f0;
-    --card: #ffffff;
-    --border: #e0eae0;
-    --border2: #c8dcc8;
-    --green: #2d7a3a;
-    --green2: #3d9e4e;
-    --green3: #e8f5e9;
-    --green4: #1b5e20;
-    --amber: #e65100;
-    --amber2: #fff3e0;
-    --purple: #6a1b9a;
-    --purple2: #f3e5f5;
-    --red: #c62828;
-    --red2: #ffebee;
-    --blue: #1565c0;
-    --blue2: #e3f2fd;
-    --text: #1a2e1a;
-    --text2: #4a6e4a;
-    --text3: #8aaa8a;
-    --radius: 14px;
-    --radius-sm: 8px;
+    --bg: #f7f9f7; --bg2: #ffffff; --bg3: #f0f4f0; --card: #ffffff;
+    --border: #e0eae0; --border2: #c8dcc8;
+    --green: #2d7a3a; --green2: #3d9e4e; --green3: #e8f5e9; --green4: #1b5e20;
+    --amber: #e65100; --amber2: #fff3e0;
+    --purple: #6a1b9a; --purple2: #f3e5f5;
+    --red: #c62828; --red2: #ffebee;
+    --blue: #1565c0; --blue2: #e3f2fd;
+    --text: #1a2e1a; --text2: #4a6e4a; --text3: #8aaa8a;
+    --radius: 14px; --radius-sm: 8px;
     --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; min-height: 100vh; padding-bottom: 80px; }
+
+  /* LOGIN */
+  .login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 24px; }
+  .login-card { background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px 28px; width: 100%; max-width: 340px; text-align: center; }
+  .login-logo { font-size: 48px; margin-bottom: 8px; }
+  .login-title { font-size: 24px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
+  .login-input { width: 100%; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 16px; outline: none; text-align: center; letter-spacing: 2px; margin-bottom: 12px; transition: border 0.15s; }
+  .login-input:focus { border-color: var(--green2); background: #fff; }
+  .login-btn { width: 100%; background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); padding: 13px; font-size: 16px; font-weight: 600; cursor: pointer; }
+  .login-error { font-size: 13px; color: var(--red); margin-top: 10px; min-height: 18px; }
 
   /* TOAST */
   .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 1000; transition: transform 0.3s; white-space: nowrap; }
@@ -41,9 +37,7 @@
 
   /* HEADER */
   header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 16px 10px; position: sticky; top: 0; z-index: 90; }
-  .header-top { display: flex; align-items: center; justify-content: space-between; }
-  .logo { font-size: 20px; font-weight: 700; color: var(--green); letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
-  .logo-leaf { font-size: 22px; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 6px; }
 
   /* TAB BAR */
   .tabbar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2); border-top: 1px solid var(--border); display: flex; z-index: 90; padding-bottom: env(safe-area-inset-bottom); }
@@ -56,23 +50,17 @@
   .page { display: none; }
   .page.active { display: block; }
 
-  /* SECTION TITLE */
-  .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .section-title { font-size: 13px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; }
-
   /* CARDS */
   .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px; margin-bottom: 10px; }
   .card-title { font-size: 16px; font-weight: 600; color: var(--text); }
   .card-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
   .card-row { display: flex; justify-content: space-between; align-items: flex-start; }
-  .card-actions { display: flex; gap: 6px; margin-top: 12px; }
+  .card-actions { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
 
   /* BUTTONS */
   .btn { border: none; border-radius: var(--radius-sm); padding: 9px 16px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
   .btn-primary { background: var(--green); color: #fff; }
-  .btn-primary:active { background: var(--green4); }
   .btn-ghost { background: var(--bg3); color: var(--text2); }
-  .btn-ghost:active { background: var(--border); }
   .btn-danger { background: var(--red2); color: var(--red); }
   .btn-sm { padding: 6px 12px; font-size: 13px; }
   .btn-fab { position: fixed; bottom: 88px; right: 18px; width: 54px; height: 54px; border-radius: 50%; background: var(--green); color: #fff; border: none; font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(45,122,58,0.35); z-index: 80; }
@@ -105,6 +93,7 @@
   .field textarea { resize: vertical; min-height: 72px; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  .form-section { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin: 18px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 
   /* MODAL */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: flex-end; justify-content: center; }
@@ -115,7 +104,7 @@
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
   .modal-actions .btn { flex: 1; justify-content: center; padding: 12px; }
 
-  /* PLANT DATES GRID */
+  /* DATES GRID */
   .dates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
   .date-box { background: var(--bg3); border-radius: var(--radius-sm); padding: 8px 10px; }
   .date-box-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
@@ -127,43 +116,43 @@
   .empty-icon { font-size: 44px; margin-bottom: 12px; opacity: 0.6; }
   .empty p { font-size: 14px; line-height: 1.5; }
 
-  /* LOCATION GROUP */
-  .loc-group { margin-bottom: 14px; }
-  .loc-group-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); cursor: pointer; }
-  .loc-group-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-  .loc-group-meta { font-size: 12px; color: var(--text3); }
-  .loc-group-body { padding: 6px 0 0 0; display: none; }
-  .loc-group-body.open { display: block; }
-  .loc-chevron { color: var(--text3); transition: transform 0.2s; font-size: 13px; }
-  .loc-chevron.open { transform: rotate(180deg); }
-
   /* SPINNER */
   .spinner { display: flex; justify-content: center; padding: 40px; }
   .spinner::after { content: ''; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* STARS */
-  .stars-input { display: flex; gap: 4px; margin-top: 6px; }
-  .star-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: var(--border2); transition: color 0.1s; padding: 0; line-height: 1; }
+  .stars-input { display: flex; gap: 2px; margin-top: 6px; flex-wrap: wrap; }
+  .star-btn { font-size: 26px; background: none; border: none; cursor: pointer; color: var(--border2); transition: color 0.1s; padding: 2px; line-height: 1; }
   .star-btn.on { color: #f9a825; }
   .star-label { font-size: 13px; color: var(--text3); margin-top: 4px; }
 
-  /* LOGIN */
-  .login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 24px; }
-  .login-card { background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px 28px; width: 100%; max-width: 340px; text-align: center; }
-  .login-logo { font-size: 48px; margin-bottom: 8px; }
-  .login-title { font-size: 24px; font-weight: 700; color: var(--green); margin-bottom: 4px; }
-  .login-sub { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
-  .login-input { width: 100%; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 16px; outline: none; text-align: center; letter-spacing: 2px; margin-bottom: 12px; transition: border 0.15s; }
-  .login-input:focus { border-color: var(--green2); background: #fff; }
-  .login-btn { width: 100%; background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); padding: 13px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-  .login-btn:active { background: var(--green4); }
-  .login-error { font-size: 13px; color: var(--red); margin-top: 10px; min-height: 18px; }
+  /* YEAR TABS */
+  .year-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 2px; }
+  .year-tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: var(--bg2); color: var(--text2); white-space: nowrap; transition: all 0.15s; }
+  .year-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* HARVEST ITEM */
+  .harvest-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .harvest-item:last-child { border-bottom: none; }
+  .harvest-item-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .harvest-photo { width: 100%; border-radius: var(--radius-sm); margin-top: 8px; max-height: 200px; object-fit: cover; }
+
+  /* STAT GRID */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px; text-align: center; }
+  .stat-val { font-size: 26px; font-weight: 700; color: var(--green); }
+  .stat-label { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  /* PHOTO UPLOAD */
+  .photo-upload-area { border: 2px dashed var(--border2); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; color: var(--text3); font-size: 13px; transition: border 0.15s; }
+  .photo-upload-area:hover { border-color: var(--green2); color: var(--green); }
+  .photo-preview { width: 100%; border-radius: var(--radius-sm); margin-top: 8px; max-height: 180px; object-fit: cover; display: none; }
 </style>
 </head>
 <body>
 
-
+<!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">🌿</div>
@@ -178,56 +167,31 @@
 <div class="toast" id="toast"></div>
 
 <header>
-  <div class="header-top">
-    <div class="logo"><span class="logo-leaf">🌿</span>GrowLog</div>
-    <div id="header-action"></div>
-  </div>
+  <div class="logo"><span>🌿</span>GrowLog</div>
 </header>
 
 <main>
-  <!-- ЛОКАЦІЇ -->
   <div id="page-locations" class="page active">
     <div id="locations-content"><div class="spinner"></div></div>
   </div>
-
-  <!-- СОРТИ -->
-  <div id="page-varieties" class="page">
-    <div id="varieties-content"><div class="spinner"></div></div>
-  </div>
-
-  <!-- РОСЛИНИ (деталь локації) -->
   <div id="page-plants" class="page">
     <div id="plants-content"></div>
   </div>
-
-  <!-- КАЛЕНДАР -->
   <div id="page-calendar" class="page">
     <div id="calendar-content"><div class="spinner"></div></div>
   </div>
-
-  <!-- ВРОЖАЙ -->
   <div id="page-harvest" class="page">
     <div id="harvest-content"><div class="spinner"></div></div>
   </div>
 </main>
 
-<!-- TAB BAR -->
 <nav class="tabbar">
-  <button class="tab active" onclick="navigate('locations')">
-    <span class="tab-icon">🏕️</span>Локації
-  </button>
-  <button class="tab" onclick="navigate('varieties')">
-    <span class="tab-icon">🌱</span>Сорти
-  </button>
-  <button class="tab" onclick="navigate('calendar')">
-    <span class="tab-icon">📅</span>Календар
-  </button>
-  <button class="tab" onclick="navigate('harvest')">
-    <span class="tab-icon">⚖️</span>Врожай
-  </button>
+  <button class="tab active" onclick="navigate('locations')"><span class="tab-icon">🏕️</span>Локації</button>
+  <button class="tab" onclick="navigate('calendar')"><span class="tab-icon">📅</span>Календар</button>
+  <button class="tab" onclick="navigate('harvest')"><span class="tab-icon">⚖️</span>Врожай</button>
 </nav>
 
-<button class="btn-fab" id="fab" onclick="fabAction()">＋</button>
+<button class="btn-fab" id="fab" onclick="fabAction()" style="display:none">＋</button>
 
 <!-- MODAL: Локація -->
 <div class="modal-overlay" id="modal-location">
@@ -236,7 +200,6 @@
     <div class="modal-title" id="modal-location-title">Нова локація</div>
     <input type="hidden" id="loc-id">
     <div class="field"><label>Назва</label><input id="loc-name" placeholder="Тент 1, Аутдор грядка..."></div>
-    <div class="field"><label>Тип субстрату</label><input id="loc-soil" placeholder="Торф, місцева земля..."></div>
     <div class="field"><label>Нотатки</label><textarea id="loc-notes" placeholder="Додаткова інформація..."></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-location')">Скасувати</button>
@@ -245,43 +208,32 @@
   </div>
 </div>
 
-<!-- MODAL: Сорт -->
-<div class="modal-overlay" id="modal-variety">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modal-variety-title">Новий сорт</div>
-    <input type="hidden" id="var-id">
-    <div class="field"><label>Назва сорту</label><input id="var-name" placeholder="Blue Dream, OG Kush..."></div>
-    <div class="field"><label>Виробник / банк</label><input id="var-brand" placeholder="Dinafem, Royal Queen Seeds..."></div>
-    <div class="field"><label>Тип</label>
-      <select id="var-type">
-        <option value="auto">🤖 Автоцвіт</option>
-        <option value="photo">☀️ Фотоперіод</option>
-      </select>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>Цвітіння від (днів)</label><input id="var-min" type="number" min="30" max="150" placeholder="60"></div>
-      <div class="field"><label>Цвітіння до (днів)</label><input id="var-max" type="number" min="30" max="150" placeholder="70"></div>
-    </div>
-    <div class="field"><label>Нотатки</label><textarea id="var-notes" placeholder="Особливості, смак, ефект..."></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modal-variety')">Скасувати</button>
-      <button class="btn btn-primary" onclick="saveVariety()">Зберегти</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: Рослина -->
+<!-- MODAL: Рослина (включає сорт) -->
 <div class="modal-overlay" id="modal-plant">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Додати рослину</div>
     <input type="hidden" id="plant-loc-id">
-    <div class="field"><label>Сорт</label>
-      <select id="plant-variety"><option value="">Вибери сорт...</option></select>
-    </div>
+
+    <div class="form-section">Про рослину</div>
     <div class="field"><label>Ім'я / номер (опційно)</label><input id="plant-name" placeholder="#1, Ліва, Маша..."></div>
     <div class="field"><label>Дата посадки</label><input id="plant-date" type="date"></div>
+    <div class="field"><label>Ґрунт</label><input id="plant-soil" placeholder="Торф, місцева земля, кокос..."></div>
+
+    <div class="form-section">Сорт</div>
+    <div class="field"><label>Назва сорту</label><input id="plant-var-name" placeholder="Blue Dream, OG Kush..."></div>
+    <div class="field"><label>Сідбанк / виробник</label><input id="plant-var-brand" placeholder="Dinafem, Royal Queen Seeds..."></div>
+    <div class="field"><label>Тип</label>
+      <select id="plant-var-type">
+        <option value="auto">🤖 Автоцвіт</option>
+        <option value="photo">☀️ Фотоперіод (аутдор)</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Цвітіння від (днів)</label><input id="plant-var-min" type="number" min="30" max="150" placeholder="60"></div>
+      <div class="field"><label>Цвітіння до (днів)</label><input id="plant-var-max" type="number" min="30" max="150" placeholder="70"></div>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-plant')">Скасувати</button>
       <button class="btn btn-primary" onclick="savePlant()">Додати</button>
@@ -293,7 +245,7 @@
 <div class="modal-overlay" id="modal-stage">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Встановити реальну дату</div>
+    <div class="modal-title">Встановити реальну дату стадії</div>
     <input type="hidden" id="stage-plant-id">
     <div id="stage-plant-info" style="background:var(--bg3);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:16px;font-size:13px;color:var(--text2);"></div>
     <div class="field"><label>Стадія</label>
@@ -321,6 +273,7 @@
     <input type="hidden" id="harvest-plant-id">
     <div id="harvest-plant-info" style="background:var(--bg3);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:16px;font-size:13px;color:var(--text2);"></div>
     <div class="field"><label>Дата збору</label><input id="harvest-date" type="date"></div>
+    <div class="field"><label>Дата початку сушки</label><input id="harvest-dry-date" type="date"></div>
     <div class="field"><label>Вага сухого (грами)</label><input id="harvest-weight" type="number" min="0" step="0.1" placeholder="0.0"></div>
     <div class="field">
       <label>Оцінка сорту</label>
@@ -328,6 +281,14 @@
       <div class="star-label" id="star-label">не вибрано</div>
     </div>
     <div class="field"><label>Нотатки</label><textarea id="harvest-notes" placeholder="Смак, ефект, враження..."></textarea></div>
+    <div class="field">
+      <label>Фото врожаю</label>
+      <div class="photo-upload-area" onclick="document.getElementById('harvest-photo-input').click()">
+        📷 Натисни щоб додати фото
+      </div>
+      <input type="file" id="harvest-photo-input" accept="image/*" style="display:none" onchange="previewPhoto(this)">
+      <img id="harvest-photo-preview" class="photo-preview">
+    </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-harvest')">Скасувати</button>
       <button class="btn btn-primary" onclick="saveHarvest()">Зберегти</button>
@@ -336,42 +297,24 @@
 </div>
 
 <script>
+const SUPABASE_URL = 'https://mpxvsyqkocowamwgqzcy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
 
 // ===================== AUTH =====================
-const PASS_HASH = '7c6a180b36896a0a8c02787eeafb0e4c'; // MD5 of GL2026#
-
-function md5(str) {
-  // Simple hash check - compare against stored hash
-  // We use a simple obfuscated check
-  return btoa(str) === btoa('GL2026#');
-}
-
 function checkLogin() {
   const val = document.getElementById('login-input').value;
   if (val === atob('R0wyMDI2Iw==')) {
     sessionStorage.setItem('gl_auth', '1');
     document.getElementById('login-screen').style.display = 'none';
-    navigate('locations');
+    initApp();
   } else {
     document.getElementById('login-error').textContent = 'Невірний пароль';
     document.getElementById('login-input').value = '';
-    document.getElementById('login-input').focus();
     setTimeout(() => document.getElementById('login-error').textContent = '', 2000);
   }
 }
 
-function checkAuth() {
-  if (!sessionStorage.getItem('gl_auth')) {
-    document.getElementById('login-screen').style.display = 'flex';
-    return false;
-  }
-  return true;
-}
-
-// ===================== SUPABASE CONFIG =====================
-const SUPABASE_URL = 'https://mpxvsyqkocowamwgqzcy.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
-
+// ===================== SUPABASE =====================
 async function sb(table, method = 'GET', body = null, query = '') {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${query}`, {
     method,
@@ -389,57 +332,31 @@ async function sb(table, method = 'GET', body = null, query = '') {
   return text ? JSON.parse(text) : null;
 }
 
+async function uploadPhoto(file) {
+  const ext = file.name.split('.').pop();
+  const path = `harvests/${Date.now()}.${ext}`;
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/plant-photos/${path}`, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type },
+    body: file
+  });
+  if (!res.ok) throw new Error('Помилка завантаження фото');
+  return `${SUPABASE_URL}/storage/v1/object/public/plant-photos/${path}`;
+}
+
 // ===================== STATE =====================
 let currentPage = 'locations';
 let currentLocId = null;
+let currentLocName = '';
 let starRating = 0;
-let varieties = [];
-
-// ===================== NAVIGATION =====================
-function navigate(page, data = {}) {
-  if (!checkAuth()) return;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  const tabs = { locations: 0, varieties: 1, calendar: 2, harvest: 3 };
-  if (tabs[page] !== undefined) document.querySelectorAll('.tab')[tabs[page]].classList.add('active');
-  currentPage = page;
-  if (page === 'plants') {
-    currentLocId = data.locId;
-    renderPlants(data.locId, data.locName);
-  } else if (page === 'locations') renderLocations();
-  else if (page === 'varieties') renderVarieties();
-  else if (page === 'calendar') renderCalendar();
-  else if (page === 'harvest') renderHarvest();
-  document.getElementById('fab').style.display = ['locations','varieties','plants'].includes(page) ? 'flex' : 'none';
-}
-
-function fabAction() {
-  if (currentPage === 'locations') openLocationModal();
-  else if (currentPage === 'varieties') openVarietyModal();
-  else if (currentPage === 'plants') openPlantModal(currentLocId);
-}
-
-// ===================== TOAST =====================
-function toast(msg, dur = 2200) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), dur);
-}
-
-// ===================== MODALS =====================
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(el =>
-  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); })
-);
+let cachedVarieties = [];
+let cachedLocations = [];
+let selectedHarvestYear = null;
 
 // ===================== UTILS =====================
 function fmt(d) {
   if (!d) return '—';
-  const dt = new Date(d + 'T12:00:00');
-  return dt.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
+  return new Date(d + 'T12:00:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
 }
 function today() { return new Date().toISOString().slice(0, 10); }
 function addDays(d, n) {
@@ -450,43 +367,39 @@ function addDays(d, n) {
 function diffDays(a, b) {
   return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
 }
+function getYear(d) { return d ? new Date(d + 'T12:00:00').getFullYear() : null; }
 
 // ===================== STAGE CALC =====================
-// Дефолтні інтервали для авто (днів від посадки)
-const AUTO_DEFAULTS = { seedling: 0, growth: 14, pre_flower: 35, flower: 42 };
-const PHOTO_FLOWER_DEFAULT = (year) => `${year}-08-01`; // 1 серпня
+const AUTO_DEFAULTS = { growth: 14, pre_flower: 35, flower: 42 };
 
 function calcStages(plant, variety) {
-  const overrides = plant.stage_overrides || {};
+  const o = plant.stage_overrides || {};
   const avg = Math.round((variety.flowering_days_min + variety.flowering_days_max) / 2);
   const pd = plant.plant_date;
-  let stages = {};
-
+  let s = {};
   if (variety.seed_type === 'auto') {
-    stages.seedling  = overrides.seedling  || pd;
-    stages.growth    = overrides.growth    || addDays(pd, AUTO_DEFAULTS.growth);
-    stages.pre_flower= overrides.pre_flower|| addDays(pd, AUTO_DEFAULTS.pre_flower);
-    stages.flower    = overrides.flower    || addDays(pd, AUTO_DEFAULTS.flower);
-    stages.ripening  = overrides.ripening  || addDays(stages.flower, avg - 10);
-    stages.harvest   = overrides.harvest   || addDays(stages.flower, avg);
+    s.seedling   = o.seedling   || pd;
+    s.growth     = o.growth     || addDays(pd, AUTO_DEFAULTS.growth);
+    s.pre_flower = o.pre_flower || addDays(pd, AUTO_DEFAULTS.pre_flower);
+    s.flower     = o.flower     || addDays(pd, AUTO_DEFAULTS.flower);
+    s.ripening   = o.ripening   || addDays(s.flower, avg - 10);
+    s.harvest    = o.harvest    || addDays(s.flower, avg);
   } else {
-    // фото аутдор
     const year = new Date(pd + 'T12:00:00').getFullYear();
-    const defaultFlower = PHOTO_FLOWER_DEFAULT(year);
-    stages.seedling  = overrides.seedling  || pd;
-    stages.growth    = overrides.growth    || pd;
-    stages.flower    = overrides.flower    || defaultFlower;
-    stages.pre_flower= overrides.pre_flower|| addDays(stages.flower, -7);
-    stages.ripening  = overrides.ripening  || addDays(stages.flower, avg - 10);
-    stages.harvest   = overrides.harvest   || addDays(stages.flower, avg);
+    const defFlower = `${year}-08-01`;
+    s.seedling   = o.seedling   || pd;
+    s.growth     = o.growth     || pd;
+    s.flower     = o.flower     || defFlower;
+    s.pre_flower = o.pre_flower || addDays(s.flower, -7);
+    s.ripening   = o.ripening   || addDays(s.flower, avg - 10);
+    s.harvest    = o.harvest    || addDays(s.flower, avg);
   }
-  return stages;
+  return s;
 }
 
-function currentStage(plant, variety) {
+function getStage(plant, variety) {
   if (plant.is_harvested) return 'done';
-  const t = today();
-  const s = calcStages(plant, variety);
+  const t = today(), s = calcStages(plant, variety);
   if (t >= s.harvest) return 'harvest';
   if (t >= s.ripening) return 'ripening';
   if (t >= s.flower) return 'flower';
@@ -496,56 +409,85 @@ function currentStage(plant, variety) {
 }
 
 const STAGE_NAMES = {
-  seedling: '🌱 Розсада', growth: '🌿 Ріст', pre_flower: '🌼 Передцвіт',
-  flower: '🌸 Цвітіння', ripening: '🟡 Дозрівання', harvest: '✂️ Збір', done: '✅ Зібрано'
+  seedling:'🌱 Розсада', growth:'🌿 Ріст', pre_flower:'🌼 Передцвіт',
+  flower:'🌸 Цвітіння', ripening:'🟡 Дозрівання', harvest:'✂️ Збір', done:'✅ Зібрано'
 };
 
-function stageWarning(plant, variety) {
+function getWarning(plant, variety) {
   if (plant.is_harvested) return null;
-  const t = today();
-  const s = calcStages(plant, variety);
-  const stage = currentStage(plant, variety);
-  // next stage
+  const t = today(), s = calcStages(plant, variety);
+  const stage = getStage(plant, variety);
   const order = ['seedling','growth','pre_flower','flower','ripening','harvest'];
   const idx = order.indexOf(stage);
   if (idx < 0 || idx >= order.length - 1) return null;
-  const nextStage = order[idx + 1];
-  const nextDate = s[nextStage];
+  const nextDate = s[order[idx + 1]];
   if (!nextDate) return null;
   const diff = diffDays(t, nextDate);
-  if (diff < 0) return { type: 'alert', text: `${STAGE_NAMES[nextStage]} прострочено на ${Math.abs(diff)} дн.` };
-  if (diff <= 5) return { type: 'warn', text: `${STAGE_NAMES[nextStage]} через ${diff} дн.` };
+  if (diff < 0) return { type: 'alert', text: `${STAGE_NAMES[order[idx+1]]} прострочено на ${Math.abs(diff)} дн.` };
+  if (diff <= 5) return { type: 'warn', text: `${STAGE_NAMES[order[idx+1]]} через ${diff} дн.` };
   return null;
 }
 
-function progressPct(plant, variety) {
+function getPct(plant, variety) {
   const s = calcStages(plant, variety);
   const total = diffDays(plant.plant_date, s.harvest);
   if (total <= 0) return 100;
-  const elapsed = diffDays(plant.plant_date, today());
-  return Math.min(100, Math.max(0, Math.round(elapsed / total * 100)));
+  return Math.min(100, Math.max(0, Math.round(diffDays(plant.plant_date, today()) / total * 100)));
 }
+
+// ===================== NAVIGATION =====================
+function navigate(page, data = {}) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const tabMap = { locations: 0, plants: 0, calendar: 1, harvest: 2 };
+  if (tabMap[page] !== undefined) document.querySelectorAll('.tab')[tabMap[page]].classList.add('active');
+  currentPage = page;
+  document.getElementById('fab').style.display = ['locations','plants'].includes(page) ? 'flex' : 'none';
+  if (page === 'locations') renderLocations();
+  else if (page === 'plants') { currentLocId = data.locId; currentLocName = data.locName || ''; renderPlants(); }
+  else if (page === 'calendar') renderCalendar();
+  else if (page === 'harvest') renderHarvestPage();
+}
+
+function fabAction() {
+  if (currentPage === 'locations') openLocationModal();
+  else if (currentPage === 'plants') openPlantModal();
+}
+
+// ===================== TOAST / MODAL =====================
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el =>
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); })
+);
 
 // ===================== LOCATIONS =====================
 async function renderLocations() {
   const el = document.getElementById('locations-content');
   el.innerHTML = '<div class="spinner"></div>';
   try {
-    const locs = await sb('locations', 'GET', null, '?order=created_at.asc');
+    cachedLocations = await sb('locations', 'GET', null, '?order=created_at.asc');
     const plants = await sb('plants', 'GET', null, '?select=id,location_id,is_harvested');
-    if (!locs.length) {
+    if (!cachedLocations.length) {
       el.innerHTML = `<div class="empty"><div class="empty-icon">🏕️</div><p>Немає локацій.<br>Натисни ＋ щоб додати перший тент або простір.</p></div>`;
       return;
     }
-    el.innerHTML = locs.map(loc => {
+    el.innerHTML = cachedLocations.map(loc => {
       const cnt = plants.filter(p => p.location_id === loc.id && !p.is_harvested).length;
-      return `<div class="card" style="cursor:pointer" onclick="navigate('plants',{locId:'${loc.id}',locName:'${loc.name.replace(/'/g,"\\'")}' })">
+      return `<div class="card" style="cursor:pointer" onclick="navigate('plants',{locId:'${loc.id}',locName:${JSON.stringify(loc.name)}})">
         <div class="card-row">
           <div>
             <div class="card-title">🏕️ ${loc.name}</div>
-            <div class="card-sub">${loc.soil_type || 'Субстрат не вказано'} · ${cnt} активних рослин</div>
+            <div class="card-sub">${cnt} активних рослин</div>
           </div>
-          <span style="color:var(--text3);font-size:18px">›</span>
+          <span style="color:var(--text3);font-size:20px">›</span>
         </div>
         <div class="card-actions">
           <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openLocationModal('${loc.id}')">✏️ Редагувати</button>
@@ -553,21 +495,18 @@ async function renderLocations() {
         </div>
       </div>`;
     }).join('');
-  } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка завантаження: ${e.message}</p></div>`; }
+  } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
 }
 
 function openLocationModal(id = null) {
   document.getElementById('loc-id').value = id || '';
   document.getElementById('modal-location-title').textContent = id ? 'Редагувати локацію' : 'Нова локація';
   if (id) {
-    sb('locations', 'GET', null, `?id=eq.${id}`).then(rows => {
-      const r = rows[0];
-      document.getElementById('loc-name').value = r.name || '';
-      document.getElementById('loc-soil').value = r.soil_type || '';
-      document.getElementById('loc-notes').value = r.notes || '';
-    });
+    const loc = cachedLocations.find(l => l.id === id);
+    if (loc) { document.getElementById('loc-name').value = loc.name || ''; document.getElementById('loc-notes').value = loc.notes || ''; }
   } else {
-    ['loc-name','loc-soil','loc-notes'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('loc-name').value = '';
+    document.getElementById('loc-notes').value = '';
   }
   openModal('modal-location');
 }
@@ -575,13 +514,13 @@ function openLocationModal(id = null) {
 async function saveLocation() {
   const name = document.getElementById('loc-name').value.trim();
   if (!name) { toast('Введи назву локації'); return; }
-  const data = { name, soil_type: document.getElementById('loc-soil').value.trim(), notes: document.getElementById('loc-notes').value.trim() };
+  const data = { name, notes: document.getElementById('loc-notes').value.trim() };
   const id = document.getElementById('loc-id').value;
   try {
     if (id) await sb('locations', 'PATCH', data, `?id=eq.${id}`);
     else await sb('locations', 'POST', data);
     closeModal('modal-location');
-    toast(id ? 'Локацію оновлено' : 'Локацію додано');
+    toast(id ? 'Локацію оновлено ✅' : 'Локацію додано ✅');
     renderLocations();
   } catch(e) { toast('Помилка: ' + e.message); }
 }
@@ -589,6 +528,8 @@ async function saveLocation() {
 async function deleteLocation(id) {
   if (!confirm('Видалити локацію і всі її рослини?')) return;
   try {
+    const plants = await sb('plants', 'GET', null, `?location_id=eq.${id}&select=id`);
+    for (const p of plants) await sb('harvests', 'DELETE', null, `?plant_id=eq.${p.id}`);
     await sb('plants', 'DELETE', null, `?location_id=eq.${id}`);
     await sb('locations', 'DELETE', null, `?id=eq.${id}`);
     toast('Локацію видалено');
@@ -596,132 +537,53 @@ async function deleteLocation(id) {
   } catch(e) { toast('Помилка: ' + e.message); }
 }
 
-// ===================== VARIETIES =====================
-async function renderVarieties() {
-  const el = document.getElementById('varieties-content');
-  el.innerHTML = '<div class="spinner"></div>';
-  try {
-    varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    if (!varieties.length) {
-      el.innerHTML = `<div class="empty"><div class="empty-icon">🌱</div><p>Немає сортів.<br>Натисни ＋ щоб додати перший сорт.</p></div>`;
-      return;
-    }
-    el.innerHTML = varieties.map(v => `
-      <div class="card">
-        <div class="card-row">
-          <div>
-            <div class="card-title">${v.name}</div>
-            <div class="card-sub">${v.brand || 'Виробник не вказано'}</div>
-          </div>
-          <span class="badge ${v.seed_type === 'auto' ? 'badge-auto' : 'badge-photo'}">${v.seed_type === 'auto' ? '🤖 Авто' : '☀️ Фото'}</span>
-        </div>
-        <div style="font-size:13px;color:var(--text2);margin-top:8px">Цвітіння: ${v.flowering_days_min}–${v.flowering_days_max} днів</div>
-        ${v.notes ? `<div style="font-size:13px;color:var(--text3);margin-top:4px">${v.notes}</div>` : ''}
-        <div class="card-actions">
-          <button class="btn btn-ghost btn-sm" onclick="openVarietyModal('${v.id}')">✏️ Редагувати</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteVariety('${v.id}')">🗑 Видалити</button>
-        </div>
-      </div>`).join('');
-  } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
-}
-
-function openVarietyModal(id = null) {
-  document.getElementById('var-id').value = id || '';
-  document.getElementById('modal-variety-title').textContent = id ? 'Редагувати сорт' : 'Новий сорт';
-  if (id) {
-    const v = varieties.find(x => x.id === id);
-    if (v) {
-      document.getElementById('var-name').value = v.name || '';
-      document.getElementById('var-brand').value = v.brand || '';
-      document.getElementById('var-type').value = v.seed_type || 'auto';
-      document.getElementById('var-min').value = v.flowering_days_min || '';
-      document.getElementById('var-max').value = v.flowering_days_max || '';
-      document.getElementById('var-notes').value = v.notes || '';
-    }
-  } else {
-    ['var-name','var-brand','var-min','var-max','var-notes'].forEach(f => document.getElementById(f).value = '');
-    document.getElementById('var-type').value = 'auto';
-  }
-  openModal('modal-variety');
-}
-
-async function saveVariety() {
-  const name = document.getElementById('var-name').value.trim();
-  const min = parseInt(document.getElementById('var-min').value);
-  const max = parseInt(document.getElementById('var-max').value);
-  if (!name || !min || !max) { toast('Заповни назву і цикл'); return; }
-  if (min > max) { toast('Мін. не може бути більше за макс.'); return; }
-  const data = { name, brand: document.getElementById('var-brand').value.trim(), seed_type: document.getElementById('var-type').value, flowering_days_min: min, flowering_days_max: max, notes: document.getElementById('var-notes').value.trim() };
-  const id = document.getElementById('var-id').value;
-  try {
-    if (id) await sb('varieties', 'PATCH', data, `?id=eq.${id}`);
-    else await sb('varieties', 'POST', data);
-    closeModal('modal-variety');
-    toast(id ? 'Сорт оновлено' : 'Сорт додано');
-    renderVarieties();
-  } catch(e) { toast('Помилка: ' + e.message); }
-}
-
-async function deleteVariety(id) {
-  if (!confirm('Видалити сорт?')) return;
-  try {
-    await sb('varieties', 'DELETE', null, `?id=eq.${id}`);
-    toast('Сорт видалено');
-    renderVarieties();
-  } catch(e) { toast('Помилка: ' + e.message); }
-}
-
 // ===================== PLANTS =====================
-async function renderPlants(locId, locName) {
+async function renderPlants() {
   const el = document.getElementById('plants-content');
   el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
     <button class="btn btn-ghost btn-sm" onclick="navigate('locations')">← Назад</button>
-    <span style="font-size:17px;font-weight:700">🏕️ ${locName}</span>
+    <span style="font-size:17px;font-weight:700">🏕️ ${currentLocName}</span>
   </div><div class="spinner"></div>`;
   try {
-    if (!varieties.length) varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    const plants = await sb('plants', 'GET', null, `?location_id=eq.${locId}&order=plant_date.asc`);
-    const harvestIds = await sb('harvests', 'GET', null, `?select=plant_id`);
-    const harvestedSet = new Set((harvestIds||[]).map(h => h.plant_id));
-
+    cachedVarieties = await sb('varieties', 'GET', null, '?order=name.asc');
+    const plants = await sb('plants', 'GET', null, `?location_id=eq.${currentLocId}&order=plant_date.asc`);
     let html = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
       <button class="btn btn-ghost btn-sm" onclick="navigate('locations')">← Назад</button>
-      <span style="font-size:17px;font-weight:700">🏕️ ${locName}</span>
+      <span style="font-size:17px;font-weight:700">🏕️ ${currentLocName}</span>
     </div>`;
-
     if (!plants.length) {
       html += `<div class="empty"><div class="empty-icon">🌱</div><p>Немає рослин.<br>Натисни ＋ щоб додати першу рослину.</p></div>`;
     } else {
       html += plants.map(p => {
-        const v = varieties.find(x => x.id === p.variety_id);
+        const v = cachedVarieties.find(x => x.id === p.variety_id);
         if (!v) return '';
         const stages = calcStages(p, v);
-        const stage = currentStage(p, v);
-        const pct = progressPct(p, v);
-        const warn = stageWarning(p, v);
-        const overrides = p.stage_overrides || {};
-        const barClass = ['flower','ripening','harvest'].includes(stage) ? stage : '';
-
+        const stage = getStage(p, v);
+        const pct = getPct(p, v);
+        const warn = getWarning(p, v);
+        const o = p.stage_overrides || {};
+        const barClass = ['flower','ripening'].includes(stage) ? stage : '';
         return `<div class="card">
           <div class="card-row">
-            <div>
+            <div style="flex:1;min-width:0">
               <div class="card-title">${p.name || v.name}</div>
-              <div class="card-sub">${v.name}${p.name ? '' : ''} · ${v.brand || ''} · посаджено ${fmt(p.plant_date)}</div>
+              <div class="card-sub">${v.name}${p.name?'':''} · ${v.brand||''} · ${v.seed_type==='auto'?'Авто':'Фото'} · ${v.flowering_days_min}–${v.flowering_days_max}д</div>
+              ${p.soil_type ? `<div class="card-sub">🌍 ${p.soil_type}</div>` : ''}
             </div>
-            <span class="badge badge-${stage}">${STAGE_NAMES[stage]}</span>
+            <span class="badge badge-${stage}" style="margin-left:8px;flex-shrink:0">${STAGE_NAMES[stage]}</span>
           </div>
           ${warn ? `<div class="badge badge-${warn.type}" style="margin-top:8px;display:inline-flex">${warn.text}</div>` : ''}
-          <div class="progress-wrap"><div class="progress-bar ${barClass}" style="width:${pct}%"></div></div>
-          <div style="font-size:11px;color:var(--text3);text-align:right;margin-bottom:8px">${pct}% циклу</div>
+          ${!p.is_harvested ? `<div class="progress-wrap"><div class="progress-bar ${barClass}" style="width:${pct}%"></div></div>
+          <div style="font-size:11px;color:var(--text3);text-align:right;margin-bottom:6px">${pct}% циклу</div>` : ''}
           <div class="dates-grid">
             <div class="date-box"><div class="date-box-label">🌱 Посадка</div><div class="date-box-val">${fmt(p.plant_date)}</div></div>
-            <div class="date-box"><div class="date-box-label">🌸 Цвітіння</div><div class="date-box-val ${overrides.flower ? 'overridden' : ''}">${fmt(stages.flower)}</div></div>
-            <div class="date-box"><div class="date-box-label">🟡 Дозрівання</div><div class="date-box-val ${overrides.ripening ? 'overridden' : ''}">${fmt(stages.ripening)}</div></div>
-            <div class="date-box"><div class="date-box-label">✂️ Збір</div><div class="date-box-val ${overrides.harvest ? 'overridden' : ''}">${fmt(stages.harvest)}</div></div>
+            <div class="date-box"><div class="date-box-label">🌸 Цвітіння</div><div class="date-box-val ${o.flower?'overridden':''}">${fmt(stages.flower)}</div></div>
+            <div class="date-box"><div class="date-box-label">🟡 Дозрівання</div><div class="date-box-val ${o.ripening?'overridden':''}">${fmt(stages.ripening)}</div></div>
+            <div class="date-box"><div class="date-box-label">✂️ Збір</div><div class="date-box-val ${o.harvest?'overridden':''}">${fmt(stages.harvest)}</div></div>
           </div>
           <div class="card-actions">
-            <button class="btn btn-ghost btn-sm" onclick="openStageModal('${p.id}','${v.name}${p.name ? ' · '+p.name : ''}')">📅 Стадія</button>
-            ${!p.is_harvested ? `<button class="btn btn-ghost btn-sm" onclick="openHarvestModal('${p.id}','${v.name}${p.name ? ' · '+p.name : ''}')">✂️ Збір</button>` : ''}
+            <button class="btn btn-ghost btn-sm" onclick="openStageModal('${p.id}','${(p.name||v.name).replace(/'/g,"\\'")}')">📅 Стадія</button>
+            ${!p.is_harvested?`<button class="btn btn-ghost btn-sm" onclick="openHarvestModal('${p.id}','${(p.name||v.name).replace(/'/g,"\\'")}')">✂️ Збір</button>`:''}
             <button class="btn btn-danger btn-sm" onclick="deletePlant('${p.id}')">🗑</button>
           </div>
         </div>`;
@@ -731,26 +593,28 @@ async function renderPlants(locId, locName) {
   } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
 }
 
-async function openPlantModal(locId) {
-  if (!varieties.length) varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-  const sel = document.getElementById('plant-variety');
-  sel.innerHTML = '<option value="">Вибери сорт...</option>' + varieties.map(v => `<option value="${v.id}">${v.name} (${v.seed_type === 'auto' ? 'авто' : 'фото'}, ${v.flowering_days_min}–${v.flowering_days_max}д)</option>`).join('');
-  document.getElementById('plant-loc-id').value = locId;
-  document.getElementById('plant-name').value = '';
+function openPlantModal() {
+  ['plant-name','plant-soil','plant-var-name','plant-var-brand','plant-var-min','plant-var-max'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('plant-date').value = today();
+  document.getElementById('plant-var-type').value = 'auto';
+  document.getElementById('plant-loc-id').value = currentLocId;
   openModal('modal-plant');
 }
 
 async function savePlant() {
-  const varId = document.getElementById('plant-variety').value;
+  const varName = document.getElementById('plant-var-name').value.trim();
+  const min = parseInt(document.getElementById('plant-var-min').value);
+  const max = parseInt(document.getElementById('plant-var-max').value);
   const date = document.getElementById('plant-date').value;
-  const locId = document.getElementById('plant-loc-id').value;
-  if (!varId || !date) { toast('Вибери сорт і дату'); return; }
+  if (!varName || !min || !max || !date) { toast('Заповни назву сорту, цикл і дату'); return; }
   try {
-    await sb('plants', 'POST', { location_id: locId, variety_id: varId, name: document.getElementById('plant-name').value.trim(), plant_date: date, current_stage: 'seedling', stage_overrides: {}, is_harvested: false });
+    const varData = { name: varName, brand: document.getElementById('plant-var-brand').value.trim(), seed_type: document.getElementById('plant-var-type').value, flowering_days_min: min, flowering_days_max: max };
+    const newVar = await sb('varieties', 'POST', varData);
+    const varId = newVar[0].id;
+    await sb('plants', 'POST', { location_id: currentLocId, variety_id: varId, name: document.getElementById('plant-name').value.trim(), plant_date: date, soil_type: document.getElementById('plant-soil').value.trim(), current_stage: 'seedling', stage_overrides: {}, is_harvested: false });
     closeModal('modal-plant');
-    toast('Рослину додано');
-    renderPlants(locId, document.querySelector('#plants-content span')?.textContent.replace('🏕️ ','').trim() || '');
+    toast('Рослину додано ✅');
+    renderPlants();
   } catch(e) { toast('Помилка: ' + e.message); }
 }
 
@@ -760,7 +624,7 @@ async function deletePlant(id) {
     await sb('harvests', 'DELETE', null, `?plant_id=eq.${id}`);
     await sb('plants', 'DELETE', null, `?id=eq.${id}`);
     toast('Рослину видалено');
-    renderPlants(currentLocId, '');
+    renderPlants();
   } catch(e) { toast('Помилка: ' + e.message); }
 }
 
@@ -783,18 +647,29 @@ async function saveStageOverride() {
     overrides[key] = date;
     await sb('plants', 'PATCH', { stage_overrides: overrides }, `?id=eq.${plantId}`);
     closeModal('modal-stage');
-    toast('Стадію оновлено');
-    renderPlants(currentLocId, '');
+    toast('Стадію оновлено ✅');
+    renderPlants();
   } catch(e) { toast('Помилка: ' + e.message); }
 }
 
-// ===================== HARVEST =====================
+// ===================== HARVEST MODAL =====================
+function previewPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById('harvest-photo-preview');
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+}
+
 function openHarvestModal(plantId, label) {
   document.getElementById('harvest-plant-id').value = plantId;
   document.getElementById('harvest-plant-info').textContent = label;
   document.getElementById('harvest-date').value = today();
+  document.getElementById('harvest-dry-date').value = '';
   document.getElementById('harvest-weight').value = '';
   document.getElementById('harvest-notes').value = '';
+  document.getElementById('harvest-photo-input').value = '';
+  document.getElementById('harvest-photo-preview').style.display = 'none';
   starRating = 0;
   renderStars(0);
   openModal('modal-harvest');
@@ -807,24 +682,96 @@ function renderStars(val) {
     const btn = document.createElement('button');
     btn.className = 'star-btn' + (i <= val ? ' on' : '');
     btn.textContent = i % 1 === 0 ? '★' : '½';
-    btn.dataset.val = i;
-    btn.onclick = () => { starRating = i; renderStars(i); document.getElementById('star-label').textContent = i + ' / 5'; };
+    btn.onclick = () => { starRating = i; renderStars(i); document.getElementById('star-label').textContent = i + ' / 5 ⭐'; };
     cont.appendChild(btn);
   }
+  document.getElementById('star-label').textContent = val ? val + ' / 5 ⭐' : 'не вибрано';
 }
 
 async function saveHarvest() {
   const plantId = document.getElementById('harvest-plant-id').value;
   const date = document.getElementById('harvest-date').value;
-  const weight = parseFloat(document.getElementById('harvest-weight').value) || 0;
-  if (!date) { toast('Вибери дату'); return; }
+  if (!date) { toast('Вибери дату збору'); return; }
   try {
-    await sb('harvests', 'POST', { plant_id: plantId, harvest_date: date, dry_weight_g: weight, rating: starRating || null, notes: document.getElementById('harvest-notes').value.trim() });
+    let photoUrl = null;
+    const photoFile = document.getElementById('harvest-photo-input').files[0];
+    if (photoFile) photoUrl = await uploadPhoto(photoFile);
+    await sb('harvests', 'POST', {
+      plant_id: plantId,
+      harvest_date: date,
+      dry_date: document.getElementById('harvest-dry-date').value || null,
+      dry_weight_g: parseFloat(document.getElementById('harvest-weight').value) || null,
+      rating: starRating || null,
+      notes: document.getElementById('harvest-notes').value.trim(),
+      photo_url: photoUrl
+    });
     await sb('plants', 'PATCH', { is_harvested: true }, `?id=eq.${plantId}`);
     closeModal('modal-harvest');
     toast('Врожай збережено ✅');
-    renderPlants(currentLocId, '');
+    renderPlants();
   } catch(e) { toast('Помилка: ' + e.message); }
+}
+
+// ===================== HARVEST PAGE =====================
+async function renderHarvestPage() {
+  const el = document.getElementById('harvest-content');
+  el.innerHTML = '<div class="spinner"></div>';
+  try {
+    const harvests = await sb('harvests', 'GET', null, '?order=harvest_date.desc');
+    if (!cachedVarieties.length) cachedVarieties = await sb('varieties', 'GET', null, '?order=name.asc');
+    const plants = await sb('plants', 'GET', null, '?select=id,name,variety_id,location_id');
+    const locs = await sb('locations', 'GET', null, '?select=id,name');
+
+    const years = [...new Set(harvests.map(h => getYear(h.harvest_date)).filter(Boolean))].sort((a,b) => b-a);
+    if (!selectedHarvestYear && years.length) selectedHarvestYear = years[0];
+
+    const filtered = selectedHarvestYear ? harvests.filter(h => getYear(h.harvest_date) === selectedHarvestYear) : harvests;
+    const totalW = filtered.reduce((a,h) => a + (parseFloat(h.dry_weight_g)||0), 0);
+    const ratings = filtered.filter(h => h.rating);
+    const avgR = ratings.length ? (ratings.reduce((a,h) => a+h.rating,0)/ratings.length).toFixed(1) : '—';
+
+    let html = `<div class="stat-grid">
+      <div class="stat-box"><div class="stat-val">${filtered.length}</div><div class="stat-label">зборів</div></div>
+      <div class="stat-box"><div class="stat-val">${totalW.toFixed(1)}г</div><div class="stat-label">сухого ваги</div></div>
+      <div class="stat-box"><div class="stat-val">${avgR}${avgR!=='—'?'⭐':''}</div><div class="stat-label">середня оцінка</div></div>
+      <div class="stat-box"><div class="stat-val">${cachedVarieties.length}</div><div class="stat-label">сортів</div></div>
+    </div>`;
+
+    if (years.length > 1) {
+      html += `<div class="year-tabs">` + years.map(y =>
+        `<div class="year-tab ${y===selectedHarvestYear?'active':''}" onclick="selectedHarvestYear=${y};renderHarvestPage()">${y}</div>`
+      ).join('') + `</div>`;
+    }
+
+    if (!filtered.length) {
+      html += `<div class="empty"><div class="empty-icon">📊</div><p>Ще немає даних про врожай${selectedHarvestYear?' за '+selectedHarvestYear:''}.<br>Збір відмічається на картці рослини.</p></div>`;
+    } else {
+      html += `<div class="card">`;
+      filtered.forEach(h => {
+        const p = plants.find(x => x.id === h.plant_id);
+        const v = p ? cachedVarieties.find(x => x.id === p.variety_id) : null;
+        const loc = p ? locs.find(l => l.id === p.location_id) : null;
+        const stars = h.rating ? ('⭐'.repeat(Math.floor(h.rating)) + (h.rating%1?'½':'')) : '—';
+        html += `<div class="harvest-item">
+          <div class="harvest-item-top">
+            <div>
+              <div style="font-size:15px;font-weight:600">${p?.name||''} ${v?.name||'Невідомо'}</div>
+              <div style="font-size:12px;color:var(--text3)">${loc?.name||''} · ${v?.brand||''}</div>
+              <div style="font-size:12px;color:var(--text3)">Збір: ${fmt(h.harvest_date)}${h.dry_date?' · Сушка: '+fmt(h.dry_date):''}</div>
+              ${h.notes?`<div style="font-size:13px;color:var(--text2);margin-top:3px">${h.notes}</div>`:''}
+            </div>
+            <div style="text-align:right;flex-shrink:0;margin-left:12px">
+              <div style="font-size:18px;font-weight:700;color:var(--green)">${h.dry_weight_g||0}г</div>
+              <div style="font-size:13px">${stars}</div>
+            </div>
+          </div>
+          ${h.photo_url?`<img src="${h.photo_url}" class="harvest-photo" alt="Фото врожаю">`:''}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+    el.innerHTML = html;
+  } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
 }
 
 // ===================== CALENDAR =====================
@@ -832,13 +779,12 @@ async function renderCalendar() {
   const el = document.getElementById('calendar-content');
   el.innerHTML = '<div class="spinner"></div>';
   try {
-    if (!varieties.length) varieties = await sb('varieties', 'GET', null, '?order=name.asc');
+    if (!cachedVarieties.length) cachedVarieties = await sb('varieties', 'GET', null, '?order=name.asc');
     const plants = await sb('plants', 'GET', null, '?is_harvested=eq.false&order=plant_date.asc');
     const locs = await sb('locations', 'GET', null, '?select=id,name');
-
     const events = [];
     plants.forEach(p => {
-      const v = varieties.find(x => x.id === p.variety_id);
+      const v = cachedVarieties.find(x => x.id === p.variety_id);
       if (!v) return;
       const s = calcStages(p, v);
       const loc = locs.find(l => l.id === p.location_id);
@@ -848,101 +794,67 @@ async function renderCalendar() {
       events.push({ date: s.ripening, type: 'ripening', label: '🟡 Дозрівання: ' + label });
       events.push({ date: s.harvest, type: 'harvest', label: '✂️ Збір: ' + label });
     });
-
     const now = new Date();
     let html = '';
-    for (let m = 0; m < 3; m++) {
-      const year = now.getFullYear() + Math.floor((now.getMonth() + m) / 12);
-      const month = (now.getMonth() + m) % 12;
-      const firstDay = new Date(year, month, 1);
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const startDow = (firstDay.getDay() + 6) % 7;
-      const monthName = firstDay.toLocaleDateString('uk-UA', { month: 'long', year: 'numeric' });
-      html += `<div style="margin-bottom:24px">
-        <div style="font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">${monthName}</div>
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center">`;
-      ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].forEach(d => {
-        html += `<div style="font-size:10px;color:var(--text3);padding:4px 0">${d}</div>`;
-      });
-      for (let i = 0; i < startDow; i++) html += '<div></div>';
-      for (let day = 1; day <= daysInMonth; day++) {
-        const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        const isToday = ds === today();
-        const dayEvents = events.filter(e => e.date === ds);
-        const dots = [...new Set(dayEvents.map(e => e.type))].map(t => {
-          const colors = { seedling:'#1565c0', flower:'#6a1b9a', ripening:'#e65100', harvest:'#c2185b' };
-          return `<div style="width:5px;height:5px;border-radius:50%;background:${colors[t]||'#888'}"></div>`;
-        }).join('');
-        const title = dayEvents.map(e => e.label).join('\n');
-        html += `<div style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;font-size:12px;cursor:${dayEvents.length?'pointer':'default'};background:${isToday?'var(--green)':'transparent'};color:${isToday?'#fff':'var(--text)'};" ${title ? `title="${title}" onclick="alert('${title.replace(/'/g,"\\'")}')"` : ''}>
-          ${day}
-          ${dots ? `<div style="display:flex;gap:1px;margin-top:1px">${dots}</div>` : ''}
-        </div>`;
-      }
-      html += '</div></div>';
-    }
-
-    if (!plants.length) html = `<div class="empty"><div class="empty-icon">📅</div><p>Додай рослини щоб бачити їх в календарі.</p></div>`;
-    el.innerHTML = html;
-  } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
-}
-
-// ===================== HARVEST PAGE =====================
-async function renderHarvest() {
-  const el = document.getElementById('harvest-content');
-  el.innerHTML = '<div class="spinner"></div>';
-  try {
-    const harvests = await sb('harvests', 'GET', null, '?order=created_at.desc');
-    if (!varieties.length) varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    const plants = await sb('plants', 'GET', null, '?select=id,name,variety_id,location_id');
-    const locs = await sb('locations', 'GET', null, '?select=id,name');
-
-    const totalW = harvests.reduce((a, h) => a + (parseFloat(h.dry_weight_g) || 0), 0);
-    const ratings = harvests.filter(h => h.rating);
-    const avgR = ratings.length ? (ratings.reduce((a, h) => a + h.rating, 0) / ratings.length).toFixed(1) : '—';
-
-    let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-      <div class="card" style="text-align:center"><div style="font-size:26px;font-weight:700;color:var(--green)">${harvests.length}</div><div style="font-size:12px;color:var(--text3)">зборів всього</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:26px;font-weight:700;color:var(--green)">${totalW.toFixed(1)}г</div><div style="font-size:12px;color:var(--text3)">сухого ваги</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:26px;font-weight:700;color:var(--green)">${avgR}${avgR !== '—' ? '⭐' : ''}</div><div style="font-size:12px;color:var(--text3)">середня оцінка</div></div>
-      <div class="card" style="text-align:center"><div style="font-size:26px;font-weight:700;color:var(--green)">${varieties.length}</div><div style="font-size:12px;color:var(--text3)">сортів в базі</div></div>
-    </div>`;
-
-    if (!harvests.length) {
-      html += `<div class="empty"><div class="empty-icon">📊</div><p>Ще немає даних про врожай.</p></div>`;
+    if (!plants.length) {
+      html = `<div class="empty"><div class="empty-icon">📅</div><p>Додай рослини щоб бачити їх в календарі.</p></div>`;
     } else {
-      html += '<div class="card"><div style="font-size:14px;font-weight:600;margin-bottom:12px">Історія зборів</div>';
-      harvests.forEach(h => {
-        const p = plants.find(x => x.id === h.plant_id);
-        const v = p ? varieties.find(x => x.id === p.variety_id) : null;
-        const loc = p ? locs.find(l => l.id === p.location_id) : null;
-        const stars = h.rating ? '⭐'.repeat(Math.floor(h.rating)) + (h.rating % 1 ? '½' : '') : '—';
-        html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-          <div>
-            <div style="font-size:14px;font-weight:500">${p?.name || ''} ${v?.name || 'Невідомо'}</div>
-            <div style="font-size:12px;color:var(--text3)">${loc?.name || ''} · ${fmt(h.harvest_date)}</div>
-            ${h.notes ? `<div style="font-size:12px;color:var(--text2);margin-top:2px">${h.notes}</div>` : ''}
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:16px;font-weight:600;color:var(--green)">${h.dry_weight_g || 0}г</div>
-            <div style="font-size:12px">${stars}</div>
-          </div>
-        </div>`;
-      });
-      html += '</div>';
+      for (let m = 0; m < 3; m++) {
+        const year = now.getFullYear() + Math.floor((now.getMonth() + m) / 12);
+        const month = (now.getMonth() + m) % 12;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const startDow = (new Date(year, month, 1).getDay() + 6) % 7;
+        const monthName = new Date(year, month, 1).toLocaleDateString('uk-UA', { month: 'long', year: 'numeric' });
+        html += `<div style="margin-bottom:24px">
+          <div style="font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">${monthName}</div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center">`;
+        ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].forEach(d => {
+          html += `<div style="font-size:10px;color:var(--text3);padding:4px 0">${d}</div>`;
+        });
+        for (let i = 0; i < startDow; i++) html += '<div></div>';
+        for (let day = 1; day <= daysInMonth; day++) {
+          const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          const isToday = ds === today();
+          const dayEvents = events.filter(e => e.date === ds);
+          const dots = [...new Set(dayEvents.map(e => e.type))].map(t => {
+            const c = { seedling:'#1565c0', flower:'#6a1b9a', ripening:'#e65100', harvest:'#c2185b' };
+            return `<div style="width:5px;height:5px;border-radius:50%;background:${c[t]||'#888'}"></div>`;
+          }).join('');
+          const title = dayEvents.map(e => e.label).join('\n');
+          html += `<div style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:7px;font-size:12px;background:${isToday?'var(--green)':'transparent'};color:${isToday?'#fff':'var(--text)'};cursor:${dayEvents.length?'pointer':'default'};" ${title?`onclick="alert('${title.replace(/'/g,"\\'").replace(/\n/g,'\\n')}')"`:''}>
+            ${day}${dots?`<div style="display:flex;gap:1px;margin-top:1px">${dots}</div>`:''}
+          </div>`;
+        }
+        html += '</div></div>';
+      }
     }
     el.innerHTML = html;
   } catch(e) { el.innerHTML = `<div class="empty"><p>Помилка: ${e.message}</p></div>`; }
 }
 
 // ===================== INIT =====================
-renderStars(0);
-if (sessionStorage.getItem('gl_auth')) {
+async function addDryDateColumn() {
+  // Add dry_date column if not exists - safe to run multiple times
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec`, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: "ALTER TABLE harvests ADD COLUMN IF NOT EXISTS dry_date date; ALTER TABLE plants ADD COLUMN IF NOT EXISTS soil_type text;" })
+    });
+  } catch(e) {}
+}
+
+function initApp() {
+  renderStars(0);
   navigate('locations');
+}
+
+// Check auth on load
+if (sessionStorage.getItem('gl_auth')) {
+  document.getElementById('login-screen').style.display = 'none';
+  initApp();
 } else {
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('fab').style.display = 'none';
-  setTimeout(() => document.getElementById('login-input').focus(), 100);
+  setTimeout(() => document.getElementById('login-input').focus(), 300);
 }
 </script>
 </body>
