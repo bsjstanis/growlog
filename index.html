@@ -69,10 +69,10 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .plant-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;border-left:4px solid var(--border2)}
 .plant-card.stage-seedling{border-left-color:#1565c0}
 .plant-card.stage-growth{border-left-color:#2d7a3a}
-.plant-card.stage-pre_flower{border-left-color:#f57f17}
-.plant-card.stage-flower{border-left-color:#6a1b9a}
-.plant-card.stage-ripening{border-left-color:#e65100}
-.plant-card.stage-harvest{border-left-color:#c2185b}
+.plant-card.stage-pre_flower{border-left-color:#f9a825}
+.plant-card.stage-flower{border-left-color:#e65100}
+.plant-card.stage-ripening{border-left-color:#ad1457}
+.plant-card.stage-harvest{border-left-color:#c62828}
 .plant-card.stage-done{border-left-color:#c62828}
 .progress-wrap{background:var(--bg3);border-radius:4px;height:5px;margin:8px 0 3px;overflow:hidden}
 .progress-bar{height:100%;border-radius:4px;background:var(--green2)}
@@ -119,10 +119,10 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .plant-list-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:10px 12px;margin-bottom:6px;border-left:4px solid var(--border2)}
 .plant-list-item.stage-seedling{border-left-color:#1565c0}
 .plant-list-item.stage-growth{border-left-color:#2d7a3a}
-.plant-list-item.stage-pre_flower{border-left-color:#f57f17}
-.plant-list-item.stage-flower{border-left-color:#6a1b9a}
-.plant-list-item.stage-ripening{border-left-color:#e65100}
-.plant-list-item.stage-harvest{border-left-color:#c2185b}
+.plant-list-item.stage-pre_flower{border-left-color:#f9a825}
+.plant-list-item.stage-flower{border-left-color:#e65100}
+.plant-list-item.stage-ripening{border-left-color:#ad1457}
+.plant-list-item.stage-harvest{border-left-color:#c62828}
 .plant-list-item.stage-done{border-left-color:#c62828}
 /* Stats bar */
 .stats-bar{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap}
@@ -373,6 +373,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
       <div class="photo-area" onclick="document.getElementById('harv-photo-input').click()">📷 Додати фото</div>
       <input type="file" id="harv-photo-input" accept="image/*" style="display:none" onchange="previewHarvPhoto(this)">
       <img id="harv-photo-preview" class="photo-preview">
+      <button type="button" id="harv-photo-delete-btn" class="btn btn-danger btn-sm" style="display:none;margin-top:6px" onclick="clearHarvPhoto()">🗑 Видалити фото</button>
+      <input type="hidden" id="harv-photo-existing" value="">
     </div>
     <div class="form-error" id="harv-error"></div>
     <div class="modal-actions">
@@ -492,7 +494,7 @@ function getStage(plant,v){
   if(t>=s.growth)return'growth';return'seedling';
 }
 var STAGE_NAMES={seedling:'🌱 Розсада',growth:'🌿 Ріст',pre_flower:'🌼 Передцвіт',flower:'🌸 Цвітіння',ripening:'🟡 Дозрівання',harvest:'✂️ Збір',done:'✅ Зібрано'};
-var STAGE_COLORS={seedling:'#1565c0',growth:'#2d7a3a',pre_flower:'#f57f17',flower:'#6a1b9a',ripening:'#e65100',harvest:'#c2185b',done:'#c62828'};
+var STAGE_COLORS={seedling:'#1565c0',growth:'#2d7a3a',pre_flower:'#f9a825',flower:'#e65100',ripening:'#ad1457',harvest:'#c62828',done:'#c62828'};
 function getWarning(plant,v){
   if(plant.is_harvested)return null;
   var t=today(),s=calcStages(plant,v),stage=getStage(plant,v);
@@ -556,13 +558,17 @@ async function renderLocations(){
       if(stageCounts[stage]!==undefined)stageCounts[stage]++;
     });
 
+    var harvestedCount=plants.filter(function(p){return p.is_harvested;}).length;
     var statsHtml='<div class="stats-bar">'+
       '<div class="stat-chip"><div class="stat-chip-val">'+activePlants.length+'</div><div class="stat-chip-label">Активних</div></div>'+
       '<div class="stat-chip"><div class="stat-chip-val">'+autoCount+'</div><div class="stat-chip-label">Авто</div></div>'+
       '<div class="stat-chip"><div class="stat-chip-val">'+photoCount+'</div><div class="stat-chip-label">Фото</div></div>'+
-      (stageCounts.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--purple)">'+stageCounts.flower+'</div><div class="stat-chip-label">Цвітуть</div></div>':'')+
-      (stageCounts.ripening>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--amber)">'+stageCounts.ripening+'</div><div class="stat-chip-label">Дозрів.</div></div>':'')+
-      (stageCounts.harvest>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--red)">'+stageCounts.harvest+'</div><div class="stat-chip-label">До збору</div></div>':'')+
+      (stageCounts.growth>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#2d7a3a">'+stageCounts.growth+'</div><div class="stat-chip-label">Ріст</div></div>':'')+
+      (stageCounts.pre_flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#f9a825">'+stageCounts.pre_flower+'</div><div class="stat-chip-label">Передцвіт</div></div>':'')+
+      (stageCounts.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#e65100">'+stageCounts.flower+'</div><div class="stat-chip-label">Цвітіння</div></div>':'')+
+      (stageCounts.ripening>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#ad1457">'+stageCounts.ripening+'</div><div class="stat-chip-label">Дозрів.</div></div>':'')+
+      (stageCounts.harvest>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#c62828">'+stageCounts.harvest+'</div><div class="stat-chip-label">До збору</div></div>':'')+
+      (harvestedCount>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--text3)">'+harvestedCount+'</div><div class="stat-chip-label">Зібрано</div></div>':'')+
     '</div>';
 
     if(!cache.locations.length){pg.innerHTML=statsHtml+'<div class="empty"><div class="empty-icon">🏕️</div><p>Немає локацій.<br>Натисни ＋ щоб додати.</p></div>';return;}
@@ -830,6 +836,7 @@ async function saveStage(){
     var rows=await sb('plants','GET',null,'?id=eq.'+plantId+'&select=stage_overrides');
     var o=rows[0]?rows[0].stage_overrides||{}:{};o[key]=date;
     await sb('plants','PATCH',{stage_overrides:o},'?id=eq.'+plantId);
+    cache.varieties=[];
     closeModal('modal-stage');toast('Стадію оновлено ✅');renderPlants();
   }catch(e){showErr('stage-error','❌ '+parseErr(e));}
 }
@@ -842,6 +849,13 @@ function updateRating(val){
 function previewHarvPhoto(input){
   var file=input.files[0];if(!file)return;
   var p=document.getElementById('harv-photo-preview');p.src=URL.createObjectURL(file);p.style.display='block';
+  document.getElementById('harv-photo-delete-btn').style.display='inline-flex';
+}
+function clearHarvPhoto(){
+  document.getElementById('harv-photo-input').value='';
+  document.getElementById('harv-photo-preview').style.display='none';
+  document.getElementById('harv-photo-delete-btn').style.display='none';
+  document.getElementById('harv-photo-existing').value='DELETE';
 }
 function openHarvestModal(plantId,labelEnc){
   clearErr('harv-error');
@@ -855,6 +869,8 @@ function openHarvestModal(plantId,labelEnc){
   ['harv-dry-start','harv-dry-end'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('harv-photo-input').value='';
   document.getElementById('harv-photo-preview').style.display='none';
+  document.getElementById('harv-photo-delete-btn').style.display='none';
+  document.getElementById('harv-photo-existing').value='';
   document.getElementById('harv-rating').value=5;updateRating(5);
   openModal('modal-harvest-form');
 }
@@ -879,7 +895,9 @@ async function openEditHarvest(harvId){
     document.getElementById('harv-notes').value=h.notes||'';
     document.getElementById('harv-photo-input').value='';
     var prev=document.getElementById('harv-photo-preview');
-    if(h.photo_url){prev.src=h.photo_url;prev.style.display='block';}else{prev.style.display='none';}
+    document.getElementById('harv-photo-existing').value=h.photo_url||'';
+    if(h.photo_url){prev.src=h.photo_url;prev.style.display='block';document.getElementById('harv-photo-delete-btn').style.display='inline-flex';}
+    else{prev.style.display='none';document.getElementById('harv-photo-delete-btn').style.display='none';}
     var r=h.rating||5;document.getElementById('harv-rating').value=r;updateRating(r);
     openModal('modal-harvest-form');
   }catch(e){toast('Помилка: '+parseErr(e));}
@@ -890,11 +908,13 @@ async function saveHarvest(){
   var date=document.getElementById('harv-date').value;
   if(!date){showErr('harv-error','⚠️ Вибери дату');return;}
   try{
-    var photoUrl=null;
     var photoFile=document.getElementById('harv-photo-input').files[0];
-    if(photoFile)photoUrl=await uploadPhoto(photoFile);
-    var data={plant_id:plantId,harvest_date:date,wet_weight_g:parseFloat(document.getElementById('harv-wet').value)||null,dry_weight_g:parseFloat(document.getElementById('harv-weight').value)||null,dry_start_date:document.getElementById('harv-dry-start').value||null,dry_end_date:document.getElementById('harv-dry-end').value||null,rating:parseInt(document.getElementById('harv-rating').value)||null,notes:document.getElementById('harv-notes').value.trim()};
-    if(photoUrl)data.photo_url=photoUrl;
+    var existingPhoto=document.getElementById('harv-photo-existing').value;
+    var photoUrl=null;
+    if(photoFile){photoUrl=await uploadPhoto(photoFile);}
+    else if(existingPhoto==='DELETE'){photoUrl=null;}
+    else if(existingPhoto){photoUrl=existingPhoto;}
+    var data={plant_id:plantId,harvest_date:date,wet_weight_g:parseFloat(document.getElementById('harv-wet').value)||null,dry_weight_g:parseFloat(document.getElementById('harv-weight').value)||null,dry_start_date:document.getElementById('harv-dry-start').value||null,dry_end_date:document.getElementById('harv-dry-end').value||null,rating:parseInt(document.getElementById('harv-rating').value)||null,notes:document.getElementById('harv-notes').value.trim(),photo_url:photoUrl};
     if(editId){await sb('harvests','PATCH',data,'?id=eq.'+editId);}
     else{await sb('harvests','POST',data);await sb('plants','PATCH',{is_harvested:true},'?id=eq.'+plantId);}
     closeModal('modal-harvest-form');toast('Збережено ✅');
@@ -1239,8 +1259,11 @@ async function savePrice(){
   var val=parseFloat(document.getElementById('price-val').value)||0;
   try{
     var ex=await sb('year_settings','GET',null,'?year=eq.'+financeYear);
-    if(ex&&ex.length)await sb('year_settings','PATCH',{price_per_gram:val},'?year=eq.'+financeYear);
-    else await sb('year_settings','POST',{year:financeYear,price_per_gram:val});
+    if(ex&&ex.length>0)await sb('year_settings','PATCH',{price_per_gram:val},'?year=eq.'+financeYear);
+    else{
+      try{await sb('year_settings','POST',{year:financeYear,price_per_gram:val});}
+      catch(dupErr){await sb('year_settings','PATCH',{price_per_gram:val},'?year=eq.'+financeYear);}
+    }
     closeModal('modal-price');toast('Збережено ✅');renderFinance();
   }catch(e){toast('Помилка: '+parseErr(e));}
 }
