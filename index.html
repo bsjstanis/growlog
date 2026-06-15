@@ -19,8 +19,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;min-height:100vh;padding-bottom:80px}
-
-/* LOGIN */
 .login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
 .login-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.08);padding:32px 28px;width:100%;max-width:340px;text-align:center}
 .login-logo{font-size:48px;margin-bottom:8px}
@@ -30,49 +28,33 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .login-input:focus{border-color:var(--green2);background:#fff}
 .login-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-size:16px;font-weight:600;cursor:pointer}
 .login-error{font-size:13px;color:var(--red);margin-top:10px;min-height:18px}
-
-/* TOAST */
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--text);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:1000;transition:transform .3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
-
-/* POPUP */
 .popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:20px}
 .popup-overlay.open{display:flex}
-.popup{background:var(--bg2);border-radius:var(--radius);padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.popup{background:var(--bg2);border-radius:var(--radius);padding:20px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
 .popup-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .popup-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1}
-
-/* HEADER */
 header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:90}
 .logo{font-size:19px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px}
-
-/* TABBAR */
 .tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:90;padding-bottom:env(safe-area-inset-bottom)}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px;cursor:pointer;border:none;background:none;color:var(--text3);font-size:10px;gap:3px;transition:color .15s}
 .tab.active{color:var(--green)}
 .tab-icon{font-size:20px;line-height:1}
-
-/* PAGES */
 main{max-width:600px;margin:0 auto;padding:14px 12px}
 .page{display:none}
 .page.active{display:block}
-
-/* CARDS */
 .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px}
 .card-title{font-size:16px;font-weight:600;color:var(--text)}
 .card-sub{font-size:12px;color:var(--text3);margin-top:3px}
 .card-row{display:flex;justify-content:space-between;align-items:flex-start}
 .card-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-
-/* BUTTONS */
 .btn{border:none;border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
 .btn-primary{background:var(--green);color:#fff}
 .btn-ghost{background:var(--bg3);color:var(--text2)}
 .btn-danger{background:var(--red2);color:var(--red)}
 .btn-sm{padding:5px 10px;font-size:12px}
 .btn-fab{position:fixed;bottom:88px;right:16px;width:52px;height:52px;border-radius:50%;background:var(--green);color:#fff;border:none;font-size:24px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(45,122,58,.35);z-index:80}
-
-/* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
 .badge-seedling{background:var(--blue2);color:var(--blue)}
 .badge-growth{background:var(--green3);color:var(--green)}
@@ -80,27 +62,23 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .badge-flower{background:var(--purple2);color:var(--purple)}
 .badge-ripening{background:var(--amber2);color:var(--amber)}
 .badge-harvest{background:#fce4ec;color:#c2185b}
-.badge-done{background:var(--bg3);color:var(--text3)}
+.badge-done{background:var(--red2);color:var(--red)}
 .badge-warn{background:var(--amber2);color:var(--amber)}
 .badge-alert{background:var(--red2);color:var(--red)}
-
-/* PLANT CARD STAGE COLORS */
-.plant-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;border-left:4px solid transparent}
+/* Plant card stage colors */
+.plant-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;border-left:4px solid var(--border2)}
 .plant-card.stage-seedling{border-left-color:#1565c0}
 .plant-card.stage-growth{border-left-color:#2d7a3a}
 .plant-card.stage-pre_flower{border-left-color:#f57f17}
 .plant-card.stage-flower{border-left-color:#6a1b9a}
 .plant-card.stage-ripening{border-left-color:#e65100}
 .plant-card.stage-harvest{border-left-color:#c2185b}
-.plant-card.stage-done{border-left-color:#8aaa8a}
-
-/* PROGRESS */
+.plant-card.stage-done{border-left-color:#c62828}
 .progress-wrap{background:var(--bg3);border-radius:4px;height:5px;margin:8px 0 3px;overflow:hidden}
-.progress-bar{height:100%;border-radius:4px;background:var(--green2);transition:width .4s}
+.progress-bar{height:100%;border-radius:4px;background:var(--green2)}
 .progress-bar.flower{background:var(--purple)}
 .progress-bar.ripening{background:var(--amber)}
-
-/* FORMS */
+/* Forms */
 .field{margin-bottom:12px}
 .field label{display:block;font-size:12px;font-weight:500;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
 .req{color:var(--red);margin-left:2px}
@@ -112,13 +90,10 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 .form-section{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
 .form-error{background:var(--red2);color:var(--red);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;margin-top:8px;display:none;line-height:1.6}
-
-/* TYPE TOGGLE */
 .type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
 .type-btn{padding:10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg3);cursor:pointer;text-align:center;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s}
 .type-btn.active{border-color:var(--green);background:var(--green3);color:var(--green)}
-
-/* MODAL */
+/* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;padding:8px 18px 36px}
@@ -127,122 +102,127 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .modal-subtitle{font-size:12px;color:var(--text3);margin-bottom:16px}
 .modal-actions{display:flex;gap:10px;margin-top:18px}
 .modal-actions .btn{flex:1;justify-content:center;padding:12px;font-size:14px}
-
-/* STAGE TIMELINE */
+/* Stage timeline */
 .stage-timeline{margin-top:8px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border)}
-.stage-row{display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:12px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.stage-row{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:12px;border-bottom:1px solid var(--border);background:var(--bg2)}
 .stage-row:last-child{border-bottom:none}
 .stage-row.active-stage{background:var(--green3)}
 .stage-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .stage-name{flex:1;font-weight:500}
 .stage-date{color:var(--text3);font-size:11px}
 .stage-edited{font-size:10px;color:var(--amber)}
-
-/* DATES GRID */
-.dates-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.date-box{background:var(--bg3);border-radius:var(--radius-sm);padding:7px 10px}
-.date-box-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
-.date-box-val{font-size:12px;font-weight:500;color:var(--text)}
-.date-box-val.ov{color:var(--amber)}
-
-/* EMPTY / SPINNER */
-.empty{text-align:center;padding:48px 24px;color:var(--text3)}
-.empty-icon{font-size:40px;margin-bottom:10px;opacity:.6}
-.empty p{font-size:14px;line-height:1.5}
-.spinner{display:flex;justify-content:center;padding:36px}
-.spinner::after{content:'';width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* VIEW TOGGLE */
+/* View toggle */
 .view-toggle{display:flex;gap:4px;background:var(--bg3);border-radius:var(--radius-sm);padding:3px}
 .view-btn{padding:5px 10px;border:none;border-radius:6px;font-size:12px;cursor:pointer;background:none;color:var(--text3);transition:all .15s}
 .view-btn.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-
-/* PLANT LIST */
-.plant-list-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:10px 12px;margin-bottom:6px;border-left:4px solid transparent}
+/* Plant list */
+.plant-list-item{background:var(--card);border-radius:var(--radius-sm);box-shadow:var(--shadow);padding:10px 12px;margin-bottom:6px;border-left:4px solid var(--border2)}
 .plant-list-item.stage-seedling{border-left-color:#1565c0}
 .plant-list-item.stage-growth{border-left-color:#2d7a3a}
 .plant-list-item.stage-pre_flower{border-left-color:#f57f17}
 .plant-list-item.stage-flower{border-left-color:#6a1b9a}
 .plant-list-item.stage-ripening{border-left-color:#e65100}
 .plant-list-item.stage-harvest{border-left-color:#c2185b}
-.plant-list-item.stage-done{border-left-color:#8aaa8a}
-
-/* YEAR TABS */
+.plant-list-item.stage-done{border-left-color:#c62828}
+/* Stats bar */
+.stats-bar{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap}
+.stat-chip{display:flex;flex-direction:column;align-items:center;background:var(--bg3);border-radius:var(--radius-sm);padding:6px 10px;min-width:52px}
+.stat-chip-val{font-size:18px;font-weight:700;color:var(--green);line-height:1}
+.stat-chip-label{font-size:10px;color:var(--text3);margin-top:2px;text-align:center}
+/* Year tabs */
 .year-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .year-tab{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);white-space:nowrap;transition:all .15s;flex-shrink:0}
 .year-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
-
-/* CALENDAR */
-.cal-grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.cal-month{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px}
-.cal-month-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;text-align:center}
+/* Calendar */
+.cal-grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.cal-month{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px}
+.cal-month-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;text-align:center}
 .cal-days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .cal-dow{font-size:8px;color:var(--text3);padding:2px 0;text-align:center}
-.cal-day{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:4px;font-size:10px;min-height:26px;cursor:default;position:relative}
-.cal-day.is-today{background:var(--green);color:#fff;font-weight:700}
+.cal-day{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:4px;font-size:10px;min-height:24px;cursor:default}
+.cal-day.is-today{outline:2px solid var(--green);outline-offset:-1px;font-weight:700;color:var(--green)}
 .cal-day.has-popup{cursor:pointer}
-.cal-day.ev-plant{background:var(--blue);color:#fff;border-radius:4px}
-.cal-day.ev-harvest{background:#c2185b;color:#fff;border-radius:4px}
+.cal-day.ev-plant{background:#1565c0;color:#fff;border-radius:4px}
+.cal-day.ev-harvest-day{background:#c2185b;color:#fff;border-radius:4px}
 .cal-day.period-flower{background:rgba(106,27,154,.15)}
 .cal-day.period-ripening{background:rgba(230,81,0,.18)}
-.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--text3)}
-.cal-legend-item{display:flex;align-items:center;gap:4px}
+.cal-day.period-growth{background:rgba(45,122,58,.12)}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cal-nav-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:6px 12px;font-size:13px;cursor:pointer;color:var(--text2)}
+.cal-period-label{font-size:13px;font-weight:600;color:var(--text)}
+.cal-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:10px;color:var(--text3)}
+.cal-legend-item{display:flex;align-items:center;gap:3px}
 .cal-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.cal-legend-band{width:14px;height:8px;border-radius:2px;flex-shrink:0}
-
-/* P&L */
-.pnl-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
-.pnl-row:last-child{border-bottom:none}
-.pnl-label{font-size:13px;color:var(--text2)}
-.pnl-val{font-size:14px;font-weight:600}
-.pnl-val.pos{color:var(--green)}
-.pnl-val.neg{color:var(--red)}
-.pnl-total{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0;border-top:2px solid var(--border);margin-top:4px}
-.pnl-total-label{font-size:15px;font-weight:700}
-.pnl-total-val{font-size:20px;font-weight:700}
-
-/* HARVEST CARD */
-.harv-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px;margin-bottom:10px}
-.harv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.cal-legend-band{width:12px;height:8px;border-radius:2px;flex-shrink:0}
+/* Finance tabs */
+.fin-tabs{display:flex;gap:0;margin-bottom:14px;background:var(--bg3);border-radius:var(--radius-sm);padding:3px}
+.fin-tab{flex:1;text-align:center;padding:7px 4px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text3);border-radius:6px;transition:all .15s}
+.fin-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* P&L cards */
+.pnl-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.pnl-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px;text-align:center}
+.pnl-card-val{font-size:20px;font-weight:700;line-height:1.1}
+.pnl-card-label{font-size:11px;color:var(--text3);margin-top:3px}
+.pnl-card.profit .pnl-card-val{color:var(--green)}
+.pnl-card.loss .pnl-card-val{color:var(--red)}
+.pnl-card.neutral .pnl-card-val{color:var(--text)}
+/* Expense category cards */
+.exp-cat-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:8px;overflow:hidden}
+.exp-cat-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;user-select:none}
+.exp-cat-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.exp-cat-total{font-size:14px;font-weight:600;color:var(--red)}
+.exp-cat-chevron{color:var(--text3);font-size:12px;transition:transform .2s}
+.exp-cat-chevron.open{transform:rotate(180deg)}
+.exp-cat-body{display:none;border-top:1px solid var(--border);padding:0 14px}
+.exp-cat-body.open{display:block}
+.exp-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.exp-item:last-child{border-bottom:none}
+/* Harvest card */
+.harv-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:0;margin-bottom:10px;overflow:hidden}
+.harv-card-top{display:flex;gap:10px;padding:12px 14px}
+.harv-thumb{width:64px;height:64px;border-radius:var(--radius-sm);object-fit:cover;flex-shrink:0;background:var(--bg3)}
+.harv-thumb-placeholder{width:64px;height:64px;border-radius:var(--radius-sm);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.harv-info{flex:1;min-width:0}
 .harv-name{font-size:15px;font-weight:600}
-.harv-meta{font-size:12px;color:var(--text3);margin-top:2px}
-.harv-weight{font-size:20px;font-weight:700;color:var(--green);text-align:right;white-space:nowrap}
-.harv-photo{width:100%;border-radius:var(--radius-sm);margin-top:8px;max-height:180px;object-fit:cover}
-
-/* RATING SLIDER */
+.harv-meta{font-size:12px;color:var(--text3);margin-top:2px;line-height:1.4}
+.harv-right{text-align:right;flex-shrink:0}
+.harv-weight{font-size:20px;font-weight:700;color:var(--green)}
+.harv-rating{font-size:12px;color:var(--amber);margin-top:2px}
+.harv-cycle{background:var(--bg3);padding:8px 14px;font-size:12px;color:var(--text2);display:flex;gap:12px;flex-wrap:wrap}
+.harv-cycle-item{display:flex;flex-direction:column}
+.harv-cycle-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px}
+.harv-cycle-val{font-size:13px;font-weight:500}
+.harv-photo-full{width:100%;max-height:200px;object-fit:cover}
+.harv-notes{padding:8px 14px;font-size:13px;color:var(--text2);border-top:1px solid var(--border)}
+.harv-actions{padding:8px 14px;display:flex;gap:6px;border-top:1px solid var(--border)}
+/* Drying info */
+.drying-info{background:var(--blue2);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px;color:var(--blue);margin-top:6px}
+/* Rating */
 .rating-wrap{margin-top:6px}
 .rating-slider{width:100%;height:4px;border-radius:2px;background:var(--border);-webkit-appearance:none;outline:none;cursor:pointer}
 .rating-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 .rating-display{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
 .rating-val{font-size:22px;font-weight:700;color:var(--green)}
 .rating-stars{font-size:14px;color:#f9a825}
-
-/* EXPENSE */
-.exp-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
-.exp-item:last-child{border-bottom:none}
-
-/* STAT GRID */
+/* Stat grid */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .stat-box{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px;text-align:center}
 .stat-val{font-size:22px;font-weight:700;color:var(--green)}
 .stat-label{font-size:11px;color:var(--text3);margin-top:2px}
-
-/* PHOTO */
-.photo-area{border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:13px;transition:all .15s}
-.photo-area:hover{border-color:var(--green2);color:var(--green)}
+.photo-area{border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:13px}
 .photo-preview{width:100%;border-radius:var(--radius-sm);margin-top:8px;max-height:160px;object-fit:cover;display:none}
-
-/* TOGGLE ROW */
+.empty{text-align:center;padding:48px 24px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:10px;opacity:.6}
+.empty p{font-size:14px;line-height:1.5}
+.spinner{display:flex;justify-content:center;padding:36px}
+.spinner::after{content:'';width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;cursor:pointer;user-select:none}
-.toggle-row-label{font-size:13px;color:var(--text2);font-weight:500}
 .toggle-chevron{color:var(--text3);font-size:12px;transition:transform .2s}
 .toggle-chevron.open{transform:rotate(180deg)}
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">🌿</div>
@@ -253,22 +233,15 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
-
-<!-- CALENDAR POPUP -->
+<!-- Calendar popup -->
 <div class="popup-overlay" id="cal-popup" onclick="if(event.target===this)closePopup('cal-popup')">
   <div class="popup">
-    <div class="popup-title">
-      <span id="cal-popup-date"></span>
-      <button class="popup-close" onclick="closePopup('cal-popup')">✕</button>
-    </div>
+    <div class="popup-title"><span id="cal-popup-date"></span><button class="popup-close" onclick="closePopup('cal-popup')">✕</button></div>
     <div id="cal-popup-content"></div>
   </div>
 </div>
-
 <header><div class="logo">🌿 GrowLog</div></header>
-
 <main>
   <div id="page-locations" class="page active"><div class="spinner"></div></div>
   <div id="page-plants" class="page"></div>
@@ -276,14 +249,12 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="page-harvest" class="page"><div class="spinner"></div></div>
   <div id="page-finance" class="page"><div class="spinner"></div></div>
 </main>
-
 <nav class="tabbar">
   <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">🏕️</span>Локації</button>
   <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">📅</span>Календар</button>
   <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">⚖️</span>Врожай</button>
   <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">💰</span>Фінанси</button>
 </nav>
-
 <button class="btn-fab" id="fab" onclick="fabAction()">＋</button>
 
 <!-- MODAL: Локація -->
@@ -293,7 +264,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div class="modal-title" id="modal-loc-title">Нова локація</div>
     <input type="hidden" id="loc-id">
     <div class="field"><label>Назва <span class="req">*</span></label><input id="loc-name" placeholder="Тент 1, Аутдор..."></div>
-    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><textarea id="loc-notes" placeholder="Додаткова інформація..."></textarea></div>
+    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><textarea id="loc-notes" placeholder=""></textarea></div>
     <div class="form-error" id="loc-error"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-loc')">Скасувати</button>
@@ -302,7 +273,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
 </div>
 
-<!-- MODAL: Рослина (додати/редагувати) -->
+<!-- MODAL: Рослина -->
 <div class="modal-overlay" id="modal-plant">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -310,19 +281,17 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div class="modal-subtitle"><span class="req">*</span> — обов'язкові поля</div>
     <input type="hidden" id="plant-loc-id">
     <input type="hidden" id="plant-edit-id">
-
     <div class="form-section">Рослина</div>
-    <div class="field"><label>Ім'я / номер <span class="opt">(опційно)</span></label><input id="plant-name" placeholder="#1, Ліва, Маша..."></div>
+    <div class="field"><label>Ім'я / номер <span class="opt">(опційно)</span></label><input id="plant-name" placeholder="#1, Ліва..."></div>
     <div class="field"><label>Дата посадки <span class="req">*</span></label><input id="plant-date" type="date"></div>
     <div class="field-row">
       <div class="field"><label>Горщик (л) <span class="opt">(опційно)</span></label><input id="plant-pot" type="number" min="0.5" max="200" step="0.5" placeholder="20"></div>
-      <div class="field"><label>Ґрунт <span class="opt">(опційно)</span></label><input id="plant-soil" placeholder="Торф, кокос..."></div>
+      <div class="field"><label>Ґрунт <span class="opt">(опційно)</span></label><input id="plant-soil" placeholder="Торф..."></div>
     </div>
     <div class="field"><label>Посилання <span class="opt">(опційно)</span></label><input id="plant-url" type="url" placeholder="https://..."></div>
-
     <div class="form-section">Сорт</div>
-    <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="var-name" placeholder="Blue Dream, OG Kush..."></div>
-    <div class="field"><label>Сідбанк / виробник <span class="opt">(опційно)</span></label><input id="var-brand" placeholder="Dinafem, RQS..."></div>
+    <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="var-name" placeholder="Blue Dream..."></div>
+    <div class="field"><label>Сідбанк <span class="opt">(опційно)</span></label><input id="var-brand" placeholder="Dinafem, RQS..."></div>
     <div class="field">
       <label>Тип <span class="req">*</span></label>
       <div class="type-toggle">
@@ -336,10 +305,10 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
         <div class="field"><label>Цвітіння до (днів) <span class="req">*</span></label><input id="var-max" type="number" min="30" max="150" placeholder="70"></div>
       </div>
     </div>
-
-    <div class="form-section" id="seed-cost-section">Витрати на насіння</div>
-    <div class="field" id="seed-cost-field"><label>Ціна насінини (UAH) <span class="opt">(опційно)</span></label><input id="plant-seed-cost" type="number" min="0" step="1" placeholder="0"></div>
-
+    <div id="seed-cost-wrap">
+      <div class="form-section">Витрати на насіння</div>
+      <div class="field"><label>Ціна насінини (UAH) <span class="opt">(опційно)</span></label><input id="plant-seed-cost" type="number" min="0" step="1" placeholder="0"></div>
+    </div>
     <div class="form-error" id="plant-error"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-plant')">Скасувати</button>
@@ -364,7 +333,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
         <option value="harvest">✂️ Збір</option>
       </select>
     </div>
-    <div class="field"><label>Реальна дата початку <span class="req">*</span></label><input id="stage-date" type="date"></div>
+    <div class="field"><label>Реальна дата <span class="req">*</span></label><input id="stage-date" type="date"></div>
     <div class="form-error" id="stage-error"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-stage')">Скасувати</button>
@@ -377,32 +346,38 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 <div class="modal-overlay" id="modal-harvest-form">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Збір врожаю</div>
+    <div class="modal-title" id="harv-modal-title">Збір врожаю</div>
     <input type="hidden" id="harv-plant-id">
+    <input type="hidden" id="harv-edit-id">
     <div id="harv-info" style="background:var(--bg3);border-radius:var(--radius-sm);padding:9px 12px;margin-bottom:14px;font-size:13px;color:var(--text2)"></div>
     <div class="field"><label>Дата збору <span class="req">*</span></label><input id="harv-date" type="date"></div>
-    <div class="field"><label>Вага сухого (грами) <span class="opt">(опційно)</span></label><input id="harv-weight" type="number" min="0" step="0.1" placeholder="0.0"></div>
+    <div class="field-row">
+      <div class="field"><label>Вологий вес (г) <span class="opt">(опційно)</span></label><input id="harv-wet" type="number" min="0" step="0.1" placeholder="0.0"></div>
+      <div class="field"><label>Сухий вес (г) <span class="opt">(опційно)</span></label><input id="harv-weight" type="number" min="0" step="0.1" placeholder="0.0"></div>
+    </div>
+    <div class="form-section">Сушка</div>
+    <div class="field-row">
+      <div class="field"><label>Початок сушки <span class="opt">(опційно)</span></label><input id="harv-dry-start" type="date"></div>
+      <div class="field"><label>Кінець сушки <span class="opt">(опційно)</span></label><input id="harv-dry-end" type="date"></div>
+    </div>
     <div class="field">
       <label>Оцінка сорту 1–10 <span class="opt">(опційно)</span></label>
       <div class="rating-wrap">
         <input type="range" class="rating-slider" id="harv-rating" min="1" max="10" value="5" oninput="updateRating(this.value)">
-        <div class="rating-display">
-          <span class="rating-val" id="rating-val">5</span>
-          <span class="rating-stars" id="rating-stars">⭐⭐⭐⭐⭐</span>
-        </div>
+        <div class="rating-display"><span class="rating-val" id="rating-val">5</span><span class="rating-stars" id="rating-stars">⭐⭐⭐⭐⭐</span></div>
       </div>
     </div>
-    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><textarea id="harv-notes" placeholder="Смак, ефект, враження..."></textarea></div>
+    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><textarea id="harv-notes" placeholder="Смак, ефект..."></textarea></div>
     <div class="field">
       <label>Фото врожаю <span class="opt">(опційно)</span></label>
-      <div class="photo-area" onclick="document.getElementById('harv-photo-input').click()">📷 Натисни щоб додати фото</div>
-      <input type="file" id="harv-photo-input" accept="image/*" style="display:none" onchange="previewPhoto(this)">
+      <div class="photo-area" onclick="document.getElementById('harv-photo-input').click()">📷 Додати фото</div>
+      <input type="file" id="harv-photo-input" accept="image/*" style="display:none" onchange="previewHarvPhoto(this)">
       <img id="harv-photo-preview" class="photo-preview">
     </div>
     <div class="form-error" id="harv-error"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-harvest-form')">Скасувати</button>
-      <button class="btn btn-primary" onclick="saveHarvest()">Зберегти</button>
+      <button class="btn btn-primary" id="harv-save-btn" onclick="saveHarvest()">Зберегти</button>
     </div>
   </div>
 </div>
@@ -421,7 +396,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
       </select>
     </div>
     <div class="field"><label>Сума (UAH) <span class="req">*</span></label><input id="exp-amount" type="number" min="0" step="1" placeholder="0"></div>
-    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><input id="exp-notes" placeholder="Що саме, де купив..."></div>
+    <div class="field"><label>Нотатки <span class="opt">(опційно)</span></label><input id="exp-notes" placeholder="Що саме..."></div>
     <div class="form-error" id="exp-error"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-expense')">Скасувати</button>
@@ -430,13 +405,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
 </div>
 
-<!-- MODAL: Ціна за грам -->
+<!-- MODAL: Ціна/г -->
 <div class="modal-overlay" id="modal-price">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Ціна за грам</div>
     <div id="modal-price-year" style="font-size:13px;color:var(--text3);margin-bottom:14px"></div>
-    <div class="field"><label>Ціна (UAH/г) <span class="req">*</span></label><input id="price-val" type="number" min="0" step="1" placeholder="0"></div>
+    <div class="field"><label>Ціна (UAH/г)</label><input id="price-val" type="number" min="0" step="1" placeholder="0"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-price')">Скасувати</button>
       <button class="btn btn-primary" onclick="savePrice()">Зберегти</button>
@@ -448,122 +423,93 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 const SB_URL='https://mpxvsyqkocowamwgqzcy.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
 
-// ═══ AUTH ═══
 function checkLogin(){
-  const v=document.getElementById('login-input').value;
-  if(v===atob('R0wyMDI2Iw==')){
-    sessionStorage.setItem('gl_auth','1');
-    document.getElementById('login-screen').style.display='none';
-    initApp();
-  }else{
-    document.getElementById('login-error').textContent='Невірний пароль';
-    document.getElementById('login-input').value='';
-    setTimeout(()=>document.getElementById('login-error').textContent='',2000);
-  }
+  var v=document.getElementById('login-input').value;
+  if(v===atob('R0wyMDI2Iw==')){sessionStorage.setItem('gl_auth','1');document.getElementById('login-screen').style.display='none';initApp();}
+  else{document.getElementById('login-error').textContent='Невірний пароль';document.getElementById('login-input').value='';setTimeout(function(){document.getElementById('login-error').textContent='';},2000);}
 }
 
-// ═══ SUPABASE ═══
-async function sb(table,method='GET',body=null,query=''){
-  const h={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+async function sb(table,method,body,query){
+  method=method||'GET';query=query||'';
+  var h={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
   if(method==='POST')h['Prefer']='return=representation';
   if(method==='PATCH')h['Prefer']='return=representation';
-  const r=await fetch(`${SB_URL}/rest/v1/${table}${query}`,{method,headers:h,body:body?JSON.stringify(body):null});
-  if(!r.ok){const e=await r.text();throw new Error(e);}
+  var r=await fetch(SB_URL+'/rest/v1/'+table+query,{method:method,headers:h,body:body?JSON.stringify(body):null});
+  if(!r.ok){var e=await r.text();throw new Error(e);}
   if(method==='DELETE')return null;
-  const t=await r.text();
-  return t?JSON.parse(t):null;
+  var t=await r.text();return t?JSON.parse(t):null;
 }
 
 async function uploadPhoto(file){
-  const ext=file.name.split('.').pop();
-  const path=`harvests/${Date.now()}.${ext}`;
-  const r=await fetch(`${SB_URL}/storage/v1/object/plant-photos/${path}`,{
-    method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type},body:file
-  });
+  var ext=file.name.split('.').pop();
+  var path='harvests/'+Date.now()+'.'+ext;
+  var r=await fetch(SB_URL+'/storage/v1/object/plant-photos/'+path,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':file.type},body:file});
   if(!r.ok)throw new Error('Помилка завантаження фото');
-  return `${SB_URL}/storage/v1/object/public/plant-photos/${path}`;
+  return SB_URL+'/storage/v1/object/public/plant-photos/'+path;
 }
 
-// ═══ STATE ═══
-let curPage='locations',curLocId=null,curLocName='';
-let harvestYear=new Date().getFullYear(),financeYear=new Date().getFullYear();
-let plantViewMode='cards';
-let expandedPlantId=null;
-let expandedTimelineId=null;
-let cache={varieties:[],locations:[]};
-let varType='auto';
+// State
+var curPage='locations',curLocId=null,curLocName='';
+var harvestYear=new Date().getFullYear(),financeYear=new Date().getFullYear();
+var plantViewMode='cards',expandedPlantId=null,expandedTimelineId=null;
+var varType='auto',cache={varieties:[],locations:[]};
+var calOffset=0; // months offset from current
+var finTab='summary'; // summary | expenses | plants
 
-// ═══ UTILS ═══
+// Utils
 function fmt(d){if(!d)return'—';return new Date(d+'T12:00:00').toLocaleDateString('uk-UA',{day:'numeric',month:'short'});}
 function today(){return new Date().toISOString().slice(0,10);}
-function addDays(d,n){const dt=new Date(d+'T12:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
+function addDays(d,n){var dt=new Date(d+'T12:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
 function diffDays(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000);}
 function getYear(d){return d?new Date(d+'T12:00:00').getFullYear():null;}
 function fmtUAH(n){return(n||0).toLocaleString('uk-UA',{minimumFractionDigits:0,maximumFractionDigits:0})+' ₴';}
-function showErr(id,msg){const el=document.getElementById(id);if(el){el.innerHTML=msg;el.style.display=msg?'block':'none';}}
+function showErr(id,msg){var el=document.getElementById(id);if(el){el.innerHTML=msg;el.style.display=msg?'block':'none';}}
 function clearErr(id){showErr(id,'');}
-function parseErr(e){let m=e.message;try{const p=JSON.parse(m);m=p.message||p.details||m;}catch(_){}return m;}
+function parseErr(e){var m=e.message;try{var p=JSON.parse(m);m=p.message||p.details||m;}catch(x){}return m;}
 
-// ═══ STAGE CALC ═══
+// Stage calc
 function calcStages(plant,v){
-  const o=plant.stage_overrides||{};
-  const avg=v.seed_type==='auto'?Math.round((v.flowering_days_min+v.flowering_days_max)/2):70;
-  const pd=plant.plant_date;
-  let s={};
+  var o=plant.stage_overrides||{};
+  var avg=v.seed_type==='auto'?Math.round((v.flowering_days_min+v.flowering_days_max)/2):70;
+  var pd=plant.plant_date;var s={};
   if(v.seed_type==='auto'){
-    s.seedling=o.seedling||pd;
-    s.growth=o.growth||addDays(pd,14);
-    s.pre_flower=o.pre_flower||addDays(pd,35);
-    s.flower=o.flower||addDays(pd,42);
-    s.ripening=o.ripening||addDays(s.flower,avg-10);
-    s.harvest=o.harvest||addDays(s.flower,avg);
+    s.seedling=o.seedling||pd;s.growth=o.growth||addDays(pd,14);
+    s.pre_flower=o.pre_flower||addDays(pd,35);s.flower=o.flower||addDays(pd,42);
+    s.ripening=o.ripening||addDays(s.flower,avg-10);s.harvest=o.harvest||addDays(s.flower,avg);
   }else{
-    const yr=new Date(pd+'T12:00:00').getFullYear();
-    s.seedling=o.seedling||pd;
-    s.growth=o.growth||pd;
-    s.flower=o.flower||`${yr}-08-01`;
-    s.pre_flower=o.pre_flower||addDays(s.flower,-7);
-    s.ripening=o.ripening||addDays(s.flower,50);
-    s.harvest=o.harvest||addDays(s.flower,65);
+    var yr=new Date(pd+'T12:00:00').getFullYear();
+    s.seedling=o.seedling||pd;s.growth=o.growth||pd;
+    s.flower=o.flower||(yr+'-08-01');s.pre_flower=o.pre_flower||addDays(s.flower,-7);
+    s.ripening=o.ripening||addDays(s.flower,50);s.harvest=o.harvest||addDays(s.flower,65);
   }
   return s;
 }
-
 function getStage(plant,v){
   if(plant.is_harvested)return'done';
-  const t=today(),s=calcStages(plant,v);
-  if(t>=s.harvest)return'harvest';
-  if(t>=s.ripening)return'ripening';
-  if(t>=s.flower)return'flower';
-  if(t>=s.pre_flower)return'pre_flower';
-  if(t>=s.growth)return'growth';
-  return'seedling';
+  var t=today(),s=calcStages(plant,v);
+  if(t>=s.harvest)return'harvest';if(t>=s.ripening)return'ripening';
+  if(t>=s.flower)return'flower';if(t>=s.pre_flower)return'pre_flower';
+  if(t>=s.growth)return'growth';return'seedling';
 }
-
-const STAGE_NAMES={seedling:'🌱 Розсада',growth:'🌿 Ріст',pre_flower:'🌼 Передцвіт',flower:'🌸 Цвітіння',ripening:'🟡 Дозрівання',harvest:'✂️ Збір',done:'✅ Зібрано'};
-const STAGE_COLORS={seedling:'#1565c0',growth:'#2d7a3a',pre_flower:'#f57f17',flower:'#6a1b9a',ripening:'#e65100',harvest:'#c2185b',done:'#8aaa8a'};
-
+var STAGE_NAMES={seedling:'🌱 Розсада',growth:'🌿 Ріст',pre_flower:'🌼 Передцвіт',flower:'🌸 Цвітіння',ripening:'🟡 Дозрівання',harvest:'✂️ Збір',done:'✅ Зібрано'};
+var STAGE_COLORS={seedling:'#1565c0',growth:'#2d7a3a',pre_flower:'#f57f17',flower:'#6a1b9a',ripening:'#e65100',harvest:'#c2185b',done:'#c62828'};
 function getWarning(plant,v){
   if(plant.is_harvested)return null;
-  const t=today(),s=calcStages(plant,v),stage=getStage(plant,v);
-  const order=['seedling','growth','pre_flower','flower','ripening','harvest'];
-  const idx=order.indexOf(stage);
-  if(idx<0||idx>=order.length-1)return null;
-  const nextDate=s[order[idx+1]];if(!nextDate)return null;
-  const diff=diffDays(t,nextDate);
+  var t=today(),s=calcStages(plant,v),stage=getStage(plant,v);
+  var order=['seedling','growth','pre_flower','flower','ripening','harvest'];
+  var idx=order.indexOf(stage);if(idx<0||idx>=order.length-1)return null;
+  var nextDate=s[order[idx+1]];if(!nextDate)return null;
+  var diff=diffDays(t,nextDate);
   if(diff<0)return{type:'alert',text:STAGE_NAMES[order[idx+1]]+' прострочено на '+Math.abs(diff)+' дн.'};
   if(diff<=5)return{type:'warn',text:STAGE_NAMES[order[idx+1]]+' через '+diff+' дн.'};
   return null;
 }
-
 function getPct(plant,v){
-  const s=calcStages(plant,v);
-  const total=diffDays(plant.plant_date,s.harvest);
-  if(total<=0)return 100;
-  return Math.min(100,Math.max(0,Math.round(diffDays(plant.plant_date,today())/total*100)));
+  var s=calcStages(plant,v);var total=diffDays(plant.plant_date,s.harvest);
+  if(total<=0)return 100;return Math.min(100,Math.max(0,Math.round(diffDays(plant.plant_date,today())/total*100)));
 }
 
-// ═══ NAVIGATION ═══
+// Navigation
 function navigate(page,data){
   data=data||{};
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
@@ -572,50 +518,68 @@ function navigate(page,data){
   var tabEl=document.querySelector('.tab[data-page="'+page+'"]')||document.querySelector('.tab[data-page="locations"]');
   if(tabEl)tabEl.classList.add('active');
   curPage=page;
-  var fab=document.getElementById('fab');
-  fab.style.display=['locations','plants'].indexOf(page)>=0?'flex':'none';
+  document.getElementById('fab').style.display=['locations','plants'].indexOf(page)>=0?'flex':'none';
   if(page==='locations')renderLocations();
-  else if(page==='plants'){curLocId=data.locId;curLocName=data.locName||'';renderPlants();}
+  else if(page==='plants'){curLocId=data.locId;curLocName=data.locName||'';cache.varieties=[];renderPlants();}
   else if(page==='calendar')renderCalendar();
   else if(page==='harvest')renderHarvestPage();
   else if(page==='finance')renderFinance();
 }
+function fabAction(){if(curPage==='locations')openLocModal();else if(curPage==='plants')openPlantModal();}
 
-function fabAction(){
-  if(curPage==='locations')openLocModal();
-  else if(curPage==='plants')openPlantModal();
-}
-
-// ═══ TOAST / MODAL / POPUP ═══
-function toast(msg){
-  var el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  setTimeout(function(){el.classList.remove('show');},2500);
-}
+// Toast/Modal/Popup
+function toast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(function(){el.classList.remove('show');},2500);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function openPopup(id){document.getElementById(id).classList.add('open');}
 function closePopup(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(function(el){
-  el.addEventListener('click',function(e){if(e.target===el)closeModal(el.id);});
-});
+document.querySelectorAll('.modal-overlay').forEach(function(el){el.addEventListener('click',function(e){if(e.target===el)closeModal(el.id);});});
 
-// ═══ LOCATIONS ═══
+// Locations
 async function renderLocations(){
-  var pg=document.getElementById('page-locations');
-  pg.innerHTML='<div class="spinner"></div>';
+  var pg=document.getElementById('page-locations');pg.innerHTML='<div class="spinner"></div>';
   try{
     cache.locations=await sb('locations','GET',null,'?order=created_at.asc');
-    var plants=await sb('plants','GET',null,'?select=id,location_id,is_harvested');
-    if(!cache.locations.length){
-      pg.innerHTML='<div class="empty"><div class="empty-icon">🏕️</div><p>Немає локацій.<br>Натисни ＋ щоб додати.</p></div>';
-      return;
-    }
-    pg.innerHTML=cache.locations.map(function(loc){
-      var cnt=plants.filter(function(p){return p.location_id===loc.id&&!p.is_harvested;}).length;
+    var plants=await sb('plants','GET',null,'?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
+    if(!cache.varieties.length)cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
+    var harvests=await sb('harvests','GET',null,'?select=plant_id,dry_weight_g');
+
+    // Global stats
+    var activePlants=plants.filter(function(p){return!p.is_harvested;});
+    var autoCount=0,photoCount=0;
+    var stageCounts={seedling:0,growth:0,pre_flower:0,flower:0,ripening:0,harvest:0};
+    activePlants.forEach(function(p){
+      var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
+      if(!v)return;
+      if(v.seed_type==='auto')autoCount++;else photoCount++;
+      var stage=getStage(p,v);
+      if(stageCounts[stage]!==undefined)stageCounts[stage]++;
+    });
+
+    var statsHtml='<div class="stats-bar">'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+activePlants.length+'</div><div class="stat-chip-label">Активних</div></div>'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+autoCount+'</div><div class="stat-chip-label">Авто</div></div>'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+photoCount+'</div><div class="stat-chip-label">Фото</div></div>'+
+      (stageCounts.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--purple)">'+stageCounts.flower+'</div><div class="stat-chip-label">Цвітуть</div></div>':'')+
+      (stageCounts.ripening>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--amber)">'+stageCounts.ripening+'</div><div class="stat-chip-label">Дозрів.</div></div>':'')+
+      (stageCounts.harvest>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:var(--red)">'+stageCounts.harvest+'</div><div class="stat-chip-label">До збору</div></div>':'')+
+    '</div>';
+
+    if(!cache.locations.length){pg.innerHTML=statsHtml+'<div class="empty"><div class="empty-icon">🏕️</div><p>Немає локацій.<br>Натисни ＋ щоб додати.</p></div>';return;}
+
+    var locsHtml=cache.locations.map(function(loc){
+      var locPlants=plants.filter(function(p){return p.location_id===loc.id;});
+      var active=locPlants.filter(function(p){return!p.is_harvested;}).length;
+      var harvested=locPlants.filter(function(p){return p.is_harvested;});
+      var totalW=0;
+      harvested.forEach(function(p){
+        var h=harvests.filter(function(x){return x.plant_id===p.id;});
+        h.forEach(function(x){totalW+=(parseFloat(x.dry_weight_g)||0);});
+      });
       return '<div class="card" style="cursor:pointer" onclick="navigate(\'plants\',{locId:\''+loc.id+'\',locName:\''+encodeURIComponent(loc.name)+'\'})">'+
         '<div class="card-row">'+
-          '<div><div class="card-title">🏕️ '+loc.name+'</div><div class="card-sub">'+cnt+' активних рослин</div></div>'+
+          '<div><div class="card-title">🏕️ '+loc.name+'</div>'+
+          '<div class="card-sub">'+active+' активних рослин'+(harvested.length?' · '+harvested.length+' зібрано'+(totalW>0?' · '+totalW.toFixed(1)+'г':''):'')+' </div></div>'+
           '<span style="color:var(--text3);font-size:20px">›</span>'+
         '</div>'+
         '<div class="card-actions">'+
@@ -624,48 +588,40 @@ async function renderLocations(){
         '</div>'+
       '</div>';
     }).join('');
+    pg.innerHTML=statsHtml+locsHtml;
   }catch(e){pg.innerHTML='<div class="empty"><p>Помилка: '+e.message+'</p></div>';}
 }
 
 function openLocModal(id){
-  id=id||null;
-  clearErr('loc-error');
+  id=id||null;clearErr('loc-error');
   document.getElementById('loc-id').value=id||'';
-  document.getElementById('modal-loc-title').textContent=id?'Редагувати локацію':'Нова локація';
+  document.getElementById('modal-loc-title').textContent=id?'Редагувати':'Нова локація';
   var loc=id?cache.locations.find(function(l){return l.id===id;}):null;
   document.getElementById('loc-name').value=loc?loc.name||'':'';
   document.getElementById('loc-notes').value=loc?loc.notes||'':'';
   openModal('modal-loc');
 }
-
 async function saveLoc(){
   var name=document.getElementById('loc-name').value.trim();
-  if(!name){showErr('loc-error','⚠️ Введи назву локації');return;}
-  var data={name:name,notes:document.getElementById('loc-notes').value.trim()};
+  if(!name){showErr('loc-error','⚠️ Введи назву');return;}
   var id=document.getElementById('loc-id').value;
   try{
-    if(id)await sb('locations','PATCH',data,'?id=eq.'+id);
-    else await sb('locations','POST',data);
-    closeModal('modal-loc');toast(id?'Локацію оновлено ✅':'Локацію додано ✅');
-    renderLocations();
+    if(id)await sb('locations','PATCH',{name:name,notes:document.getElementById('loc-notes').value.trim()},'?id=eq.'+id);
+    else await sb('locations','POST',{name:name,notes:document.getElementById('loc-notes').value.trim()});
+    closeModal('modal-loc');toast(id?'Оновлено ✅':'Додано ✅');renderLocations();
   }catch(e){showErr('loc-error','❌ '+parseErr(e));}
 }
-
 async function deleteLoc(id){
-  if(!confirm('Видалити локацію і всі її рослини?'))return;
+  if(!confirm('Видалити локацію і всі рослини?'))return;
   try{
-    var plants=await sb('plants','GET',null,'?location_id=eq.'+id+'&select=id');
-    for(var i=0;i<plants.length;i++){
-      await sb('harvests','DELETE',null,'?plant_id=eq.'+plants[i].id);
-      await sb('expenses','DELETE',null,'?plant_id=eq.'+plants[i].id);
-    }
-    await sb('plants','DELETE',null,'?location_id=eq.'+id);
-    await sb('locations','DELETE',null,'?id=eq.'+id);
-    toast('Локацію видалено');renderLocations();
+    var ps=await sb('plants','GET',null,'?location_id=eq.'+id+'&select=id');
+    for(var i=0;i<ps.length;i++){await sb('harvests','DELETE',null,'?plant_id=eq.'+ps[i].id);await sb('expenses','DELETE',null,'?plant_id=eq.'+ps[i].id);}
+    await sb('plants','DELETE',null,'?location_id=eq.'+id);await sb('locations','DELETE',null,'?id=eq.'+id);
+    toast('Видалено');renderLocations();
   }catch(e){toast('Помилка: '+parseErr(e));}
 }
 
-// ═══ TYPE TOGGLE ═══
+// Type toggle
 function setType(type){
   varType=type;
   document.getElementById('type-auto').classList.toggle('active',type==='auto');
@@ -673,89 +629,77 @@ function setType(type){
   document.getElementById('flowering-days-wrap').style.display=type==='auto'?'block':'none';
 }
 
-// ═══ PLANTS ═══
+// Plants
 async function renderPlants(){
   var pg=document.getElementById('page-plants');
-  var locNameDec=decodeURIComponent(curLocName);
+  var locDec=decodeURIComponent(curLocName);
   var hdr='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'+
     '<div style="display:flex;align-items:center;gap:8px">'+
       '<button class="btn btn-ghost btn-sm" onclick="navigate(\'locations\')">← Назад</button>'+
-      '<span style="font-size:16px;font-weight:700">🏕️ '+locNameDec+'</span>'+
+      '<span style="font-size:16px;font-weight:700">🏕️ '+locDec+'</span>'+
     '</div>'+
     '<div class="view-toggle">'+
       '<button class="view-btn '+(plantViewMode==='cards'?'active':'')+'" onclick="setViewMode(\'cards\')">▦</button>'+
       '<button class="view-btn '+(plantViewMode==='list'?'active':'')+'" onclick="setViewMode(\'list\')">☰</button>'+
-    '</div>'+
-  '</div>';
+    '</div></div>';
   pg.innerHTML=hdr+'<div class="spinner"></div>';
   try{
-    if(!cache.varieties.length)cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
+    cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
     var plants=await sb('plants','GET',null,'?location_id=eq.'+curLocId+'&order=plant_date.asc');
+    var harvests=await sb('harvests','GET',null,'?select=plant_id,dry_weight_g,harvest_date');
     var html=hdr;
-    if(!plants.length){
-      html+='<div class="empty"><div class="empty-icon">🌱</div><p>Немає рослин.<br>Натисни ＋ щоб додати.</p></div>';
-    }else if(plantViewMode==='list'){
-      html+=plants.map(function(p){return renderPlantList(p);}).join('');
-    }else{
-      html+=plants.map(function(p){return renderPlantCard(p);}).join('');
-    }
+    if(!plants.length){html+='<div class="empty"><div class="empty-icon">🌱</div><p>Немає рослин.<br>Натисни ＋ щоб додати.</p></div>';}
+    else if(plantViewMode==='list'){html+=plants.map(function(p){return renderPlantList(p,harvests);}).join('');}
+    else{html+=plants.map(function(p){return renderPlantCard(p,harvests);}).join('');}
     pg.innerHTML=html;
   }catch(e){pg.innerHTML='<div class="empty"><p>Помилка: '+e.message+'</p></div>';}
 }
 
-function setViewMode(mode){plantViewMode=mode;renderPlants();}
+function setViewMode(m){plantViewMode=m;renderPlants();}
 
-function renderPlantCard(p){
-  var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
-  if(!v)return'';
-  var stages=calcStages(p,v);
-  var stage=getStage(p,v);
-  var pct=getPct(p,v);
-  var warn=getWarning(p,v);
-  var o=p.stage_overrides||{};
+function renderPlantCard(p,harvests){
+  var v=cache.varieties.find(function(x){return x.id===p.variety_id;});if(!v)return'';
+  var stages=calcStages(p,v),stage=getStage(p,v),pct=getPct(p,v),warn=getWarning(p,v),o=p.stage_overrides||{};
   var barClass=['flower','ripening'].indexOf(stage)>=0?stage:'';
-  var isTimelineOpen=expandedTimelineId===p.id;
+  var isOpen=expandedTimelineId===p.id;
+  var pHarvests=harvests?harvests.filter(function(h){return h.plant_id===p.id;}):[];
+  var totalW=pHarvests.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
   var stageOrder=['seedling','growth','pre_flower','flower','ripening','harvest'];
-
-  var timelineHtml='<div class="stage-timeline" id="timeline-'+p.id+'" style="'+(isTimelineOpen?'':'display:none')+'">'+
+  var timelineHtml='<div class="stage-timeline" id="tl-'+p.id+'" style="'+(isOpen?'':'display:none')+'">'+
     stageOrder.map(function(sk){
-      var isActive=sk===stage&&!p.is_harvested;
-      var isEdited=!!(o[sk]);
-      return '<div class="stage-row'+(isActive?' active-stage':'')+'">'+
+      var isA=sk===stage&&!p.is_harvested,isE=!!(o[sk]);
+      return '<div class="stage-row'+(isA?' active-stage':'')+'">'+
         '<div class="stage-dot" style="background:'+STAGE_COLORS[sk]+'"></div>'+
-        '<span class="stage-name" style="color:'+(isActive?'var(--green)':'var(--text2)')+'">'+STAGE_NAMES[sk]+'</span>'+
-        '<span class="stage-date">'+fmt(stages[sk])+'</span>'+
-        (isEdited?'<span class="stage-edited">✏️</span>':'')+
+        '<span class="stage-name" style="color:'+(isA?'var(--green)':'var(--text2)')+'">'+STAGE_NAMES[sk]+'</span>'+
+        '<span class="stage-date">'+fmt(stages[sk])+'</span>'+(isE?'<span class="stage-edited">✏️</span>':'')+
       '</div>';
-    }).join('')+
-  '</div>';
+    }).join('')+'</div>';
 
   return '<div class="plant-card stage-'+stage+'">'+
     '<div class="card-row">'+
       '<div style="flex:1;min-width:0">'+
-        '<div class="card-title">'+( p.name||v.name)+'</div>'+
+        '<div class="card-title">'+(p.name||v.name)+'</div>'+
         '<div class="card-sub">'+v.name+' · '+(v.brand||'')+' · '+(v.seed_type==='auto'?'Авто':'Фото')+'</div>'+
         (p.soil_type||p.pot_size_l?'<div class="card-sub">'+(p.pot_size_l?'🫙 '+p.pot_size_l+'л':'')+((p.pot_size_l&&p.soil_type)?' · ':'')+( p.soil_type||'')+'</div>':'')+
-        (p.url?'<div class="card-sub"><a href="'+p.url+'" target="_blank" style="color:var(--blue);font-size:12px">🔗 Посилання</a></div>':'')+
+        (p.url?'<a href="'+p.url+'" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">🔗 Посилання</a>':'')+
+        (p.is_harvested&&pHarvests.length?'<div class="card-sub" style="color:var(--green)">✅ Зібрано: '+pHarvests.length+' раз'+(totalW>0?' · '+totalW.toFixed(1)+'г':'')+'</div>':'')+
       '</div>'+
       '<div style="text-align:right;flex-shrink:0;margin-left:8px">'+
-        (p.is_harvested?'<span class="badge badge-done">✅ Зібрано</span>':
-          '<div style="font-size:11px;color:var(--text3)">✂️ Збір</div>'+
+        (!p.is_harvested?
+          '<div style="font-size:10px;color:var(--text3)">✂️ Збір</div>'+
           '<div style="font-size:13px;font-weight:600;color:var(--text)">'+fmt(stages.harvest)+'</div>'+
-          (warn?'<div class="badge badge-'+warn.type+'" style="margin-top:4px;font-size:10px">'+warn.text+'</div>':'')
-        )+
+          (warn?'<div class="badge badge-'+warn.type+'" style="margin-top:3px;font-size:10px">'+warn.text+'</div>':''):
+          '<span class="badge badge-done">✅ Зібрано</span>')+
       '</div>'+
     '</div>'+
-    (!p.is_harvested?
-      '<div class="progress-wrap"><div class="progress-bar '+barClass+'" style="width:'+pct+'%"></div></div>'+
-      '<div style="font-size:11px;color:var(--text3);text-align:right;margin-bottom:4px">'+pct+'% циклу</div>':'')+
-    '<div class="toggle-row" onclick="toggleTimeline(\''+p.id+'\')">'+
-      '<span class="toggle-row-label">'+STAGE_NAMES[stage]+'</span>'+
-      '<span class="toggle-chevron'+(isTimelineOpen?' open':'')+'" id="chevron-'+p.id+'">▾</span>'+
+    (!p.is_harvested?'<div class="progress-wrap"><div class="progress-bar '+barClass+'" style="width:'+pct+'%"></div></div><div style="font-size:11px;color:var(--text3);text-align:right;margin-bottom:4px">'+pct+'% циклу</div>':'')+
+    '<div class="toggle-row" onclick="toggleTl(\''+p.id+'\')">'+
+      '<span style="font-size:13px;color:var(--text2);font-weight:500">'+STAGE_NAMES[stage]+'</span>'+
+      '<span class="toggle-chevron'+(isOpen?' open':'')+'" id="ch-'+p.id+'">▾</span>'+
     '</div>'+
     timelineHtml+
     '<div class="card-actions">'+
-      '<button class="btn btn-ghost btn-sm" onclick="openEditPlantModal(\''+p.id+'\')">✏️</button>'+
+      '<button class="btn btn-ghost btn-sm" onclick="openEditPlant(\''+p.id+'\')">✏️</button>'+
       '<button class="btn btn-ghost btn-sm" onclick="openStageModal(\''+p.id+'\',\''+encodeURIComponent(p.name||v.name)+'\')">📅 Стадія</button>'+
       (!p.is_harvested?'<button class="btn btn-ghost btn-sm" onclick="openHarvestModal(\''+p.id+'\',\''+encodeURIComponent(p.name||v.name)+'\')">✂️ Збір</button>':'')+
       '<button class="btn btn-danger btn-sm" onclick="deletePlant(\''+p.id+'\')">🗑</button>'+
@@ -763,49 +707,39 @@ function renderPlantCard(p){
   '</div>';
 }
 
-function renderPlantList(p){
-  var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
-  if(!v)return'';
-  var stage=getStage(p,v);
-  var stages=calcStages(p,v);
-  var warn=getWarning(p,v);
-  var isExpanded=expandedPlantId===p.id;
-
+function renderPlantList(p,harvests){
+  var v=cache.varieties.find(function(x){return x.id===p.variety_id;});if(!v)return'';
+  var stage=getStage(p,v),stages=calcStages(p,v),warn=getWarning(p,v),isExp=expandedPlantId===p.id;
+  var pHarvests=harvests?harvests.filter(function(h){return h.plant_id===p.id;}):[];
+  var totalW=pHarvests.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
   var html='<div class="plant-list-item stage-'+stage+'" onclick="toggleExpand(\''+p.id+'\')">'+
     '<div style="flex:1;min-width:0">'+
       '<div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(p.name||v.name)+'</div>'+
-      '<div style="font-size:11px;color:var(--text3);margin-top:1px">'+v.name+' · ✂️ '+fmt(stages.harvest)+(warn?' · ⚠️':'')+' </div>'+
+      '<div style="font-size:11px;color:var(--text3)">'+v.name+' · ✂️ '+fmt(stages.harvest)+(warn?' · ⚠️':'')+( p.is_harvested&&pHarvests.length?' · ✅ '+totalW.toFixed(1)+'г':'')+' </div>'+
     '</div>'+
     '<span class="badge badge-'+stage+'" style="margin:0 6px;flex-shrink:0">'+STAGE_NAMES[stage]+'</span>'+
-    '<span style="color:var(--text3);font-size:12px">'+(isExpanded?'▲':'▼')+'</span>'+
+    '<span style="color:var(--text3);font-size:12px">'+(isExp?'▲':'▼')+'</span>'+
   '</div>';
-
-  if(isExpanded){
+  if(isExp){
     html+='<div style="background:var(--bg3);border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:10px 12px;margin-top:-4px;margin-bottom:6px">'+
       (warn?'<div class="badge badge-'+warn.type+'" style="margin-bottom:8px;display:inline-flex">'+warn.text+'</div>':'')+
       '<div style="display:flex;gap:6px;flex-wrap:wrap">'+
-        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openEditPlantModal(\''+p.id+'\')">✏️ Редагувати</button>'+
+        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openEditPlant(\''+p.id+'\')">✏️ Редагувати</button>'+
         '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openStageModal(\''+p.id+'\',\''+encodeURIComponent(p.name||v.name)+'\')">📅 Стадія</button>'+
         (!p.is_harvested?'<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openHarvestModal(\''+p.id+'\',\''+encodeURIComponent(p.name||v.name)+'\')">✂️ Збір</button>':'')+
         '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deletePlant(\''+p.id+'\')">🗑</button>'+
-      '</div>'+
-    '</div>';
+      '</div></div>';
   }
   return html;
 }
 
-function toggleTimeline(id){
+function toggleTl(id){
   expandedTimelineId=expandedTimelineId===id?null:id;
-  var el=document.getElementById('timeline-'+id);
-  var ch=document.getElementById('chevron-'+id);
+  var el=document.getElementById('tl-'+id),ch=document.getElementById('ch-'+id);
   if(el)el.style.display=expandedTimelineId===id?'block':'none';
   if(ch)ch.className='toggle-chevron'+(expandedTimelineId===id?' open':'');
 }
-
-function toggleExpand(id){
-  expandedPlantId=expandedPlantId===id?null:id;
-  renderPlants();
-}
+function toggleExpand(id){expandedPlantId=expandedPlantId===id?null:id;renderPlants();}
 
 function openPlantModal(){
   clearErr('plant-error');
@@ -813,32 +747,25 @@ function openPlantModal(){
   document.getElementById('plant-loc-id').value=curLocId;
   document.getElementById('modal-plant-title').textContent='Додати рослину';
   document.getElementById('plant-save-btn').textContent='Додати';
-  document.getElementById('seed-cost-section').style.display='block';
-  document.getElementById('seed-cost-field').style.display='block';
-  ['plant-name','plant-soil','var-name','var-brand','plant-seed-cost','plant-url'].forEach(function(id){
-    var el=document.getElementById(id);if(el)el.value='';
-  });
+  document.getElementById('seed-cost-wrap').style.display='block';
+  ['plant-name','plant-soil','var-name','var-brand','plant-url'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('plant-pot').value='';
-  document.getElementById('var-min').value='';
-  document.getElementById('var-max').value='';
+  document.getElementById('var-min').value='';document.getElementById('var-max').value='';
+  document.getElementById('plant-seed-cost').value='';
   document.getElementById('plant-date').value=today();
-  setType('auto');
-  openModal('modal-plant');
+  setType('auto');openModal('modal-plant');
 }
 
-async function openEditPlantModal(plantId){
+async function openEditPlant(plantId){
   clearErr('plant-error');
   try{
-    var rows=await sb('plants','GET',null,'?id=eq.'+plantId);
-    var p=rows[0];if(!p)return;
-    var v=await sb('varieties','GET',null,'?id=eq.'+p.variety_id);
-    var variety=v[0];
+    var rows=await sb('plants','GET',null,'?id=eq.'+plantId);var p=rows[0];if(!p)return;
+    var vr=await sb('varieties','GET',null,'?id=eq.'+p.variety_id);var variety=vr[0];
     document.getElementById('plant-edit-id').value=plantId;
     document.getElementById('plant-loc-id').value=p.location_id;
     document.getElementById('modal-plant-title').textContent='Редагувати рослину';
     document.getElementById('plant-save-btn').textContent='Зберегти';
-    document.getElementById('seed-cost-section').style.display='none';
-    document.getElementById('seed-cost-field').style.display='none';
+    document.getElementById('seed-cost-wrap').style.display='none';
     document.getElementById('plant-name').value=p.name||'';
     document.getElementById('plant-date').value=p.plant_date||today();
     document.getElementById('plant-pot').value=p.pot_size_l||'';
@@ -846,11 +773,7 @@ async function openEditPlantModal(plantId){
     document.getElementById('plant-url').value=p.url||'';
     document.getElementById('var-name').value=variety?variety.name||'':'';
     document.getElementById('var-brand').value=variety?variety.brand||'':'';
-    if(variety){
-      setType(variety.seed_type||'auto');
-      document.getElementById('var-min').value=variety.flowering_days_min||'';
-      document.getElementById('var-max').value=variety.flowering_days_max||'';
-    }
+    if(variety){setType(variety.seed_type||'auto');document.getElementById('var-min').value=variety.flowering_days_min||'';document.getElementById('var-max').value=variety.flowering_days_max||'';}
     openModal('modal-plant');
   }catch(e){toast('Помилка: '+parseErr(e));}
 }
@@ -859,48 +782,27 @@ async function savePlant(){
   var editId=document.getElementById('plant-edit-id').value;
   var varName=document.getElementById('var-name').value.trim();
   var date=document.getElementById('plant-date').value;
-  var minVal=document.getElementById('var-min').value;
-  var maxVal=document.getElementById('var-max').value;
-  var min=parseInt(minVal);
-  var max=parseInt(maxVal);
-  clearErr('plant-error');
-  var errs=[];
-  if(!date)errs.push('Вкажи дату посадки');
-  if(!varName)errs.push('Введи назву сорту');
-  if(varType==='auto'){
-    if(!minVal)errs.push('Вкажи мін. тривалість цвітіння');
-    if(!maxVal)errs.push('Вкажи макс. тривалість цвітіння');
-    if(minVal&&maxVal&&min>max)errs.push('Мін. не може бути більше за макс.');
-  }
+  var minV=document.getElementById('var-min').value,maxV=document.getElementById('var-max').value;
+  var min=parseInt(minV),max=parseInt(maxV);
+  clearErr('plant-error');var errs=[];
+  if(!date)errs.push('Вкажи дату посадки');if(!varName)errs.push('Введи назву сорту');
+  if(varType==='auto'){if(!minV)errs.push('Вкажи мін. цвітіння');if(!maxV)errs.push('Вкажи макс. цвітіння');if(minV&&maxV&&min>max)errs.push('Мін. > Макс.');}
   if(errs.length){showErr('plant-error',errs.map(function(e){return'⚠️ '+e;}).join('<br>'));return;}
-
   try{
     var varData={name:varName,brand:document.getElementById('var-brand').value.trim(),seed_type:varType,flowering_days_min:varType==='auto'?min:0,flowering_days_max:varType==='auto'?max:0};
     var plantData={name:document.getElementById('plant-name').value.trim(),plant_date:date,soil_type:document.getElementById('plant-soil').value.trim()||null,pot_size_l:parseFloat(document.getElementById('plant-pot').value)||null,url:document.getElementById('plant-url').value.trim()||null};
-
     if(editId){
-      // Edit mode — update plant and variety
       var rows=await sb('plants','GET',null,'?id=eq.'+editId+'&select=variety_id');
-      var varId=rows[0].variety_id;
-      await sb('varieties','PATCH',varData,'?id=eq.'+varId);
+      await sb('varieties','PATCH',varData,'?id=eq.'+rows[0].variety_id);
       await sb('plants','PATCH',plantData,'?id=eq.'+editId);
-      closeModal('modal-plant');toast('Рослину оновлено ✅');
+      closeModal('modal-plant');toast('Оновлено ✅');
     }else{
-      // Add mode
-      var newVar=await sb('varieties','POST',varData);
-      if(!newVar||!newVar[0])throw new Error('Не вдалось створити сорт');
-      plantData.location_id=curLocId;
-      plantData.variety_id=newVar[0].id;
-      plantData.current_stage='seedling';
-      plantData.stage_overrides={};
-      plantData.is_harvested=false;
-      var newPlant=await sb('plants','POST',plantData);
-      if(!newPlant||!newPlant[0])throw new Error('Не вдалось додати рослину');
-      var seedCost=parseFloat(document.getElementById('plant-seed-cost').value)||0;
-      if(seedCost>0){
-        var yr=new Date(date+'T12:00:00').getFullYear();
-        await sb('expenses','POST',{year:yr,category:'seeds',amount_uah:seedCost,plant_id:newPlant[0].id,notes:'Насіння: '+varName});
-      }
+      var nv=await sb('varieties','POST',varData);if(!nv||!nv[0])throw new Error('Не вдалось створити сорт');
+      plantData.location_id=curLocId;plantData.variety_id=nv[0].id;
+      plantData.current_stage='seedling';plantData.stage_overrides={};plantData.is_harvested=false;
+      var np=await sb('plants','POST',plantData);if(!np||!np[0])throw new Error('Не вдалось додати рослину');
+      var sc=parseFloat(document.getElementById('plant-seed-cost').value)||0;
+      if(sc>0){var yr=new Date(date+'T12:00:00').getFullYear();await sb('expenses','POST',{year:yr,category:'seeds',amount_uah:sc,plant_id:np[0].id,notes:'Насіння: '+varName});}
       closeModal('modal-plant');toast('Рослину додано ✅');
     }
     renderPlants();
@@ -909,87 +811,109 @@ async function savePlant(){
 
 async function deletePlant(id){
   if(!confirm('Видалити рослину?'))return;
-  try{
-    await sb('harvests','DELETE',null,'?plant_id=eq.'+id);
-    await sb('expenses','DELETE',null,'?plant_id=eq.'+id);
-    await sb('plants','DELETE',null,'?id=eq.'+id);
-    toast('Рослину видалено');renderPlants();
-  }catch(e){toast('Помилка: '+parseErr(e));}
+  try{await sb('harvests','DELETE',null,'?plant_id=eq.'+id);await sb('expenses','DELETE',null,'?plant_id=eq.'+id);await sb('plants','DELETE',null,'?id=eq.'+id);toast('Видалено');renderPlants();}
+  catch(e){toast('Помилка: '+parseErr(e));}
 }
 
-// ═══ STAGE ═══
+// Stage
 function openStageModal(plantId,labelEnc){
   clearErr('stage-error');
   document.getElementById('stage-plant-id').value=plantId;
   document.getElementById('stage-info').textContent=decodeURIComponent(labelEnc);
-  document.getElementById('stage-date').value=today();
-  openModal('modal-stage');
+  document.getElementById('stage-date').value=today();openModal('modal-stage');
 }
-
 async function saveStage(){
   var plantId=document.getElementById('stage-plant-id').value;
-  var key=document.getElementById('stage-key').value;
-  var date=document.getElementById('stage-date').value;
+  var key=document.getElementById('stage-key').value;var date=document.getElementById('stage-date').value;
   if(!date){showErr('stage-error','⚠️ Вибери дату');return;}
   try{
     var rows=await sb('plants','GET',null,'?id=eq.'+plantId+'&select=stage_overrides');
-    var overrides=rows[0]?rows[0].stage_overrides||{}:{};
-    overrides[key]=date;
-    await sb('plants','PATCH',{stage_overrides:overrides},'?id=eq.'+plantId);
+    var o=rows[0]?rows[0].stage_overrides||{}:{};o[key]=date;
+    await sb('plants','PATCH',{stage_overrides:o},'?id=eq.'+plantId);
     closeModal('modal-stage');toast('Стадію оновлено ✅');renderPlants();
   }catch(e){showErr('stage-error','❌ '+parseErr(e));}
 }
 
-// ═══ HARVEST MODAL ═══
+// Harvest modal
 function updateRating(val){
   document.getElementById('rating-val').textContent=val;
-  var stars=Math.round(val/2);
-  document.getElementById('rating-stars').textContent='⭐'.repeat(stars)+'☆'.repeat(5-stars);
+  var s=Math.round(val/2);document.getElementById('rating-stars').textContent='⭐'.repeat(s)+'☆'.repeat(5-s);
 }
-
-function previewPhoto(input){
+function previewHarvPhoto(input){
   var file=input.files[0];if(!file)return;
-  var p=document.getElementById('harv-photo-preview');
-  p.src=URL.createObjectURL(file);p.style.display='block';
+  var p=document.getElementById('harv-photo-preview');p.src=URL.createObjectURL(file);p.style.display='block';
 }
-
 function openHarvestModal(plantId,labelEnc){
   clearErr('harv-error');
+  document.getElementById('harv-edit-id').value='';
   document.getElementById('harv-plant-id').value=plantId;
   document.getElementById('harv-info').textContent=decodeURIComponent(labelEnc);
+  document.getElementById('harv-modal-title').textContent='Збір врожаю';
+  document.getElementById('harv-save-btn').textContent='Зберегти';
   document.getElementById('harv-date').value=today();
-  document.getElementById('harv-weight').value='';
-  document.getElementById('harv-notes').value='';
+  ['harv-wet','harv-weight','harv-notes'].forEach(function(id){document.getElementById(id).value='';});
+  ['harv-dry-start','harv-dry-end'].forEach(function(id){document.getElementById(id).value='';});
   document.getElementById('harv-photo-input').value='';
   document.getElementById('harv-photo-preview').style.display='none';
-  document.getElementById('harv-rating').value=5;
-  updateRating(5);
+  document.getElementById('harv-rating').value=5;updateRating(5);
   openModal('modal-harvest-form');
 }
-
+async function openEditHarvest(harvId){
+  clearErr('harv-error');
+  try{
+    var rows=await sb('harvests','GET',null,'?id=eq.'+harvId);var h=rows[0];if(!h)return;
+    // get plant info for label
+    var pr=await sb('plants','GET',null,'?id=eq.'+h.plant_id+'&select=id,name,variety_id');
+    var p=pr[0];var label='';
+    if(p){var vr=cache.varieties.find(function(x){return x.id===p.variety_id;});label=(p.name||'')+' '+(vr?vr.name:'');}
+    document.getElementById('harv-edit-id').value=harvId;
+    document.getElementById('harv-plant-id').value=h.plant_id;
+    document.getElementById('harv-info').textContent=label.trim();
+    document.getElementById('harv-modal-title').textContent='Редагувати врожай';
+    document.getElementById('harv-save-btn').textContent='Зберегти зміни';
+    document.getElementById('harv-date').value=h.harvest_date||today();
+    document.getElementById('harv-wet').value=h.wet_weight_g||'';
+    document.getElementById('harv-weight').value=h.dry_weight_g||'';
+    document.getElementById('harv-dry-start').value=h.dry_start_date||'';
+    document.getElementById('harv-dry-end').value=h.dry_end_date||'';
+    document.getElementById('harv-notes').value=h.notes||'';
+    document.getElementById('harv-photo-input').value='';
+    var prev=document.getElementById('harv-photo-preview');
+    if(h.photo_url){prev.src=h.photo_url;prev.style.display='block';}else{prev.style.display='none';}
+    var r=h.rating||5;document.getElementById('harv-rating').value=r;updateRating(r);
+    openModal('modal-harvest-form');
+  }catch(e){toast('Помилка: '+parseErr(e));}
+}
 async function saveHarvest(){
   var plantId=document.getElementById('harv-plant-id').value;
+  var editId=document.getElementById('harv-edit-id').value;
   var date=document.getElementById('harv-date').value;
-  if(!date){showErr('harv-error','⚠️ Вибери дату збору');return;}
+  if(!date){showErr('harv-error','⚠️ Вибери дату');return;}
   try{
     var photoUrl=null;
     var photoFile=document.getElementById('harv-photo-input').files[0];
     if(photoFile)photoUrl=await uploadPhoto(photoFile);
-    var rating=parseInt(document.getElementById('harv-rating').value)||null;
-    await sb('harvests','POST',{plant_id:plantId,harvest_date:date,dry_weight_g:parseFloat(document.getElementById('harv-weight').value)||null,rating:rating,notes:document.getElementById('harv-notes').value.trim(),photo_url:photoUrl});
-    await sb('plants','PATCH',{is_harvested:true},'?id=eq.'+plantId);
-    closeModal('modal-harvest-form');toast('Врожай збережено ✅');renderPlants();
+    var data={plant_id:plantId,harvest_date:date,wet_weight_g:parseFloat(document.getElementById('harv-wet').value)||null,dry_weight_g:parseFloat(document.getElementById('harv-weight').value)||null,dry_start_date:document.getElementById('harv-dry-start').value||null,dry_end_date:document.getElementById('harv-dry-end').value||null,rating:parseInt(document.getElementById('harv-rating').value)||null,notes:document.getElementById('harv-notes').value.trim()};
+    if(photoUrl)data.photo_url=photoUrl;
+    if(editId){await sb('harvests','PATCH',data,'?id=eq.'+editId);}
+    else{await sb('harvests','POST',data);await sb('plants','PATCH',{is_harvested:true},'?id=eq.'+plantId);}
+    closeModal('modal-harvest-form');toast('Збережено ✅');
+    if(curPage==='harvest')renderHarvestPage();else if(curPage==='plants')renderPlants();
   }catch(e){showErr('harv-error','❌ '+parseErr(e));}
 }
+async function deleteHarvest(id){
+  if(!confirm('Видалити запис врожаю?'))return;
+  try{await sb('harvests','DELETE',null,'?id=eq.'+id);toast('Видалено');renderHarvestPage();}
+  catch(e){toast('Помилка: '+parseErr(e));}
+}
 
-// ═══ HARVEST PAGE ═══
+// Harvest page
 async function renderHarvestPage(){
-  var pg=document.getElementById('page-harvest');
-  pg.innerHTML='<div class="spinner"></div>';
+  var pg=document.getElementById('page-harvest');pg.innerHTML='<div class="spinner"></div>';
   try{
     var harvests=await sb('harvests','GET',null,'?order=harvest_date.desc');
     if(!cache.varieties.length)cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
-    var plants=await sb('plants','GET',null,'?select=id,name,variety_id,location_id');
+    var plants=await sb('plants','GET',null,'?select=id,name,variety_id,location_id,plant_date');
     var locs=await sb('locations','GET',null,'?select=id,name');
     var years=[...new Set(harvests.map(function(h){return getYear(h.harvest_date);}).filter(Boolean))].sort(function(a,b){return b-a;});
     if(!years.includes(harvestYear)&&years.length)harvestYear=years[0];
@@ -1004,35 +928,46 @@ async function renderHarvestPage(){
       '<div class="stat-box"><div class="stat-val">'+avgR+(avgR!=='—'?'/10':'')+'</div><div class="stat-label">ср. оцінка</div></div>'+
       '<div class="stat-box"><div class="stat-val">'+cache.varieties.length+'</div><div class="stat-label">сортів</div></div>'+
     '</div>';
-
-    if(years.length){
-      html+='<div class="year-tabs">'+years.map(function(y){
-        return '<div class="year-tab '+(y===harvestYear?'active':'')+'" onclick="harvestYear='+y+';renderHarvestPage()">'+y+'</div>';
-      }).join('')+'</div>';
-    }
-
-    if(!filtered.length){
-      html+='<div class="empty"><div class="empty-icon">📊</div><p>Немає зборів за '+harvestYear+'.</p></div>';
-    }else{
+    if(years.length){html+='<div class="year-tabs">'+years.map(function(y){return'<div class="year-tab '+(y===harvestYear?'active':'')+'" onclick="harvestYear='+y+';renderHarvestPage()">'+y+'</div>';}).join('')+'</div>';}
+    if(!filtered.length){html+='<div class="empty"><div class="empty-icon">📊</div><p>Немає зборів за '+harvestYear+'.</p></div>';}
+    else{
       filtered.forEach(function(h){
         var p=plants.find(function(x){return x.id===h.plant_id;});
         var v=p?cache.varieties.find(function(x){return x.id===p.variety_id;}):null;
         var loc=p?locs.find(function(l){return l.id===p.location_id;}):null;
         var stars=h.rating?('⭐'.repeat(Math.round(h.rating/2))+'☆'.repeat(5-Math.round(h.rating/2))):'';
+        // Cycle info
+        var plantDate=p?p.plant_date:null;
+        var cycleDays=plantDate&&h.harvest_date?diffDays(plantDate,h.harvest_date):null;
+        // Drying
+        var dryDays=h.dry_start_date&&h.dry_end_date?diffDays(h.dry_start_date,h.dry_end_date):null;
+        var shrink=h.wet_weight_g&&h.dry_weight_g?Math.round((1-h.dry_weight_g/h.wet_weight_g)*100):null;
         html+='<div class="harv-card">'+
-          '<div class="harv-top">'+
-            '<div style="flex:1;min-width:0">'+
+          '<div class="harv-card-top">'+
+            (h.photo_url?'<img src="'+h.photo_url+'" class="harv-thumb" alt="фото">':'<div class="harv-thumb-placeholder">🌿</div>')+
+            '<div class="harv-info">'+
               '<div class="harv-name">'+(p&&p.name?p.name+' · ':'')+( v?v.name:'Невідомо')+'</div>'+
-              '<div class="harv-meta">'+(loc?loc.name+' · ':'')+( v&&v.brand?v.brand:'')+' · '+(v&&v.seed_type==='auto'?'Авто':'Фото')+'</div>'+
-              '<div class="harv-meta">📅 '+fmt(h.harvest_date)+'</div>'+
-              (h.notes?'<div class="harv-meta" style="color:var(--text2);margin-top:4px">'+h.notes+'</div>':'')+
+              '<div class="harv-meta">'+(loc?loc.name+' · ':'')+( v&&v.brand?v.brand+' · ':'')+fmt(h.harvest_date)+'</div>'+
+              (h.rating?'<div class="harv-meta" style="color:var(--amber)">'+h.rating+'/10 '+stars+'</div>':'')+
             '</div>'+
-            '<div style="text-align:right;flex-shrink:0;margin-left:10px">'+
+            '<div class="harv-right">'+
               '<div class="harv-weight">'+(h.dry_weight_g||0)+'г</div>'+
-              (h.rating?'<div style="font-size:13px;color:var(--amber)">'+h.rating+'/10</div><div style="font-size:12px">'+stars+'</div>':'')+
+              (h.wet_weight_g?'<div style="font-size:11px;color:var(--text3)">Вол: '+h.wet_weight_g+'г</div>':'')+
+              (shrink!==null?'<div style="font-size:11px;color:var(--blue)">-'+shrink+'%</div>':'')+
             '</div>'+
           '</div>'+
-          (h.photo_url?'<img src="'+h.photo_url+'" class="harv-photo" alt="Фото">':'')+
+          (cycleDays!==null||dryDays!==null?
+            '<div class="harv-cycle">'+
+              (plantDate?'<div class="harv-cycle-item"><div class="harv-cycle-label">Посадка</div><div class="harv-cycle-val">'+fmt(plantDate)+'</div></div>':'')+ 
+              '<div class="harv-cycle-item"><div class="harv-cycle-label">Збір</div><div class="harv-cycle-val">'+fmt(h.harvest_date)+'</div></div>'+
+              (cycleDays!==null?'<div class="harv-cycle-item"><div class="harv-cycle-label">Цикл</div><div class="harv-cycle-val">'+cycleDays+' дн</div></div>':'')+
+              (dryDays!==null?'<div class="harv-cycle-item"><div class="harv-cycle-label">Сушка</div><div class="harv-cycle-val">'+dryDays+' дн</div></div>':'')+
+            '</div>':'')+ 
+          (h.notes?'<div class="harv-notes">'+h.notes+'</div>':'')+
+          '<div class="harv-actions">'+
+            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(\''+h.id+'\')">✏️ Редагувати</button>'+
+            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(\''+h.id+'\')">🗑</button>'+
+          '</div>'+
         '</div>';
       });
     }
@@ -1040,318 +975,280 @@ async function renderHarvestPage(){
   }catch(e){pg.innerHTML='<div class="empty"><p>Помилка: '+e.message+'</p></div>';}
 }
 
-// ═══ CALENDAR ═══
+// Calendar
 async function renderCalendar(){
-  var pg=document.getElementById('page-calendar');
-  pg.innerHTML='<div class="spinner"></div>';
+  var pg=document.getElementById('page-calendar');pg.innerHTML='<div class="spinner"></div>';
   try{
     if(!cache.varieties.length)cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
-    var plants=await sb('plants','GET',null,'?is_harvested=eq.false&order=plant_date.asc');
+    var plants=await sb('plants','GET',null,'?order=plant_date.asc');
     var locs=await sb('locations','GET',null,'?select=id,name');
-    if(!plants.length){
-      pg.innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>Додай рослини щоб бачити їх в календарі.</p></div>';
-      return;
-    }
+    if(!plants.length){pg.innerHTML='<div class="empty"><div class="empty-icon">📅</div><p>Додай рослини щоб бачити їх в календарі.</p></div>';return;}
 
-    // Build event and period maps
-    var eventMap={};
-    var periodMap={};
+    // Find earliest plant date
+    var earliest=plants.reduce(function(a,p){return p.plant_date<a?p.plant_date:a;},today());
+    var earliestYear=new Date(earliest+'T12:00:00').getFullYear();
+    var nowDate=new Date();
+    var nowYear=nowDate.getFullYear(),nowMonth=nowDate.getMonth();
+    var maxYear=nowYear+2;
 
-    function addEvt(date,obj){
-      if(!date)return;
-      if(!eventMap[date])eventMap[date]=[];
-      eventMap[date].push(obj);
-    }
-    function addPeriod(start,end,type,label){
-      if(!start||!end||start>end)return;
-      var cur=start;
-      while(cur<=end){
-        if(!periodMap[cur])periodMap[cur]={types:[],labels:[]};
-        if(periodMap[cur].types.indexOf(type)<0)periodMap[cur].types.push(type);
-        // avoid duplicate labels
-        var already=periodMap[cur].labels.some(function(l){return l.label===label&&l.type===type;});
-        if(!already)periodMap[cur].labels.push({type:type,label:label});
+    // Build event/period maps
+    var evtMap={},perMap={};
+    function addEvt(d,obj){if(!d){return;}if(!evtMap[d])evtMap[d]=[];evtMap[d].push(obj);}
+    function addPer(s,e,type,label){
+      if(!s||!e||s>e)return;var cur=s;
+      while(cur<=e){
+        if(!perMap[cur])perMap[cur]={types:[],labels:[]};
+        if(perMap[cur].types.indexOf(type)<0)perMap[cur].types.push(type);
+        var dup=perMap[cur].labels.some(function(l){return l.type===type&&l.label===label;});
+        if(!dup)perMap[cur].labels.push({type:type,label:label});
         cur=addDays(cur,1);
       }
     }
-
     plants.forEach(function(p){
-      var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
-      if(!v)return;
-      var s=calcStages(p,v);
-      var loc=locs.find(function(l){return l.id===p.location_id;});
+      var v=cache.varieties.find(function(x){return x.id===p.variety_id;});if(!v)return;
+      var s=calcStages(p,v),loc=locs.find(function(l){return l.id===p.location_id;});
       var label=(p.name||v.name)+(loc?' ('+loc.name+')':'');
       addEvt(p.plant_date,{label:label,type:'plant'});
       addEvt(s.harvest,{label:label,type:'harvest'});
-      addPeriod(s.flower,addDays(s.ripening,-1),'flower',label+' — Цвітіння');
-      addPeriod(s.ripening,addDays(s.harvest,-1),'ripening',label+' — Дозрівання');
+      addPer(s.growth,addDays(s.pre_flower||s.flower,-1),'growth',label+' — Ріст');
+      addPer(s.flower,addDays(s.ripening,-1),'flower',label+' — Цвітіння');
+      addPer(s.ripening,addDays(s.harvest,-1),'ripening',label+' — Дозрівання');
     });
+    window._evtMap=evtMap;window._perMap=perMap;
 
-    // Store globally for popup
-    window._evtMap=eventMap;
-    window._perMap=periodMap;
+    // Determine visible window: calOffset is start month offset from Jan of earliestYear
+    var totalMonthsStart=(earliestYear-nowYear)*12+(0-nowMonth); // months before now
+    var totalMonthsEnd=24; // months after now
+    // clamp calOffset
+    if(calOffset<totalMonthsStart)calOffset=totalMonthsStart;
+    if(calOffset>totalMonthsEnd-1)calOffset=totalMonthsEnd-1;
 
-    // Generate months — current year from Jan + next year partial
-    var now=new Date();
-    var startYear=now.getFullYear();
-    // show all 12 months of current year + up to 6 months ahead
-    var months=[];
-    for(var m=0;m<12;m++){
-      months.push({year:startYear,month:m});
-    }
-    // add remaining months of next year if needed
-    for(var m2=0;m2<6;m2++){
-      months.push({year:startYear+1,month:m2});
-    }
+    // Show 12 months starting from calOffset relative to now
+    var startYear=nowYear+Math.floor((nowMonth+calOffset)/12);
+    var startMonth=(nowMonth+calOffset+120)%12;
+    // label for nav
+    var startLabel=new Date(startYear,startMonth,1).toLocaleDateString('uk-UA',{month:'long',year:'numeric'});
+    var endMo=(startMonth+11)%12,endYr=startYear+Math.floor((startMonth+11)/12);
+    var endLabel=new Date(endYr,endMo,1).toLocaleDateString('uk-UA',{month:'long',year:'numeric'});
 
     var legend='<div class="cal-legend">'+
-      '<div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--blue)"></div>Посадка</div>'+
-      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(106,27,154,.25)"></div>Цвітіння</div>'+
-      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(230,81,0,.25)"></div>Дозрівання</div>'+
+      '<div class="cal-legend-item"><div class="cal-legend-dot" style="background:#1565c0"></div>Посадка</div>'+
+      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(45,122,58,.2)"></div>Ріст</div>'+
+      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(106,27,154,.2)"></div>Цвітіння</div>'+
+      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(230,81,0,.2)"></div>Дозрівання</div>'+
       '<div class="cal-legend-item"><div class="cal-legend-dot" style="background:#c2185b"></div>Збір</div>'+
     '</div>';
 
-    // Build grid rows of 2 months each
+    var nav='<div class="cal-nav">'+
+      '<button class="cal-nav-btn" onclick="calOffset-=12;renderCalendar()">← Назад</button>'+
+      '<span class="cal-period-label">'+startLabel.split(' ')[1]+'</span>'+
+      '<button class="cal-nav-btn" onclick="calOffset+=12;renderCalendar()">Вперед →</button>'+
+    '</div>';
+
     var rows='';
-    for(var i=0;i<months.length;i+=2){
+    for(var m=0;m<12;m+=2){
       rows+='<div class="cal-grid-2col">';
-      for(var j=i;j<Math.min(i+2,months.length);j++){
-        rows+=buildCalMonth(months[j].year,months[j].month,eventMap,periodMap);
+      for(var j=m;j<Math.min(m+2,12);j++){
+        var yr=startYear+Math.floor((startMonth+j)/12);
+        var mo=(startMonth+j)%12;
+        rows+=buildCalMonth(yr,mo,evtMap,perMap);
       }
       rows+='</div>';
     }
-
-    pg.innerHTML=legend+rows;
+    pg.innerHTML=legend+nav+rows;
   }catch(e){pg.innerHTML='<div class="empty"><p>Помилка: '+e.message+'</p></div>';}
 }
 
-function buildCalMonth(year,month,eventMap,periodMap){
-  var daysInMonth=new Date(year,month+1,0).getDate();
-  var startDow=(new Date(year,month,1).getDay()+6)%7;
-  var monthName=new Date(year,month,1).toLocaleDateString('uk-UA',{month:'long',year:'numeric'});
+function buildCalMonth(year,month,evtMap,perMap){
+  var dim=new Date(year,month+1,0).getDate();
+  var sdow=(new Date(year,month,1).getDay()+6)%7;
+  var mName=new Date(year,month,1).toLocaleDateString('uk-UA',{month:'short',year:'2-digit'});
   var t=today();
-
-  var html='<div class="cal-month">'+
-    '<div class="cal-month-title">'+monthName+'</div>'+
-    '<div class="cal-days-grid">';
-
+  var html='<div class="cal-month"><div class="cal-month-title">'+mName+'</div><div class="cal-days-grid">';
   ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
-  for(var i=0;i<startDow;i++)html+='<div></div>';
-
-  for(var day=1;day<=daysInMonth;day++){
+  for(var i=0;i<sdow;i++)html+='<div></div>';
+  for(var day=1;day<=dim;day++){
     var ds=year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
     var isToday=ds===t;
-    var dayEvts=eventMap[ds]||[];
-    var periods=periodMap[ds];
+    var dayEvts=evtMap[ds]||[];var periods=perMap[ds];
     var isPlant=dayEvts.some(function(e){return e.type==='plant';});
-    var isHarvest=dayEvts.some(function(e){return e.type==='harvest';});
+    var isHarv=dayEvts.some(function(e){return e.type==='harvest';});
     var hasPopup=dayEvts.length>0||(periods&&periods.labels.length>0);
-
     var cls='cal-day';
     if(isToday)cls+=' is-today';
     else if(isPlant)cls+=' ev-plant';
-    else if(isHarvest)cls+=' ev-harvest';
+    else if(isHarv)cls+=' ev-harvest-day';
     else if(periods){
       if(periods.types.indexOf('ripening')>=0)cls+=' period-ripening';
       else if(periods.types.indexOf('flower')>=0)cls+=' period-flower';
+      else if(periods.types.indexOf('growth')>=0)cls+=' period-growth';
     }
     if(hasPopup)cls+=' has-popup';
-
-    html+='<div class="'+cls+'"'+(hasPopup?' onclick="showCalPopup(\''+ds+'\')\"':'')+'>'+day+'</div>';
+    html+='<div class="'+cls+'"'+(hasPopup?' onclick="showCalPopup(\''+ds+'\')"':'')+'>'+day+'</div>';
   }
-  html+='</div></div>';
-  return html;
+  html+='</div></div>';return html;
 }
 
 function showCalPopup(ds){
-  var evtMap=window._evtMap||{};
-  var perMap=window._perMap||{};
-  var dayEvts=evtMap[ds]||[];
-  var periods=perMap[ds];
+  var em=window._evtMap||{},pm=window._perMap||{};
+  var dayEvts=em[ds]||[];var periods=pm[ds];
   var d=new Date(ds+'T12:00:00');
   document.getElementById('cal-popup-date').textContent=d.toLocaleDateString('uk-UA',{day:'numeric',month:'long',year:'numeric'});
   var html='';
-  dayEvts.forEach(function(e){
-    var icon=e.type==='plant'?'🌱':'✂️';
-    html+='<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">'+icon+' <b>'+e.label+'</b></div>';
-  });
+  dayEvts.forEach(function(e){html+='<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">'+(e.type==='plant'?'🌱':'✂️')+' <b>'+e.label+'</b></div>';});
   if(periods&&periods.labels.length){
-    var seen={};
-    periods.labels.forEach(function(l){
-      var key=l.type+'|'+l.label;
-      if(seen[key])return;seen[key]=true;
-      var icon=l.type==='flower'?'🌸':'🟡';
-      html+='<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">'+icon+' '+l.label+'</div>';
-    });
+    var seen={};periods.labels.forEach(function(l){var k=l.type+'|'+l.label;if(seen[k])return;seen[k]=true;var ic=l.type==='flower'?'🌸':l.type==='ripening'?'🟡':'🌿';html+='<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">'+ic+' '+l.label+'</div>';});
   }
   if(!html)html='<div style="color:var(--text3);font-size:13px;padding:8px 0">Немає подій</div>';
-  document.getElementById('cal-popup-content').innerHTML=html;
-  openPopup('cal-popup');
+  document.getElementById('cal-popup-content').innerHTML=html;openPopup('cal-popup');
 }
 
-// ═══ FINANCE ═══
+// Finance
 async function renderFinance(){
-  var pg=document.getElementById('page-finance');
-  pg.innerHTML='<div class="spinner"></div>';
+  var pg=document.getElementById('page-finance');pg.innerHTML='<div class="spinner"></div>';
   try{
     if(!cache.varieties.length)cache.varieties=await sb('varieties','GET',null,'?order=name.asc');
-    var allPlants=await sb('plants','GET',null,'?select=id,name,variety_id,location_id,plant_date,is_harvested');
+    var allPlants=await sb('plants','GET',null,'?select=id,name,variety_id,plant_date,is_harvested');
     var allHarvests=await sb('harvests','GET',null,'?select=plant_id,dry_weight_g,harvest_date');
     var allExpenses=await sb('expenses','GET',null,'?order=created_at.desc');
     var settings=await sb('year_settings','GET',null,'?order=year.desc');
-
     var curYear=new Date().getFullYear();
-    var allYears=[...new Set([
-      ...allExpenses.map(function(e){return e.year;}).filter(Boolean),
-      ...allHarvests.map(function(h){return getYear(h.harvest_date);}).filter(Boolean),
-      ...allPlants.map(function(p){return getYear(p.plant_date);}).filter(Boolean),
-      curYear
-    ])].sort(function(a,b){return b-a;});
+    var allYears=[...new Set([...allExpenses.map(function(e){return e.year;}),...allHarvests.map(function(h){return getYear(h.harvest_date);}),...allPlants.map(function(p){return getYear(p.plant_date);}),curYear].filter(Boolean))].sort(function(a,b){return b-a;});
     if(!allYears.includes(financeYear))financeYear=allYears[0]||curYear;
+    var ys=settings.find(function(s){return s.year===financeYear;})||{price_per_gram:0};
+    var ppg=parseFloat(ys.price_per_gram)||0;
+    var yExp=allExpenses.filter(function(e){return e.year===financeYear;});
+    var yPlants=allPlants.filter(function(p){return getYear(p.plant_date)===financeYear;});
+    var yHarv=allHarvests.filter(function(h){return getYear(h.harvest_date)===financeYear;});
+    var seedExp=yExp.filter(function(e){return e.category==='seeds';});
+    var genExp=yExp.filter(function(e){return e.category!=='seeds';});
+    var CAT={soil:'🪴 Ґрунт',pots:'🫙 Горщики',fertilizer:'🧪 Добрива',seeds:'🌱 Насіння',other:'📦 Різне'};
+    function catSum(cat){return yExp.filter(function(e){return e.category===cat;}).reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);}
+    var soilA=catSum('soil'),potsA=catSum('pots'),fertA=catSum('fertilizer'),seedA=catSum('seeds'),otherA=catSum('other');
+    var totalExp=soilA+potsA+fertA+seedA+otherA;
+    var totalW=yHarv.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
+    var revenue=totalW*ppg,profit=revenue-totalExp;
+    var genPerPlant=(soilA+potsA+fertA+otherA)/(yPlants.length||1);
 
-    var yearSetting=settings.find(function(s){return s.year===financeYear;})||{price_per_gram:0};
-    var pricePerGram=parseFloat(yearSetting.price_per_gram)||0;
-    var yearExpenses=allExpenses.filter(function(e){return e.year===financeYear;});
-    var yearPlants=allPlants.filter(function(p){return getYear(p.plant_date)===financeYear;});
-    var yearHarvests=allHarvests.filter(function(h){return getYear(h.harvest_date)===financeYear;});
+    var html='<div class="year-tabs">'+allYears.map(function(y){return'<div class="year-tab '+(y===financeYear?'active':'')+'" onclick="financeYear='+y+';renderFinance()">'+y+'</div>';}).join('')+'</div>';
 
-    var CAT={'soil':'🪴 Ґрунт','pots':'🫙 Горщики','fertilizer':'🧪 Добрива','seeds':'🌱 Насіння','other':'📦 Різне'};
-    var generalExp=yearExpenses.filter(function(e){return e.category!=='seeds';});
-    var seedExp=yearExpenses.filter(function(e){return e.category==='seeds';});
-    function catSum(cat){return generalExp.filter(function(e){return e.category===cat;}).reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);}
-    var soilAmt=catSum('soil');
-    var potsAmt=catSum('pots');
-    var fertAmt=catSum('fertilizer');
-    var otherAmt=catSum('other');
-    var totalGeneral=soilAmt+potsAmt+fertAmt+otherAmt;
-    var totalSeeds=seedExp.reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);
-    var totalExp=totalGeneral+totalSeeds;
-    var totalWeight=yearHarvests.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
-    var revenue=totalWeight*pricePerGram;
-    var profit=revenue-totalExp;
-    var plantCount=yearPlants.length||1;
-    var generalPerPlant=totalGeneral/plantCount;
-
-    var html='<div class="year-tabs">'+allYears.map(function(y){
-      return '<div class="year-tab '+(y===financeYear?'active':'')+'" onclick="financeYear='+y+';renderFinance()">'+y+'</div>';
-    }).join('')+'</div>';
-
-    html+='<div class="card" style="margin-bottom:10px">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'+
-        '<div class="card-title">📊 P&L '+financeYear+'</div>'+
-        '<button class="btn btn-ghost btn-sm" onclick="openPriceModal('+financeYear+','+pricePerGram+')">💰 '+(pricePerGram?pricePerGram+' ₴/г':'Ціна/г')+'</button>'+
-      '</div>'+
-      '<div class="pnl-row"><span class="pnl-label">📦 Дохід ('+totalWeight.toFixed(1)+'г × '+pricePerGram+'₴)</span><span class="pnl-val pos">'+fmtUAH(revenue)+'</span></div>'+
-      '<div class="pnl-row"><span class="pnl-label">🪴 Ґрунт</span><span class="pnl-val neg">−'+fmtUAH(soilAmt)+'</span></div>'+
-      '<div class="pnl-row"><span class="pnl-label">🫙 Горщики</span><span class="pnl-val neg">−'+fmtUAH(potsAmt)+'</span></div>'+
-      '<div class="pnl-row"><span class="pnl-label">🧪 Добрива</span><span class="pnl-val neg">−'+fmtUAH(fertAmt)+'</span></div>'+
-      '<div class="pnl-row"><span class="pnl-label">🌱 Насіння</span><span class="pnl-val neg">−'+fmtUAH(totalSeeds)+'</span></div>'+
-      '<div class="pnl-row"><span class="pnl-label">📦 Різне</span><span class="pnl-val neg">−'+fmtUAH(otherAmt)+'</span></div>'+
-      '<div class="pnl-total">'+
-        '<span class="pnl-total-label">'+(profit>=0?'✅ Прибуток':'❌ Збиток')+'</span>'+
-        '<span class="pnl-total-val '+(profit>=0?'pos':'neg')+'">'+(profit>=0?'':'-')+fmtUAH(Math.abs(profit))+'</span>'+
-      '</div>'+
+    // Finance tabs
+    html+='<div class="fin-tabs">'+
+      '<button class="fin-tab '+(finTab==='summary'?'active':'')+'" onclick="finTab=\'summary\';renderFinance()">Підсумок</button>'+
+      '<button class="fin-tab '+(finTab==='expenses'?'active':'')+'" onclick="finTab=\'expenses\';renderFinance()">Витрати</button>'+
+      '<button class="fin-tab '+(finTab==='plants'?'active':'')+'" onclick="finTab=\'plants\';renderFinance()">По рослинах</button>'+
     '</div>';
 
-    if(yearPlants.length){
-      html+='<div class="card" style="margin-bottom:10px"><div class="card-title" style="margin-bottom:10px">🌱 P&L по рослинах</div>';
-      yearPlants.forEach(function(p){
-        var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
-        var pHarv=yearHarvests.filter(function(h){return h.plant_id===p.id;});
-        var pWeight=pHarv.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
-        var pRevenue=pWeight*pricePerGram;
-        var pSeedCost=seedExp.filter(function(e){return e.plant_id===p.id;}).reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);
-        var pCost=generalPerPlant+pSeedCost;
-        var pProfit=pRevenue-pCost;
-        html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">'+
-          '<div>'+
-            '<div style="font-size:14px;font-weight:600">'+(p.name||v&&v.name||'Рослина')+'</div>'+
-            '<div style="font-size:11px;color:var(--text3)">'+pWeight.toFixed(1)+'г · витрати '+fmtUAH(pCost)+'</div>'+
-          '</div>'+
-          '<span style="font-size:15px;font-weight:700;color:'+(pProfit>=0?'var(--green)':'var(--red)')+';">'+(pProfit>=0?'+':'')+fmtUAH(pProfit)+'</span>'+
+    if(finTab==='summary'){
+      // P&L compact cards
+      html+='<div class="pnl-cards">'+
+        '<div class="pnl-card neutral"><div class="pnl-card-val">'+fmtUAH(revenue)+'</div><div class="pnl-card-label">📦 Дохід ('+totalW.toFixed(1)+'г × '+ppg+'₴)</div></div>'+
+        '<div class="pnl-card neutral"><div class="pnl-card-val">'+fmtUAH(totalExp)+'</div><div class="pnl-card-label">💸 Витрати всього</div></div>'+
+        '<div class="pnl-card '+(profit>=0?'profit':'loss')+'"><div class="pnl-card-val">'+(profit>=0?'':'-')+fmtUAH(Math.abs(profit))+'</div><div class="pnl-card-label">'+(profit>=0?'✅ Прибуток':'❌ Збиток')+'</div></div>'+
+        '<div class="pnl-card neutral"><div class="pnl-card-val">'+ppg+'₴</div><div class="pnl-card-label"><button class="btn btn-ghost btn-sm" onclick="openPriceModal('+financeYear+','+ppg+')" style="font-size:11px">💰 Ціна/г</button></div></div>'+
+      '</div>';
+      // Category breakdown
+      html+='<div class="card"><div class="card-title" style="margin-bottom:10px">Витрати по категоріях</div>';
+      [{cat:'soil',amt:soilA},{cat:'pots',amt:potsA},{cat:'fertilizer',amt:fertA},{cat:'seeds',amt:seedA},{cat:'other',amt:otherA}].forEach(function(c){
+        if(c.amt===0)return;
+        html+='<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)">'+
+          '<span style="font-size:13px">'+CAT[c.cat]+'</span>'+
+          '<span style="font-size:13px;font-weight:600;color:var(--red)">−'+fmtUAH(c.amt)+'</span>'+
         '</div>';
       });
       html+='</div>';
-    }
-
-    html+='<div class="card">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'+
-        '<div class="card-title">💸 Витрати '+financeYear+'</div>'+
-        '<button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ Додати</button>'+
-      '</div>';
-
-    if(!yearExpenses.length){
-      html+='<div style="color:var(--text3);font-size:13px;padding:8px 0">Немає витрат за '+financeYear+'.</div>';
-    }else{
-      yearExpenses.forEach(function(e){
-        html+='<div class="exp-item">'+
-          '<div>'+
-            '<div style="font-size:14px;font-weight:500">'+(CAT[e.category]||e.category)+'</div>'+
-            (e.notes?'<div style="font-size:12px;color:var(--text3)">'+e.notes+'</div>':'')+
+    }else if(finTab==='expenses'){
+      html+='<div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-primary btn-sm" onclick="openExpenseModal()">＋ Додати витрату</button></div>';
+      ['soil','pots','fertilizer','seeds','other'].forEach(function(cat){
+        var catItems=yExp.filter(function(e){return e.category===cat;});
+        var catTotal=catItems.reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);
+        if(catTotal===0&&catItems.length===0)return;
+        html+='<div class="exp-cat-card">'+
+          '<div class="exp-cat-header" onclick="toggleExpCat(\'cat-'+cat+'\')">'+
+            '<div class="exp-cat-title">'+CAT[cat]+'<span style="font-size:12px;color:var(--text3)">('+catItems.length+')</span></div>'+
+            '<div style="display:flex;align-items:center;gap:8px">'+
+              '<span class="exp-cat-total">'+fmtUAH(catTotal)+'</span>'+
+              '<span class="exp-cat-chevron" id="ch-cat-'+cat+'">▾</span>'+
+            '</div>'+
           '</div>'+
-          '<div style="display:flex;align-items:center;gap:8px">'+
-            '<span style="font-size:14px;font-weight:600;color:var(--red)">−'+fmtUAH(e.amount_uah)+'</span>'+
-            '<button class="btn btn-danger btn-sm" onclick="deleteExpense(\''+e.id+'\')">🗑</button>'+
-          '</div>'+
-        '</div>';
+          '<div class="exp-cat-body" id="cat-'+cat+'">';
+        if(!catItems.length){html+='<div style="padding:10px 0;font-size:13px;color:var(--text3)">Немає витрат</div>';}
+        else{catItems.forEach(function(e){
+          html+='<div class="exp-item">'+
+            '<div><div style="font-size:13px">'+(e.notes||CAT[e.category])+'</div></div>'+
+            '<div style="display:flex;align-items:center;gap:6px">'+
+              '<span style="font-size:13px;font-weight:600;color:var(--red)">−'+fmtUAH(e.amount_uah)+'</span>'+
+              '<button class="btn btn-danger btn-sm" onclick="deleteExpense(\''+e.id+'\')">🗑</button>'+
+            '</div>'+
+          '</div>';
+        });}
+        html+='</div></div>';
       });
+    }else if(finTab==='plants'){
+      if(!yPlants.length){html+='<div class="empty"><div class="empty-icon">🌱</div><p>Немає рослин за '+financeYear+'.</p></div>';}
+      else{
+        html+='<div class="card">';
+        yPlants.forEach(function(p){
+          var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
+          var ph=yHarv.filter(function(h){return h.plant_id===p.id;});
+          var pw=ph.reduce(function(a,h){return a+(parseFloat(h.dry_weight_g)||0);},0);
+          var pr=pw*ppg;
+          var ps=seedExp.filter(function(e){return e.plant_id===p.id;}).reduce(function(a,e){return a+(parseFloat(e.amount_uah)||0);},0);
+          var pc=genPerPlant+ps;var pp2=pr-pc;
+          html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">'+
+            '<div>'+
+              '<div style="font-size:14px;font-weight:600">'+(p.name||v&&v.name||'Рослина')+'</div>'+
+              '<div style="font-size:11px;color:var(--text3)">'+pw.toFixed(1)+'г · витрати '+fmtUAH(pc)+'</div>'+
+            '</div>'+
+            '<span style="font-size:15px;font-weight:700;color:'+(pp2>=0?'var(--green)':'var(--red)')+';">'+(pp2>=0?'+':'')+fmtUAH(pp2)+'</span>'+
+          '</div>';
+        });
+        html+='</div>';
+      }
     }
-    html+='</div>';
     pg.innerHTML=html;
   }catch(e){pg.innerHTML='<div class="empty"><p>Помилка: '+e.message+'</p></div>';}
 }
 
-function openExpenseModal(){
-  clearErr('exp-error');
-  document.getElementById('exp-amount').value='';
-  document.getElementById('exp-notes').value='';
-  document.getElementById('exp-category').value='soil';
-  openModal('modal-expense');
+function toggleExpCat(id){
+  var el=document.getElementById(id);var ch=document.getElementById('ch-'+id);if(!el)return;
+  var open=el.classList.toggle('open');if(ch)ch.className='exp-cat-chevron'+(open?' open':'');
 }
-
+function openExpenseModal(){
+  clearErr('exp-error');['exp-amount','exp-notes'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('exp-category').value='soil';openModal('modal-expense');
+}
 async function saveExpense(){
-  var amount=parseFloat(document.getElementById('exp-amount').value);
-  if(!amount||amount<=0){showErr('exp-error','⚠️ Введи суму');return;}
+  var amt=parseFloat(document.getElementById('exp-amount').value);
+  if(!amt||amt<=0){showErr('exp-error','⚠️ Введи суму');return;}
   try{
-    await sb('expenses','POST',{year:financeYear,category:document.getElementById('exp-category').value,amount_uah:amount,notes:document.getElementById('exp-notes').value.trim()});
-    closeModal('modal-expense');toast('Витрату додано ✅');renderFinance();
+    await sb('expenses','POST',{year:financeYear,category:document.getElementById('exp-category').value,amount_uah:amt,notes:document.getElementById('exp-notes').value.trim()});
+    closeModal('modal-expense');toast('Додано ✅');renderFinance();
   }catch(e){showErr('exp-error','❌ '+parseErr(e));}
 }
-
 async function deleteExpense(id){
-  if(!confirm('Видалити витрату?'))return;
+  if(!confirm('Видалити?'))return;
   try{await sb('expenses','DELETE',null,'?id=eq.'+id);toast('Видалено');renderFinance();}
   catch(e){toast('Помилка: '+parseErr(e));}
 }
-
-function openPriceModal(year,current){
+function openPriceModal(year,cur){
   document.getElementById('modal-price-year').textContent='Рік: '+year;
-  document.getElementById('price-val').value=current||'';
-  openModal('modal-price');
+  document.getElementById('price-val').value=cur||'';openModal('modal-price');
 }
-
 async function savePrice(){
   var val=parseFloat(document.getElementById('price-val').value)||0;
   try{
-    var existing=await sb('year_settings','GET',null,'?year=eq.'+financeYear);
-    if(existing&&existing.length)await sb('year_settings','PATCH',{price_per_gram:val},'?year=eq.'+financeYear);
+    var ex=await sb('year_settings','GET',null,'?year=eq.'+financeYear);
+    if(ex&&ex.length)await sb('year_settings','PATCH',{price_per_gram:val},'?year=eq.'+financeYear);
     else await sb('year_settings','POST',{year:financeYear,price_per_gram:val});
-    closeModal('modal-price');toast('Ціну збережено ✅');renderFinance();
+    closeModal('modal-price');toast('Збережено ✅');renderFinance();
   }catch(e){toast('Помилка: '+parseErr(e));}
 }
 
-// ═══ INIT ═══
-function initApp(){
-  updateRating(5);
-  navigate('locations');
-}
-
-if(sessionStorage.getItem('gl_auth')){
-  document.getElementById('login-screen').style.display='none';
-  initApp();
-}else{
-  setTimeout(function(){document.getElementById('login-input').focus();},300);
-}
+// Init
+function initApp(){updateRating(5);navigate('locations');}
+if(sessionStorage.getItem('gl_auth')){document.getElementById('login-screen').style.display='none';initApp();}
+else{setTimeout(function(){document.getElementById('login-input').focus();},300);}
 </script>
 </body>
 </html>
