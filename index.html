@@ -35,8 +35,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .popup{background:var(--bg2);border-radius:var(--radius);padding:20px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
 .popup-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .popup-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1}
-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:90}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:90;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:19px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px}
+.lang-toggle{display:flex;background:var(--bg3);border-radius:20px;padding:3px;gap:2px;flex-shrink:0}
+.lang-btn{padding:4px 10px;border:none;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;background:none;color:var(--text3);transition:all .15s}
+.lang-btn.active{background:var(--green);color:#fff}
 .tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:90;padding-bottom:env(safe-area-inset-bottom)}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px;cursor:pointer;border:none;background:none;color:var(--text3);font-size:10px;gap:3px;transition:color .15s}
 .tab.active{color:var(--green)}
@@ -227,9 +230,9 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="login-card">
     <div class="login-logo">🌿</div>
     <div class="login-title">GrowLog</div>
-    <div class="login-sub">Введи пароль для входу</div>
+    <div class="login-sub" id="login-sub-text">Введи пароль для входу</div>
     <input class="login-input" type="password" id="login-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkLogin()">
-    <button class="login-btn" onclick="checkLogin()">Увійти</button>
+    <button class="login-btn" onclick="checkLogin()" id="login-btn-text">Увійти</button>
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
@@ -241,7 +244,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div id="cal-popup-content"></div>
   </div>
 </div>
-<header><div class="logo">🌿 GrowLog</div></header>
+<header>
+  <div class="logo">🌿 GrowLog</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-ua" onclick="setLang('ua')">UA</button>
+    <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
 <main>
   <div id="page-locations" class="page active"><div class="spinner"></div></div>
   <div id="page-plants" class="page"></div>
@@ -249,11 +258,11 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="page-harvest" class="page"><div class="spinner"></div></div>
   <div id="page-finance" class="page"><div class="spinner"></div></div>
 </main>
-<nav class="tabbar">
-  <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">🏕️</span>Локації</button>
-  <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">📅</span>Календар</button>
-  <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">⚖️</span>Врожай</button>
-  <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">💰</span>Фінанси</button>
+<nav class="tabbar" id="tabbar">
+  <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">🏕️</span><span class="tab-lbl" data-t="locations">Локації</span></button>
+  <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">📅</span><span class="tab-lbl" data-t="calendar">Календар</span></button>
+  <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">⚖️</span><span class="tab-lbl" data-t="harvest">Врожай</span></button>
+  <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">💰</span><span class="tab-lbl" data-t="finance">Фінанси</span></button>
 </nav>
 <button class="btn-fab" id="fab" onclick="fabAction()">＋</button>
 
@@ -424,6 +433,124 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 <script>
 const SB_URL='https://mpxvsyqkocowamwgqzcy.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
+
+// ═══ I18N ═══
+var LANG = localStorage.getItem('gl_lang') || 'ua';
+var T = {
+  ua: {
+    locations:'Локації', calendar:'Календар', harvest:'Врожай', finance:'Фінанси',
+    newLocation:'Нова локація', editLocation:'Редагувати локацію', addPlant:'Додати рослину', editPlant:'Редагувати рослину',
+    save:'Зберегти', cancel:'Скасувати', add:'Додати', edit:'✏️', del:'🗑', back:'← Назад',
+    name:'Назва', notes:'Нотатки', optional:'(опційно)', required:'обов'язкові поля',
+    locNoPlants:'Немає локацій.
+Натисни ＋ щоб додати.',
+    active:'Активних', auto:'Авто', photo:'Фото', growth:'Ріст', preflower:'Передцвіт',
+    flowering:'Цвітіння', ripening:'Дозрів.', toHarvest:'До збору', harvested:'Зібрано',
+    plantName:'Ім'я / номер', plantDate:'Дата посадки', pot:'Горщик (л)', soil:'Ґрунт',
+    link:'Посилання', variety:'Назва сорту', seedbank:'Сідбанк / виробник',
+    type:'Тип', autoflower:'🤖 Автоцвіт', photoperiod:'☀️ Фотоперіод',
+    flowerFrom:'Цвітіння від (днів)', flowerTo:'Цвітіння до (днів)',
+    seedCost:'Ціна насінини (UAH)', harvestBtn:'✂️ Збір', stageBtn:'📅 Стадія',
+    harvestDate:'Дата збору', wetWeight:'Вологий вес (г)', dryWeight:'Сухий вес (г)',
+    dryStart:'Початок сушки', dryEnd:'Кінець сушки', rating:'Оцінка сорту 1–10',
+    harvestNotes:'Нотатки', harvestPhoto:'Фото врожаю', addPhoto:'📷 Додати фото',
+    deletePhoto:'🗑 Видалити фото', saveHarvest:'Зберегти', editHarvest:'Редагувати врожай',
+    harvests:'зборів', dry:'сухого', plants:'рослин',
+    category:'Категорія', amount:'Сума (UAH)', expense:'Витрата',
+    soil_cat:'🪴 Ґрунт', pots_cat:'🫙 Горщики', fert_cat:'🧪 Добрива',
+    seeds_cat:'🌱 Насіння', other_cat:'📦 Різне',
+    income:'Дохід', expenses:'Витрати', profit:'Прибуток', loss:'Збиток',
+    pricePerG:'Ціна/г', addExpense:'＋ Додати витрату',
+    summary:'Підсумок', byPlants:'По рослинах',
+    planting:'Посадка', harvestDay:'Збір', cycle:'Цикл', drying:'Сушка',
+    days:'дн', noHarvests:'Немає зборів за',
+    stageSet:'Встановити реальну дату', stageLabel:'Стадія', stageDate:'Реальна дата',
+    seedling:'🌱 Розсада', growthS:'🌿 Ріст', preflowerS:'🌼 Передцвіт',
+    flowerS:'🌸 Цвітіння', ripeningS:'🟡 Дозрівання', harvestS:'✂️ Збір', doneS:'✅ Зібрано',
+    pct:'% циклу', cards:'▦', list:'☰',
+    password:'Введи пароль для входу', enter:'Увійти', wrongPass:'Невірний пароль',
+    confirmLoc:'Видалити локацію і всі рослини?', confirmPlant:'Видалити рослину?',
+    confirmHarv:'Видалити запис врожаю?', confirmExp:'Видалити?',
+    saved:'Збережено ✅', added:'Додано ✅', updated:'Оновлено ✅', deleted:'Видалено',
+    errName:'Введи назву', errDate:'Вкажи дату посадки', errVariety:'Введи назву сорту',
+    errMin:'Вкажи мін. цвітіння', errMax:'Вкажи макс. цвітіння', errMinMax:'Мін. > Макс.',
+    errAmount:'Введи суму', errHarvDate:'Вибери дату збору',
+    mon:['Січ','Лют','Бер','Кві','Тра','Чер','Лип','Сер','Вер','Жов','Лис','Гру'],
+    dow:['Пн','Вт','Ср','Чт','Пт','Сб','Нд'],
+    noPlants:'Немає рослин.
+Натисни ＋ щоб додати.',
+    noLocations:'Немає локацій.
+Натисни ＋ щоб додати.',
+    addCalPlants:'Додай рослини щоб бачити їх в календарі.',
+    today:'Посадка', calFlower:'Цвітіння', calRipening:'Дозрівання', calHarvest:'Збір',
+    warning:'попередження',link_lbl:'🔗 Посилання',
+    collected:'Зібрано',pcs:'раз',
+  },
+  en: {
+    locations:'Locations', calendar:'Calendar', harvest:'Harvest', finance:'Finance',
+    newLocation:'New location', editLocation:'Edit location', addPlant:'Add plant', editPlant:'Edit plant',
+    save:'Save', cancel:'Cancel', add:'Add', edit:'✏️', del:'🗑', back:'← Back',
+    name:'Name', notes:'Notes', optional:'(optional)', required:'required fields',
+    locNoPlants:'No locations.
+Press ＋ to add.',
+    active:'Active', auto:'Auto', photo:'Photo', growth:'Veg', preflower:'Pre-flower',
+    flowering:'Flowering', ripening:'Ripening', toHarvest:'To harvest', harvested:'Harvested',
+    plantName:'Name / number', plantDate:'Plant date', pot:'Pot (L)', soil:'Soil',
+    link:'Link', variety:'Strain name', seedbank:'Seedbank / brand',
+    type:'Type', autoflower:'🤖 Autoflower', photoperiod:'☀️ Photoperiod',
+    flowerFrom:'Flowering from (days)', flowerTo:'Flowering to (days)',
+    seedCost:'Seed cost (UAH)', harvestBtn:'✂️ Harvest', stageBtn:'📅 Stage',
+    harvestDate:'Harvest date', wetWeight:'Wet weight (g)', dryWeight:'Dry weight (g)',
+    dryStart:'Dry start', dryEnd:'Dry end', rating:'Strain rating 1–10',
+    harvestNotes:'Notes', harvestPhoto:'Harvest photo', addPhoto:'📷 Add photo',
+    deletePhoto:'🗑 Delete photo', saveHarvest:'Save', editHarvest:'Edit harvest',
+    harvests:'harvests', dry:'dry', plants:'plants',
+    category:'Category', amount:'Amount (UAH)', expense:'Expense',
+    soil_cat:'🪴 Soil', pots_cat:'🫙 Pots', fert_cat:'🧪 Nutrients',
+    seeds_cat:'🌱 Seeds', other_cat:'📦 Other',
+    income:'Revenue', expenses:'Expenses', profit:'Profit', loss:'Loss',
+    pricePerG:'Price/g', addExpense:'＋ Add expense',
+    summary:'Summary', byPlants:'By plants',
+    planting:'Planted', harvestDay:'Harvested', cycle:'Cycle', drying:'Drying',
+    days:'d', noHarvests:'No harvests for',
+    stageSet:'Set real date', stageLabel:'Stage', stageDate:'Real date',
+    seedling:'🌱 Seedling', growthS:'🌿 Veg', preflowerS:'🌼 Pre-flower',
+    flowerS:'🌸 Flowering', ripeningS:'🟡 Ripening', harvestS:'✂️ Harvest', doneS:'✅ Done',
+    pct:'% of cycle', cards:'▦', list:'☰',
+    password:'Enter password', enter:'Login', wrongPass:'Wrong password',
+    confirmLoc:'Delete location and all plants?', confirmPlant:'Delete plant?',
+    confirmHarv:'Delete harvest record?', confirmExp:'Delete?',
+    saved:'Saved ✅', added:'Added ✅', updated:'Updated ✅', deleted:'Deleted',
+    errName:'Enter name', errDate:'Enter plant date', errVariety:'Enter strain name',
+    errMin:'Enter min flowering', errMax:'Enter max flowering', errMinMax:'Min > Max',
+    errAmount:'Enter amount', errHarvDate:'Select harvest date',
+    mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    dow:['Mo','Tu','We','Th','Fr','Sa','Su'],
+    noPlants:'No plants.
+Press ＋ to add.',
+    noLocations:'No locations.
+Press ＋ to add.',
+    addCalPlants:'Add plants to see them in the calendar.',
+    today:'Planted', calFlower:'Flowering', calRipening:'Ripening', calHarvest:'Harvest',
+    warning:'warning',link_lbl:'🔗 Link',
+    collected:'Harvested',pcs:'times',
+  }
+};
+function t(key){return(T[LANG]&&T[LANG][key])||T.ua[key]||key;}
+function setLang(lang){
+  LANG=lang;localStorage.setItem('gl_lang',lang);
+  document.getElementById('lang-ua').className='lang-btn'+(lang==='ua'?' active':'');
+  document.getElementById('lang-en').className='lang-btn'+(lang==='en'?' active':'');
+  document.querySelectorAll('.tab-lbl[data-t]').forEach(function(el){el.textContent=t(el.getAttribute('data-t'));});
+  renderPage(curPage);
+}
+function renderPage(p){
+  if(p==='locations')renderLocations();
+  else if(p==='plants')renderPlants();
+  else if(p==='calendar')renderCalendar();
+  else if(p==='harvest')renderHarvestPage();
+  else if(p==='finance')renderFinance();
+}
 
 function checkLogin(){
   var v=document.getElementById('login-input').value;
@@ -942,14 +1069,25 @@ async function renderHarvestPage(){
     var ratings=filtered.filter(function(h){return h.rating;});
     var avgR=ratings.length?(ratings.reduce(function(a,h){return a+h.rating;},0)/ratings.length).toFixed(1):'—';
 
-    var html='<div class="stat-grid">'+
-      '<div class="stat-box"><div class="stat-val">'+filtered.length+'</div><div class="stat-label">зборів</div></div>'+
-      '<div class="stat-box"><div class="stat-val">'+totalW.toFixed(1)+'г</div><div class="stat-label">сухого</div></div>'+
-      '<div class="stat-box"><div class="stat-val">'+avgR+(avgR!=='—'?'/10':'')+'</div><div class="stat-label">ср. оцінка</div></div>'+
-      '<div class="stat-box"><div class="stat-val">'+cache.varieties.length+'</div><div class="stat-label">сортів</div></div>'+
+    // Stage counts for active plants
+    var activePlantsAll=plants.filter(function(p){return!p.is_harvested;});
+    var hStageCounts={growth:0,flower:0,ripening:0};
+    activePlantsAll.forEach(function(p){
+      var v=cache.varieties.find(function(x){return x.id===p.variety_id;});
+      if(!v)return;
+      var st=getStage(p,v);
+      if(hStageCounts[st]!==undefined)hStageCounts[st]++;
+    });
+    var html='<div class="stats-bar" style="margin-bottom:12px">'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+filtered.length+'</div><div class="stat-chip-label">'+t('harvests')+'</div></div>'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+totalW.toFixed(1)+'г</div><div class="stat-chip-label">'+t('dry')+'</div></div>'+
+      '<div class="stat-chip"><div class="stat-chip-val">'+activePlantsAll.length+'</div><div class="stat-chip-label">'+t('plants')+'</div></div>'+
+      (hStageCounts.growth>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#2d7a3a">'+hStageCounts.growth+'</div><div class="stat-chip-label">'+t('growth')+'</div></div>':'')+
+      (hStageCounts.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#e65100">'+hStageCounts.flower+'</div><div class="stat-chip-label">'+t('flowering')+'</div></div>':'')+
+      (hStageCounts.ripening>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#ad1457">'+hStageCounts.ripening+'</div><div class="stat-chip-label">'+t('ripening')+'</div></div>':'')+
     '</div>';
     if(years.length){html+='<div class="year-tabs">'+years.map(function(y){return'<div class="year-tab '+(y===harvestYear?'active':'')+'" onclick="harvestYear='+y+';renderHarvestPage()">'+y+'</div>';}).join('')+'</div>';}
-    if(!filtered.length){html+='<div class="empty"><div class="empty-icon">📊</div><p>Немає зборів за '+harvestYear+'.</p></div>';}
+    if(!filtered.length){html+='<div class="empty"><div class="empty-icon">📊</div><p>'+t('noHarvests')+' '+harvestYear+'.</p></div>';}
     else{
       filtered.forEach(function(h){
         var p=plants.find(function(x){return x.id===h.plant_id;});
@@ -962,33 +1100,37 @@ async function renderHarvestPage(){
         // Drying
         var dryDays=h.dry_start_date&&h.dry_end_date?diffDays(h.dry_start_date,h.dry_end_date):null;
         var shrink=h.wet_weight_g&&h.dry_weight_g?Math.round((1-h.dry_weight_g/h.wet_weight_g)*100):null;
+        // Compact harvest card
+        var metaParts=[];
+        if(loc)metaParts.push(loc.name);
+        if(v&&v.brand)metaParts.push(v.brand);
+        metaParts.push(fmt(h.harvest_date));
+        var cycleParts=[];
+        if(plantDate)cycleParts.push(t('planting')+': '+fmt(plantDate));
+        if(cycleDays!==null)cycleParts.push(t('cycle')+': '+cycleDays+t('days'));
+        if(dryDays!==null)cycleParts.push(t('drying')+': '+dryDays+t('days'));
         html+='<div class="harv-card">'+
           '<div class="harv-card-top">'+
-            (h.photo_url?'<img src="'+h.photo_url+'" class="harv-thumb" alt="фото">':'<div class="harv-thumb-placeholder">🌿</div>')+
-            '<div class="harv-info">'+
-              '<div class="harv-name">'+(p&&p.name?p.name+' · ':'')+( v?v.name:'Невідомо')+'</div>'+
-              '<div class="harv-meta">'+(loc?loc.name+' · ':'')+( v&&v.brand?v.brand+' · ':'')+fmt(h.harvest_date)+'</div>'+
-              (h.rating?'<div class="harv-meta" style="color:var(--amber)">'+h.rating+'/10 '+stars+'</div>':'')+
-            '</div>'+
-            '<div class="harv-right">'+
-              '<div class="harv-weight">'+(h.dry_weight_g||0)+'г</div>'+
-              (h.wet_weight_g?'<div style="font-size:11px;color:var(--text3)">Вол: '+h.wet_weight_g+'г</div>':'')+
-              (shrink!==null?'<div style="font-size:11px;color:var(--blue)">-'+shrink+'%</div>':'')+
+            (h.photo_url?'<img src="'+h.photo_url+'" class="harv-thumb" alt="photo">':'<div class="harv-thumb-placeholder">🌿</div>')+
+            '<div class="harv-info" style="flex:1;min-width:0">'+
+              '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">'+
+                '<div class="harv-name" style="font-size:14px">'+(p&&p.name?p.name+' · ':'')+( v?v.name:'?')+'</div>'+
+                '<div style="text-align:right;flex-shrink:0">'+
+                  '<div class="harv-weight" style="font-size:17px">'+(h.dry_weight_g||0)+'г</div>'+
+                  (h.rating?'<div style="font-size:11px;color:var(--amber)">'+h.rating+'/10</div>':'')+
+                  (shrink!==null?'<div style="font-size:10px;color:var(--blue)">-'+shrink+'%</div>':'')+
+                '</div>'+
+              '</div>'+
+              '<div class="harv-meta">'+metaParts.join(' · ')+'</div>'+
+              (cycleParts.length?'<div class="harv-meta">'+cycleParts.join(' · ')+'</div>':'')+
+              (h.notes?'<div class="harv-meta" style="color:var(--text2)">'+h.notes+'</div>':'')+
             '</div>'+
           '</div>'+
-          (cycleDays!==null||dryDays!==null?
-            '<div class="harv-cycle">'+
-              (plantDate?'<div class="harv-cycle-item"><div class="harv-cycle-label">Посадка</div><div class="harv-cycle-val">'+fmt(plantDate)+'</div></div>':'')+ 
-              '<div class="harv-cycle-item"><div class="harv-cycle-label">Збір</div><div class="harv-cycle-val">'+fmt(h.harvest_date)+'</div></div>'+
-              (cycleDays!==null?'<div class="harv-cycle-item"><div class="harv-cycle-label">Цикл</div><div class="harv-cycle-val">'+cycleDays+' дн</div></div>':'')+
-              (dryDays!==null?'<div class="harv-cycle-item"><div class="harv-cycle-label">Сушка</div><div class="harv-cycle-val">'+dryDays+' дн</div></div>':'')+
-            '</div>':'')+ 
-          (h.notes?'<div class="harv-notes">'+h.notes+'</div>':'')+
           '<div class="harv-actions">'+
-            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(\''+h.id+'\')">✏️ Редагувати</button>'+
-            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(\''+h.id+'\')">🗑</button>'+
+            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(''+h.id+'')">✏️</button>'+
+            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(''+h.id+'')">🗑</button>'+
           '</div>'+
-        '</div>';
+        '</div>'
       });
     }
     pg.innerHTML=html;
@@ -1082,10 +1224,10 @@ async function renderCalendar(){
 function buildCalMonth(year,month,evtMap,perMap){
   var dim=new Date(year,month+1,0).getDate();
   var sdow=(new Date(year,month,1).getDay()+6)%7;
-  var mName=new Date(year,month,1).toLocaleDateString('uk-UA',{month:'short',year:'2-digit'});
+  var mName=t('mon')[month]+' '+(year%100);
   var t=today();
   var html='<div class="cal-month"><div class="cal-month-title">'+mName+'</div><div class="cal-days-grid">';
-  ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
+  t('dow').forEach(function(d){html+='<div class="cal-dow">'+d+'</div>';});
   for(var i=0;i<sdow;i++)html+='<div></div>';
   for(var day=1;day<=dim;day++){
     var ds=year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
@@ -1269,7 +1411,14 @@ async function savePrice(){
 }
 
 // Init
-function initApp(){updateRating(5);navigate('locations');}
+function initApp(){
+  updateRating(5);
+  // Apply saved language
+  document.getElementById('lang-ua').className='lang-btn'+(LANG==='ua'?' active':'');
+  document.getElementById('lang-en').className='lang-btn'+(LANG==='en'?' active':'');
+  document.querySelectorAll('.tab-lbl[data-t]').forEach(function(el){el.textContent=t(el.getAttribute('data-t'));});
+  navigate('locations');
+}
 if(sessionStorage.getItem('gl_auth')){document.getElementById('login-screen').style.display='none';initApp();}
 else{setTimeout(function(){document.getElementById('login-input').focus();},300);}
 </script>
