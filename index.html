@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GrowLog</title>
+<title>GrowLog v2.0</title>
 <style>
 :root{
   --bg:#f7f9f7;--bg2:#fff;--bg3:#f0f4f0;--card:#fff;
@@ -17,14 +17,13 @@
   --shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;min-height:100vh;padding-bottom:80px}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;min-height:100vh;padding-bottom:80px}
 .login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
 .login-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.08);padding:32px 28px;width:100%;max-width:340px;text-align:center}
 .login-logo{font-size:48px;margin-bottom:8px}
 .login-title{font-size:24px;font-weight:700;color:var(--green);margin-bottom:4px}
 .login-sub{font-size:13px;color:var(--text3);margin-bottom:28px}
-.login-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:12px 16px;font-size:16px;outline:none;text-align:center;letter-spacing:2px;margin-bottom:12px;transition:border .15s}
-.login-input:focus{border-color:var(--green2);background:#fff}
+.login-input{width:100%;background:var(--bg3);border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:12px 16px;font-size:16px;outline:none;text-align:center;letter-spacing:2px;margin-bottom:12px}
 .login-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-size:16px;font-weight:600;cursor:pointer}
 .login-error{font-size:13px;color:var(--red);margin-top:10px;min-height:18px}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--text);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:1000;transition:transform .3s;white-space:nowrap;pointer-events:none}
@@ -35,19 +34,19 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .popup-title{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .popup-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1}
 header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:90;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:19px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:6px}
+.logo{font-size:19px;font-weight:700;color:var(--green)}
 .lang-toggle{display:flex;background:var(--bg3);border-radius:20px;padding:3px;gap:2px}
 .lang-btn{padding:4px 10px;border:none;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;background:none;color:var(--text3);transition:all .15s}
 .lang-btn.active{background:var(--green);color:#fff}
 .tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:90;padding-bottom:env(safe-area-inset-bottom)}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px;cursor:pointer;border:none;background:none;color:var(--text3);font-size:10px;gap:3px;transition:color .15s}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 2px;cursor:pointer;border:none;background:none;color:var(--text3);font-size:9px;gap:2px;transition:color .15s}
 .tab.active{color:var(--green)}
-.tab-icon{font-size:20px;line-height:1}
+.tab-icon{font-size:18px;line-height:1}
 main{max-width:600px;margin:0 auto;padding:14px 12px}
 .page{display:none}
 .page.active{display:block}
 .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px}
-.card-title{font-size:16px;font-weight:600;color:var(--text)}
+.card-title{font-size:16px;font-weight:600}
 .card-sub{font-size:12px;color:var(--text3);margin-top:3px}
 .card-row{display:flex;justify-content:space-between;align-items:flex-start}
 .card-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
@@ -55,16 +54,19 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .btn-primary{background:var(--green);color:#fff}
 .btn-ghost{background:var(--bg3);color:var(--text2)}
 .btn-danger{background:var(--red2);color:var(--red)}
+.btn-warning{background:var(--amber2);color:var(--amber)}
 .btn-sm{padding:5px 10px;font-size:12px}
 .btn-fab{position:fixed;bottom:88px;right:16px;width:52px;height:52px;border-radius:50%;background:var(--green);color:#fff;border:none;font-size:24px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(45,122,58,.35);z-index:80}
 .badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.badge-available{background:var(--green3);color:var(--green)}
+.badge-soaking{background:var(--blue2);color:var(--blue)}
+.badge-lost{background:var(--red2);color:var(--red)}
 .badge-seedling{background:var(--blue2);color:var(--blue)}
 .badge-growth{background:var(--green3);color:var(--green)}
 .badge-pre_flower{background:#fff8e1;color:#f9a825}
 .badge-flower{background:#fff3e0;color:#e65100}
 .badge-ripening{background:#fce4ec;color:#ad1457}
-.badge-harvest{background:var(--red2);color:var(--red)}
-.badge-done{background:var(--red2);color:var(--red)}
+.badge-harvest,.badge-done{background:var(--red2);color:var(--red)}
 .badge-warn{background:var(--amber2);color:var(--amber)}
 .badge-alert{background:var(--red2);color:var(--red)}
 .plant-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;border-left:4px solid var(--border2)}
@@ -103,10 +105,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;padding:8px 18px 36px}
 .modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 14px}
-.modal-title{font-size:17px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:4px}
 .modal-subtitle{font-size:12px;color:var(--text3);margin-bottom:16px}
 .modal-actions{display:flex;gap:10px;margin-top:18px}
 .modal-actions .btn{flex:1;justify-content:center;padding:12px;font-size:14px}
+.inner-tabs{display:flex;gap:0;background:var(--bg3);border-radius:var(--radius-sm);padding:3px;margin-bottom:14px}
+.inner-tab{flex:1;text-align:center;padding:7px 4px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text3);border-radius:6px;transition:all .15s}
+.inner-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .stage-timeline{margin-top:8px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--border)}
 .stage-row{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:12px;border-bottom:1px solid var(--border);background:var(--bg2)}
 .stage-row:last-child{border-bottom:none}
@@ -123,12 +128,12 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .stat-chip-val{font-size:17px;font-weight:700;color:var(--green);line-height:1}
 .stat-chip-label{font-size:10px;color:var(--text3);margin-top:2px;text-align:center}
 .stats-divider{width:1px;background:var(--border);height:32px;flex-shrink:0;margin:0 2px}
-.year-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.year-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
 .year-tab{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);white-space:nowrap;transition:all .15s;flex-shrink:0}
 .year-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
 .cal-grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .cal-month{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px}
-.cal-month-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;text-align:center}
+.cal-month-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;margin-bottom:6px;text-align:center}
 .cal-days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .cal-dow{font-size:8px;color:var(--text3);padding:2px 0;text-align:center}
 .cal-day{display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:10px;min-height:24px;cursor:default}
@@ -185,33 +190,56 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .empty-icon{font-size:40px;margin-bottom:10px;opacity:.6}
 .empty p{font-size:14px;line-height:1.5}
 .spinner{display:flex;justify-content:center;padding:36px}
-.spinner::after{content:'';width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
+.spinner::after{content:"";width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;cursor:pointer;user-select:none}
 .toggle-chevron{color:var(--text3);font-size:12px;transition:transform .2s}
 .toggle-chevron.open{transform:rotate(180deg)}
+.seed-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;border-left:4px solid var(--border2)}
+.seed-card.status-available{border-left-color:var(--green)}
+.seed-card.status-soaking{border-left-color:var(--blue)}
+.seed-card.status-lost{border-left-color:var(--red);opacity:.75}
+.seed-qty{font-size:22px;font-weight:700}
+.archive-section{margin-top:20px;padding-top:16px;border-top:2px dashed var(--border)}
+.archive-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.fi-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit}
+.fi-input:focus{border-color:var(--green2);background:#fff}
+.fi-select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 </style>
 </head>
 <body>
+
 <div class="login-screen" id="login-screen">
   <div class="login-card">
-    <div class="login-logo">🌿</div>
+    <div class="login-logo">&#127807;</div>
     <div class="login-title">GrowLog</div>
     <div class="login-sub" id="login-sub">Введи пароль</div>
-    <input class="login-input" type="password" id="login-input" placeholder="••••••••">
-    <button class="login-btn" id="login-btn">Увійти</button>
+    <input class="login-input" type="password" id="login-input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
+    <button class="login-btn" id="login-btn">&#1059;&#1074;&#1110;&#1081;&#1090;&#1080;</button>
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="popup-overlay" id="cal-popup" onclick="if(event.target===this)closePopup('cal-popup')">
   <div class="popup">
-    <div class="popup-title"><span id="cal-popup-date"></span><button class="popup-close" onclick="closePopup('cal-popup')">✕</button></div>
+    <div class="popup-title"><span id="cal-popup-date"></span><button class="popup-close" onclick="closePopup('cal-popup')">&#10005;</button></div>
     <div id="cal-popup-content"></div>
   </div>
 </div>
+<div class="popup-overlay" id="split-popup" onclick="if(event.target===this)closePopup('split-popup')">
+  <div class="popup">
+    <div class="popup-title"><span id="split-popup-title">Transfer seeds</span><button class="popup-close" onclick="closePopup('split-popup')">&#10005;</button></div>
+    <div id="split-popup-content"></div>
+  </div>
+</div>
+<div class="popup-overlay" id="convert-popup" onclick="if(event.target===this)closePopup('convert-popup')">
+  <div class="popup">
+    <div class="popup-title"><span>&#127807; Convert to plant</span><button class="popup-close" onclick="closePopup('convert-popup')">&#10005;</button></div>
+    <div id="convert-popup-content"></div>
+  </div>
+</div>
 <header>
-  <div class="logo">🌿 GrowLog</div>
+  <div class="logo">&#127807; GrowLog</div>
   <div class="lang-toggle">
     <button class="lang-btn active" id="lang-ua" onclick="setLang('ua')">UA</button>
     <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
@@ -223,14 +251,19 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="page-calendar" class="page"><div class="spinner"></div></div>
   <div id="page-harvest" class="page"><div class="spinner"></div></div>
   <div id="page-finance" class="page"><div class="spinner"></div></div>
+  <div id="page-seeds" class="page"><div class="spinner"></div></div>
+  <div id="page-wishlist-list" class="page"><div class="spinner"></div></div>
+  <div id="page-wishlist-items" class="page"></div>
 </main>
 <nav class="tabbar">
-  <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">🏕️</span><span class="tab-lbl" data-k="locations">Локації</span></button>
-  <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">📅</span><span class="tab-lbl" data-k="calendar">Календар</span></button>
-  <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">⚖️</span><span class="tab-lbl" data-k="harvest">Врожай</span></button>
-  <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">💰</span><span class="tab-lbl" data-k="finance">Фінанси</span></button>
+  <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">&#127957;&#65039;</span><span class="tab-lbl" data-k="locations">&#1051;&#1086;&#1082;&#1072;&#1094;&#1110;&#1111;</span></button>
+  <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">&#128197;</span><span class="tab-lbl" data-k="calendar">&#1050;&#1072;&#1083;&#1077;&#1085;&#1076;&#1072;&#1088;</span></button>
+  <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">&#9878;&#65039;</span><span class="tab-lbl" data-k="harvest">&#1042;&#1088;&#1086;&#1078;&#1072;&#1081;</span></button>
+  <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">&#128176;</span><span class="tab-lbl" data-k="finance">&#1060;&#1110;&#1085;&#1072;&#1085;&#1089;&#1080;</span></button>
+  <button class="tab" data-page="seeds" onclick="navigate('seeds')"><span class="tab-icon">&#127792;</span><span class="tab-lbl" data-k="seeds">&#1057;&#1091;&#1084;&#1082;&#1072;</span></button>
 </nav>
-<button class="btn-fab" id="fab" onclick="fabAction()">＋</button>
+<button class="btn-fab" id="fab" onclick="fabAction()">&#65291;</button>
+
 <!-- MODAL: Location -->
 <div class="modal-overlay" id="modal-loc"><div class="modal">
   <div class="modal-handle"></div>
@@ -377,8 +410,62 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <button class="btn btn-primary" onclick="savePrice()">Зберегти</button>
   </div>
 </div></div>
+<!-- MODAL: Seed -->
+<div class="modal-overlay" id="modal-seed"><div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-seed-title">Нове насіння</div>
+  <div class="modal-subtitle">* — обов'язкові поля</div>
+  <input type="hidden" id="seed-edit-id">
+  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="seed-name" placeholder="Blue Dream..."></div>
+  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="seed-brand" placeholder="Dinafem..."></div>
+  <div class="field"><label>Тип</label>
+    <select id="seed-type"><option value="auto">Автоцвіт</option><option value="photo">Фотоперіод</option></select>
+  </div>
+  <div class="field-row">
+    <div class="field"><label>Кількість (шт.) <span class="req">*</span></label><input id="seed-qty" type="number" min="1" step="1" placeholder="1"></div>
+    <div class="field"><label>Ціна/шт. (UAH) <span class="opt">(опц.)</span></label><input id="seed-price" type="number" min="0" step="1" placeholder="0"></div>
+  </div>
+  <div class="field"><label>Дата покупки <span class="opt">(опц.)</span></label><input id="seed-purchase-date" type="date"></div>
+  <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><textarea id="seed-notes" placeholder="Умови зберігання..."></textarea></div>
+  <div class="form-error" id="seed-error"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="closeModal('modal-seed')">Скасувати</button>
+    <button class="btn btn-primary" onclick="saveSeed()">Зберегти</button>
+  </div>
+</div></div>
+<!-- MODAL: Wishlist -->
+<div class="modal-overlay" id="modal-wishlist"><div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-wishlist-title">Новий вишлист</div>
+  <input type="hidden" id="wishlist-edit-id">
+  <div class="field"><label>Назва <span class="req">*</span></label><input id="wishlist-name" placeholder="Зима 2026, Список мрій..."></div>
+  <div class="form-error" id="wishlist-error"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="closeModal('modal-wishlist')">Скасувати</button>
+    <button class="btn btn-primary" onclick="saveWishlist()">Зберегти</button>
+  </div>
+</div></div>
+<!-- MODAL: Wishlist Item -->
+<div class="modal-overlay" id="modal-wishlist-item"><div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-wi-title">Додати в вишлист</div>
+  <input type="hidden" id="wi-edit-id">
+  <input type="hidden" id="wi-wishlist-id">
+  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="wi-name" placeholder="Blue Dream..."></div>
+  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="wi-brand" placeholder="Dinafem..."></div>
+  <div class="field"><label>Тип <span class="opt">(опц.)</span></label>
+    <select id="wi-type"><option value="auto">Автоцвіт</option><option value="photo">Фотоперіод</option></select>
+  </div>
+  <div class="field"><label>Ціна (UAH/шт.) <span class="opt">(опц.)</span></label><input id="wi-price" type="number" min="0" step="1" placeholder="0"></div>
+  <div class="form-error" id="wi-error"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="closeModal('modal-wishlist-item')">Скасувати</button>
+    <button class="btn btn-primary" onclick="saveWishlistItem()">Зберегти</button>
+  </div>
+</div></div>
 
 <script>
+
 var SB_URL = 'https://mpxvsyqkocowamwgqzcy.supabase.co';
 var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
 
@@ -607,9 +694,10 @@ function navigate(page, data) {
   else if (page === 'calendar') renderCalendar();
   else if (page === 'harvest') renderHarvestPage();
   else if (page === 'finance') renderFinance();
+  else if (page === 'seeds') { if(typeof renderSeeds==='function') renderSeeds(); }
 }
 
-function fabAction() { if (curPage === 'locations') openLocModal(); else if (curPage === 'plants') openPlantModal(); }
+function fabAction() { if (curPage === 'locations') openLocModal(); else if (curPage === 'plants') openPlantModal(); else if (curPage === 'seeds' && typeof openSeedModal === 'function') openSeedModal(); }
 
 function toast(msg) {
   var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show');
@@ -1342,6 +1430,415 @@ async function savePrice() {
   } catch (e) { toast('Error: ' + parseErr(e)); }
 }
 
+
+
+// I18N additions for seeds
+var TR_SEEDS_UA = {
+  seeds:"Сумка", bagTab:"Сумка", wishlistTab:"Вишлист",
+  available:"Доступний", soaking:"Замочений", lost:"Пропавший",
+  noSeeds:"Немає насіння. Натисни + щоб додати.",
+  noWishlists:"Немає вишлистів. Натисни + щоб створити.",
+  noWishlistItems:"Немає позицій. Натисни + щоб додати.",
+  archive:"Архів (пропавші)",
+  soakAction:"Замочити", lostAction:"Пропали", convertAction:"В рослину", buyAction:"Куплено",
+  howMany:"Скільки штук перевести?", selectLoc:"Вибери локацію",
+  confirmSeed:"Видалити насіння?", confirmWL:"Видалити вишлист і всі позиції?", confirmWLItem:"Видалити позицію?"
+};
+var TR_SEEDS_EN = {
+  seeds:"Bag", bagTab:"Bag", wishlistTab:"Wishlist",
+  available:"Available", soaking:"Soaking", lost:"Lost",
+  noSeeds:"No seeds. Press + to add.",
+  noWishlists:"No wishlists. Press + to create.",
+  noWishlistItems:"No items. Press + to add.",
+  archive:"Archive (lost)",
+  soakAction:"Soak", lostAction:"Lost", convertAction:"To plant", buyAction:"Bought",
+  howMany:"How many to transfer?", selectLoc:"Select location",
+  confirmSeed:"Delete seed?", confirmWL:"Delete wishlist?", confirmWLItem:"Delete item?"
+};
+// Extend TR
+Object.keys(TR_SEEDS_UA).forEach(function(k){ TR.ua[k] = TR_SEEDS_UA[k]; });
+Object.keys(TR_SEEDS_EN).forEach(function(k){ TR.en[k] = TR_SEEDS_EN[k]; });
+
+// Seeds state
+var seedsTab = "bag";
+var curWishlistId = null, curWishlistName = "";
+
+// Override navigate to handle seeds sub-pages
+var _origNavigate = navigate;
+navigate = function(page, data) {
+  data = data || {};
+  // Handle seeds sub-pages
+  if (page === "wishlist-list" || page === "wishlist-items") {
+    document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    var pageEl = document.getElementById("page-" + page);
+    if (pageEl) pageEl.classList.add("active");
+    var tabEl = document.querySelector(".tab[data-page='seeds']");
+    if (tabEl) tabEl.classList.add("active");
+    curPage = page;
+    document.getElementById("fab").style.display = "flex";
+    if (page === "wishlist-list") renderWishlistList();
+    else if (page === "wishlist-items") { curWishlistId = data.wlId; curWishlistName = data.wlName || ""; renderWishlistItems(); }
+    return;
+  }
+  _origNavigate(page, data);
+};
+
+// Override fabAction to handle seeds
+var _origFabAction = fabAction;
+fabAction = function() {
+  if (curPage === "seeds") { if (seedsTab === "bag") openSeedModal(); else navigate("wishlist-list"); return; }
+  if (curPage === "wishlist-list") { openWishlistModal(); return; }
+  if (curPage === "wishlist-items") { openWishlistItemModal(); return; }
+  _origFabAction();
+};
+
+// Override renderPage to handle seeds
+var _origRenderPage = renderPage;
+renderPage = function(p) {
+  if (p === "seeds") { renderSeeds(); return; }
+  if (p === "wishlist-list") { renderWishlistList(); return; }
+  if (p === "wishlist-items") { renderWishlistItems(); return; }
+  _origRenderPage(p);
+};
+
+// SEEDS (СУМКА)
+async function renderSeeds() {
+  var pg = document.getElementById("page-seeds"); pg.innerHTML = "<div class='spinner'></div>";
+  try {
+    var seeds = await sb("seeds", "GET", null, "?order=created_at.desc");
+    var active = seeds.filter(function(s){ return s.status !== "lost"; });
+    var lost = seeds.filter(function(s){ return s.status === "lost"; });
+    var html = "<div class='inner-tabs'>" +
+      "<button class='inner-tab " + (seedsTab === "bag" ? "active" : "") + "' onclick='seedsTab="bag";renderSeeds()'>" + t("bagTab") + "</button>" +
+      "<button class='inner-tab " + (seedsTab === "wishlist" ? "active" : "") + "' onclick='navigate("wishlist-list")'>" + t("wishlistTab") + "</button></div>";
+    if (!active.length && !lost.length) {
+      html += "<div class='empty'><div class='empty-icon'>&#127792;</div><p>" + t("noSeeds") + "</p></div>";
+    } else {
+      if (active.length) html += active.map(function(s){ return renderSeedCard(s); }).join("");
+      else html += "<div class='empty'><div class='empty-icon'>&#127792;</div><p>" + t("noSeeds") + "</p></div>";
+      if (lost.length) {
+        html += "<div class='archive-section'><div class='archive-title'>&#128451; " + t("archive") + "</div>";
+        html += lost.map(function(s){ return renderSeedCard(s); }).join("") + "</div>";
+      }
+    }
+    pg.innerHTML = html;
+  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
+}
+
+function renderSeedCard(s) {
+  var statusLabels = { available: t("available"), soaking: t("soaking"), lost: t("lost") };
+  var typeLabel = s.seed_type === "auto" ? t("autoflower") : t("photoperiod");
+  var isLost = s.status === "lost";
+  return "<div class='seed-card status-" + s.status + "'>" +
+    "<div class='card-row'>" +
+      "<div style='flex:1;min-width:0'>" +
+        "<div class='card-title'>&#127792; " + s.name + "</div>" +
+        "<div class='card-sub'>" + (s.brand || "") + (s.brand ? " &middot; " : "") + typeLabel + (s.purchase_date ? " &middot; " + fmt(s.purchase_date) : "") + "</div>" +
+        (s.notes ? "<div class='card-sub'>" + s.notes + "</div>" : "") +
+      "</div>" +
+      "<div style='text-align:right;flex-shrink:0;margin-left:12px'>" +
+        "<div class='seed-qty' style='color:" + (isLost ? "var(--red)" : "var(--green)") + "'>" + s.quantity + " &#1096;&#1090;.</div>" +
+        "<span class='badge badge-" + s.status + "'>" + statusLabels[s.status] + "</span>" +
+        (s.price_uah ? "<div style='font-size:11px;color:var(--text3);margin-top:2px'>" + fmtUAH(s.price_uah) + "/&#1096;&#1090;.</div>" : "") +
+      "</div>" +
+    "</div>" +
+    (!isLost ? "<div class='card-actions'>" +
+      (s.status === "available" ? "<button class='btn btn-ghost btn-sm' onclick='openSplitPopup("" + s.id + "","soaking")'>" + t("soakAction") + "</button>" : "") +
+      "<button class='btn btn-warning btn-sm' onclick='openSplitPopup("" + s.id + "","lost")'>" + t("lostAction") + "</button>" +
+      "<button class='btn btn-primary btn-sm' onclick='openConvertPopup("" + s.id + "")'>" + t("convertAction") + "</button>" +
+      "<button class='btn btn-ghost btn-sm' onclick='openSeedModal("" + s.id + "")'>&#9999;&#65039;</button>" +
+      "<button class='btn btn-danger btn-sm' onclick='deleteSeed("" + s.id + "")'>&#128465;</button></div>"
+      : "<div class='card-actions'><button class='btn btn-danger btn-sm' onclick='deleteSeed("" + s.id + "")'>&#128465;</button></div>") +
+  "</div>";
+}
+
+function openSeedModal(id) {
+  id = id || null; clearErr("seed-error");
+  document.getElementById("seed-edit-id").value = id || "";
+  document.getElementById("modal-seed-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;" : "&#1053;&#1086;&#1074;&#1077; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;";
+  if (id) {
+    sb("seeds","GET",null,"?id=eq." + id).then(function(rows){
+      var s = rows[0]; if (!s) return;
+      document.getElementById("seed-name").value = s.name || "";
+      document.getElementById("seed-brand").value = s.brand || "";
+      document.getElementById("seed-type").value = s.seed_type || "auto";
+      document.getElementById("seed-qty").value = s.quantity || 1;
+      document.getElementById("seed-price").value = s.price_uah || "";
+      document.getElementById("seed-purchase-date").value = s.purchase_date || "";
+      document.getElementById("seed-notes").value = s.notes || "";
+    });
+  } else {
+    ["seed-name","seed-brand","seed-notes"].forEach(function(id){ document.getElementById(id).value = ""; });
+    document.getElementById("seed-qty").value = 1;
+    document.getElementById("seed-price").value = "";
+    document.getElementById("seed-purchase-date").value = "";
+    document.getElementById("seed-type").value = "auto";
+  }
+  window._convertFromWLItem = null;
+  openModal("modal-seed");
+}
+
+async function saveSeed() {
+  var name = document.getElementById("seed-name").value.trim();
+  var qty = parseInt(document.getElementById("seed-qty").value);
+  if (!name) { showErr("seed-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091; &#1089;&#1086;&#1088;&#1090;&#1091;"); return; }
+  if (!qty || qty < 1) { showErr("seed-error", "&#9888;&#65039; &#1050;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100; &#8805; 1"); return; }
+  var id = document.getElementById("seed-edit-id").value;
+  var data = { name: name, brand: document.getElementById("seed-brand").value.trim() || null, seed_type: document.getElementById("seed-type").value, quantity: qty, price_uah: parseFloat(document.getElementById("seed-price").value) || null, purchase_date: document.getElementById("seed-purchase-date").value || null, notes: document.getElementById("seed-notes").value.trim() || null, year: new Date().getFullYear() };
+  try {
+    if (id) await sb("seeds","PATCH",data,"?id=eq." + id);
+    else { data.status = "available"; await sb("seeds","POST",data); }
+    var wlItemId = window._convertFromWLItem;
+    window._convertFromWLItem = null;
+    closeModal("modal-seed"); toast(t(id ? "updated" : "added") + " &#10003;");
+    if (wlItemId) {
+      if (confirm("&#1042;&#1080;&#1076;&#1072;&#1083;&#1080;&#1090;&#1080; &#1087;&#1086;&#1079;&#1080;&#1094;&#1110;&#1102; &#1079; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;&#1072;?")) {
+        await sb("wishlist_items","DELETE",null,"?id=eq." + wlItemId);
+      }
+      navigate("seeds");
+    } else { renderSeeds(); }
+  } catch(e) { showErr("seed-error", "&#10060; " + parseErr(e)); }
+}
+
+async function deleteSeed(id) {
+  if (!confirm(t("confirmSeed"))) return;
+  try { await sb("seeds","DELETE",null,"?id=eq." + id); toast(t("deleted")); renderSeeds(); }
+  catch(e) { toast("Error: " + parseErr(e)); }
+}
+
+async function openSplitPopup(seedId, newStatus) {
+  var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
+  var s = rows[0]; if (!s) return;
+  var actionLabel = newStatus === "soaking" ? t("soakAction") : t("lostAction");
+  var costNote = (newStatus === "lost" && s.price_uah) ? "<div style='background:var(--red2);color:var(--red);padding:8px 12px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px' id='split-cost-note'>&#1042;&#1080;&#1090;&#1088;&#1072;&#1090;&#1072;: " + fmtUAH(s.price_uah * s.quantity) + "</div>" : "";
+  var content = "<div style='margin-bottom:12px'><b>" + s.name + "</b> &middot; " + s.quantity + " &#1096;&#1090;.</div>" +
+    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>" + t("howMany") + " (max " + s.quantity + ")</label>" +
+    "<input type='number' class='fi-input' id='split-qty' min='1' max='" + s.quantity + "' value='" + s.quantity + "'></div>" +
+    costNote +
+    "<div style='display:flex;gap:10px;margin-top:16px'>" +
+      "<button class='btn btn-ghost' style='flex:1' onclick='closePopup("split-popup")'>" + t("cancel") + "</button>" +
+      "<button class='btn btn-primary' style='flex:1' onclick='executeSplit("" + seedId + "","" + newStatus + ""," + (s.price_uah || 0) + ")'>" + actionLabel + "</button></div>";
+  document.getElementById("split-popup-title").textContent = actionLabel + ": " + s.name;
+  document.getElementById("split-popup-content").innerHTML = content;
+  if (newStatus === "lost" && s.price_uah) {
+    setTimeout(function(){
+      var qi = document.getElementById("split-qty");
+      var ni = document.getElementById("split-cost-note");
+      if (qi && ni) qi.addEventListener("input", function(){ ni.textContent = "&#1042;&#1080;&#1090;&#1088;&#1072;&#1090;&#1072;: " + fmtUAH(s.price_uah * (parseInt(qi.value)||0)); });
+    }, 50);
+  }
+  openPopup("split-popup");
+}
+
+async function executeSplit(seedId, newStatus, pricePerUnit) {
+  var qtyInput = document.getElementById("split-qty");
+  var qty = parseInt(qtyInput ? qtyInput.value : 0);
+  if (!qty || qty < 1) { toast("&#1042;&#1074;&#1077;&#1076;&#1080; &#1082;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100;"); return; }
+  try {
+    var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
+    var s = rows[0]; if (!s) return;
+    if (qty > s.quantity) { toast("&#1053;&#1077; &#1073;&#1110;&#1083;&#1100;&#1096;&#1077; " + s.quantity); return; }
+    if (qty === s.quantity) {
+      await sb("seeds","PATCH",{ status: newStatus },"?id=eq." + seedId);
+    } else {
+      await sb("seeds","PATCH",{ quantity: s.quantity - qty },"?id=eq." + seedId);
+      await sb("seeds","POST",{ name: s.name, brand: s.brand, seed_type: s.seed_type, quantity: qty, status: newStatus, price_uah: s.price_uah, purchase_date: s.purchase_date, notes: s.notes, year: s.year });
+    }
+    if (newStatus === "lost" && pricePerUnit > 0) {
+      await sb("expenses","POST",{ year: new Date().getFullYear(), category: "seeds", amount_uah: pricePerUnit * qty, notes: "&#1055;&#1088;&#1086;&#1087;&#1072;&#1083;&#1086; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;: " + s.name + " x" + qty });
+    }
+    closePopup("split-popup"); toast(t("saved") + " &#10003;"); renderSeeds();
+  } catch(e) { toast("Error: " + parseErr(e)); }
+}
+
+async function openConvertPopup(seedId) {
+  var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
+  var s = rows[0]; if (!s) return;
+  var locs = await sb("locations","GET",null,"?order=created_at.asc");
+  var locOpts = locs.map(function(l){ return "<option value='" + l.id + "'>" + l.name + "</option>"; }).join("");
+  var content = "<div style='margin-bottom:12px'><b>" + s.name + "</b>" + (s.brand ? " &middot; " + s.brand : "") + "</div>" +
+    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1050;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100; (max " + s.quantity + ") <span style='color:var(--red)'>*</span></label>" +
+    "<input type='number' class='fi-input' id='conv-qty' min='1' max='" + s.quantity + "' value='1'></div>" +
+    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1051;&#1086;&#1082;&#1072;&#1094;&#1110;&#1103; <span style='color:var(--red)'>*</span></label>" +
+    "<select class='fi-select' id='conv-loc'><option value=''>-- &#1042;&#1080;&#1073;&#1077;&#1088;&#1080; --</option>" + locOpts + "</select></div>" +
+    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1044;&#1072;&#1090;&#1072; &#1087;&#1086;&#1089;&#1072;&#1076;&#1082;&#1080; <span style='color:var(--red)'>*</span></label>" +
+    "<input type='date' class='fi-input' id='conv-date' value='" + today() + "'></div>" +
+    "<div id='conv-error' style='color:var(--red);font-size:13px;margin-top:4px'></div>" +
+    "<div style='display:flex;gap:10px;margin-top:16px'>" +
+      "<button class='btn btn-ghost' style='flex:1' onclick='closePopup("convert-popup")'>" + t("cancel") + "</button>" +
+      "<button class='btn btn-primary' style='flex:1' onclick='executeConvert("" + seedId + "","" + (s.name||"") + "","" + (s.brand||"") + "","" + (s.seed_type||"auto") + ""," + (s.price_uah||0) + ")'>" + t("convertAction") + "</button></div>";
+  document.getElementById("convert-popup-content").innerHTML = content;
+  openPopup("convert-popup");
+}
+
+async function executeConvert(seedId, sName, sBrand, sType, pricePerUnit) {
+  var qty = parseInt(document.getElementById("conv-qty").value) || 0;
+  var locId = document.getElementById("conv-loc").value;
+  var date = document.getElementById("conv-date").value;
+  var errEl = document.getElementById("conv-error");
+  if (!qty || qty < 1) { errEl.textContent = "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1082;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100;"; return; }
+  if (!locId) { errEl.textContent = "&#9888;&#65039; &#1042;&#1080;&#1073;&#1077;&#1088;&#1080; &#1083;&#1086;&#1082;&#1072;&#1094;&#1110;&#1102;"; return; }
+  if (!date) { errEl.textContent = "&#9888;&#65039; &#1042;&#1082;&#1072;&#1078;&#1080; &#1076;&#1072;&#1090;&#1091;"; return; }
+  errEl.textContent = "";
+  try {
+    var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
+    var s = rows[0]; if (!s) return;
+    if (qty > s.quantity) { errEl.textContent = "&#9888;&#65039; &#1053;&#1077; &#1073;&#1110;&#1083;&#1100;&#1096;&#1077; " + s.quantity; return; }
+    var nv = await sb("varieties","POST",{ name: sName, brand: sBrand, seed_type: sType, flowering_days_min: 0, flowering_days_max: 0 });
+    if (!nv || !nv[0]) throw new Error("Could not create variety");
+    for (var i = 0; i < qty; i++) {
+      await sb("plants","POST",{ location_id: locId, variety_id: nv[0].id, name: qty > 1 ? sName + " #" + (i+1) : "", plant_date: date, current_stage: "seedling", stage_overrides: {}, is_harvested: false });
+    }
+    if (pricePerUnit > 0) {
+      var yr = new Date(date + "T12:00:00").getFullYear();
+      await sb("expenses","POST",{ year: yr, category: "seeds", amount_uah: pricePerUnit * qty, notes: "&#1053;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;: " + sName + " x" + qty });
+    }
+    if (qty >= s.quantity) await sb("seeds","DELETE",null,"?id=eq." + seedId);
+    else await sb("seeds","PATCH",{ quantity: s.quantity - qty },"?id=eq." + seedId);
+    closePopup("convert-popup"); toast(t("added") + " " + qty + " &#10003;"); renderSeeds();
+  } catch(e) { errEl.textContent = "&#10060; " + parseErr(e); }
+}
+
+// WISHLIST
+async function renderWishlistList() {
+  var pg = document.getElementById("page-wishlist-list"); pg.innerHTML = "<div class='spinner'></div>";
+  try {
+    var wishlists = await sb("wishlists","GET",null,"?order=created_at.desc");
+    var html = "<div class='inner-tabs'>" +
+      "<button class='inner-tab' onclick='navigate("seeds")'>" + t("bagTab") + "</button>" +
+      "<button class='inner-tab active'>" + t("wishlistTab") + "</button></div>";
+    if (!wishlists.length) { html += "<div class='empty'><div class='empty-icon'>&#10024;</div><p>" + t("noWishlists") + "</p></div>"; }
+    else {
+      html += wishlists.map(function(wl){
+        return "<div class='card' style='cursor:pointer' onclick='navigate("wishlist-items",{wlId:"" + wl.id + "",wlName:"" + encodeURIComponent(wl.name) + ""})'>" +
+          "<div class='card-row'><div><div class='card-title'>&#10024; " + wl.name + "</div></div><span style='color:var(--text3);font-size:20px'>&#8250;</span></div>" +
+          "<div class='card-actions'>" +
+            "<button class='btn btn-ghost btn-sm' onclick='event.stopPropagation();openWishlistModal("" + wl.id + "")'>&#9999;&#65039;</button>" +
+            "<button class='btn btn-danger btn-sm' onclick='event.stopPropagation();deleteWishlist("" + wl.id + "")'>&#128465;</button>" +
+          "</div></div>";
+      }).join("");
+    }
+    pg.innerHTML = html;
+  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
+}
+
+function openWishlistModal(id) {
+  id = id || null; clearErr("wishlist-error");
+  document.getElementById("wishlist-edit-id").value = id || "";
+  document.getElementById("modal-wishlist-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080;" : "&#1053;&#1086;&#1074;&#1080;&#1081; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;";
+  if (id) sb("wishlists","GET",null,"?id=eq." + id).then(function(r){ if(r[0]) document.getElementById("wishlist-name").value = r[0].name || ""; });
+  else document.getElementById("wishlist-name").value = "";
+  openModal("modal-wishlist");
+}
+
+async function saveWishlist() {
+  var name = document.getElementById("wishlist-name").value.trim();
+  if (!name) { showErr("wishlist-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091;"); return; }
+  var id = document.getElementById("wishlist-edit-id").value;
+  try {
+    if (id) await sb("wishlists","PATCH",{ name: name },"?id=eq." + id);
+    else await sb("wishlists","POST",{ name: name });
+    closeModal("modal-wishlist"); toast(t(id ? "updated" : "added") + " &#10003;"); renderWishlistList();
+  } catch(e) { showErr("wishlist-error", "&#10060; " + parseErr(e)); }
+}
+
+async function deleteWishlist(id) {
+  if (!confirm(t("confirmWL"))) return;
+  try {
+    await sb("wishlist_items","DELETE",null,"?wishlist_id=eq." + id);
+    await sb("wishlists","DELETE",null,"?id=eq." + id);
+    toast(t("deleted")); renderWishlistList();
+  } catch(e) { toast("Error: " + parseErr(e)); }
+}
+
+async function renderWishlistItems() {
+  var pg = document.getElementById("page-wishlist-items");
+  var wlDec = decodeURIComponent(curWishlistName);
+  pg.innerHTML = "<div class='spinner'></div>";
+  try {
+    var items = await sb("wishlist_items","GET",null,"?wishlist_id=eq." + curWishlistId + "&order=created_at.desc");
+    var html = "<div style='display:flex;align-items:center;gap:8px;margin-bottom:14px'>" +
+      "<button class='btn btn-ghost btn-sm' onclick='navigate("wishlist-list")'>&#8592; " + t("back") + "</button>" +
+      "<span style='font-size:16px;font-weight:700'>&#10024; " + wlDec + "</span></div>";
+    if (!items.length) { html += "<div class='empty'><div class='empty-icon'>&#10024;</div><p>" + t("noWishlistItems") + "</p></div>"; }
+    else {
+      html += items.map(function(item){
+        var typeLabel = item.seed_type === "auto" ? t("autoflower") : t("photoperiod");
+        return "<div class='card'>" +
+          "<div class='card-row'><div>" +
+            "<div class='card-title'>&#127807; " + item.name + "</div>" +
+            "<div class='card-sub'>" + (item.brand||"") + (item.brand?" &middot; ":"") + typeLabel + (item.price_uah?" &middot; " + fmtUAH(item.price_uah):"") + "</div>" +
+          "</div></div>" +
+          "<div class='card-actions'>" +
+            "<button class='btn btn-primary btn-sm' onclick='convertWishlistItemToBag("" + item.id + "")'>" + t("buyAction") + "</button>" +
+            "<button class='btn btn-ghost btn-sm' onclick='openWishlistItemModal("" + item.id + "")'>&#9999;&#65039;</button>" +
+            "<button class='btn btn-danger btn-sm' onclick='deleteWishlistItem("" + item.id + "")'>&#128465;</button>" +
+          "</div></div>";
+      }).join("");
+    }
+    pg.innerHTML = html;
+  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
+}
+
+function openWishlistItemModal(id) {
+  id = id || null; clearErr("wi-error");
+  document.getElementById("wi-edit-id").value = id || "";
+  document.getElementById("wi-wishlist-id").value = curWishlistId;
+  document.getElementById("modal-wi-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080;" : "&#1044;&#1086;&#1076;&#1072;&#1090;&#1080; &#1074; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;";
+  if (id) {
+    sb("wishlist_items","GET",null,"?id=eq." + id).then(function(rows){
+      var item = rows[0]; if (!item) return;
+      document.getElementById("wi-name").value = item.name || "";
+      document.getElementById("wi-brand").value = item.brand || "";
+      document.getElementById("wi-type").value = item.seed_type || "auto";
+      document.getElementById("wi-price").value = item.price_uah || "";
+    });
+  } else {
+    ["wi-name","wi-brand"].forEach(function(id){ document.getElementById(id).value = ""; });
+    document.getElementById("wi-price").value = "";
+    document.getElementById("wi-type").value = "auto";
+  }
+  openModal("modal-wishlist-item");
+}
+
+async function saveWishlistItem() {
+  var name = document.getElementById("wi-name").value.trim();
+  if (!name) { showErr("wi-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091;"); return; }
+  var id = document.getElementById("wi-edit-id").value;
+  var wlId = document.getElementById("wi-wishlist-id").value;
+  var data = { name: name, brand: document.getElementById("wi-brand").value.trim() || null, seed_type: document.getElementById("wi-type").value, price_uah: parseFloat(document.getElementById("wi-price").value) || null, wishlist_id: wlId };
+  try {
+    if (id) await sb("wishlist_items","PATCH",data,"?id=eq." + id);
+    else await sb("wishlist_items","POST",data);
+    closeModal("modal-wishlist-item"); toast(t(id ? "updated" : "added") + " &#10003;"); renderWishlistItems();
+  } catch(e) { showErr("wi-error", "&#10060; " + parseErr(e)); }
+}
+
+async function deleteWishlistItem(id) {
+  if (!confirm(t("confirmWLItem"))) return;
+  try { await sb("wishlist_items","DELETE",null,"?id=eq." + id); toast(t("deleted")); renderWishlistItems(); }
+  catch(e) { toast("Error: " + parseErr(e)); }
+}
+
+async function convertWishlistItemToBag(itemId) {
+  var rows = await sb("wishlist_items","GET",null,"?id=eq." + itemId);
+  var item = rows[0]; if (!item) return;
+  clearErr("seed-error");
+  document.getElementById("seed-edit-id").value = "";
+  document.getElementById("modal-seed-title").textContent = "&#1050;&#1091;&#1087;&#1083;&#1077;&#1085;&#1086; &#8212; &#1076;&#1086;&#1076;&#1072;&#1090;&#1080; &#1074; &#1057;&#1091;&#1084;&#1082;&#1091;";
+  document.getElementById("seed-name").value = item.name || "";
+  document.getElementById("seed-brand").value = item.brand || "";
+  document.getElementById("seed-type").value = item.seed_type || "auto";
+  document.getElementById("seed-price").value = item.price_uah || "";
+  document.getElementById("seed-qty").value = 1;
+  document.getElementById("seed-purchase-date").value = today();
+  document.getElementById("seed-notes").value = "";
+  window._convertFromWLItem = itemId;
+  openModal("modal-seed");
+}
+
+
 // INIT
 function initApp() {
   updateRating(5); applyLang(); navigate('locations');
@@ -1351,6 +1848,7 @@ if (sessionStorage.getItem('gl_auth')) {
 } else {
   applyLang(); setTimeout(function() { document.getElementById('login-input').focus(); }, 300);
 }
+
 </script>
 </body>
 </html>
