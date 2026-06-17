@@ -205,10 +205,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .fi-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit}
 .fi-input:focus{border-color:var(--green2);background:#fff}
 .fi-select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+.fi-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit}
+.fi-input:focus{border-color:var(--green2);background:#fff}
+.fi-select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 </style>
 </head>
 <body>
-
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">&#127807;</div>
@@ -220,29 +223,29 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<div class="popup-overlay" id="cal-popup" onclick="if(event.target===this)closePopup('cal-popup')">
+<div class="popup-overlay" id="cal-popup" onclick="if(event.target===this)GrowLog.closePopup('cal-popup')">
   <div class="popup">
-    <div class="popup-title"><span id="cal-popup-date"></span><button class="popup-close" onclick="closePopup('cal-popup')">&#10005;</button></div>
+    <div class="popup-title"><span id="cal-popup-date"></span><button class="popup-close" onclick="GrowLog.closePopup('cal-popup')">&#10005;</button></div>
     <div id="cal-popup-content"></div>
   </div>
 </div>
-<div class="popup-overlay" id="split-popup" onclick="if(event.target===this)closePopup('split-popup')">
+<div class="popup-overlay" id="split-popup" onclick="if(event.target===this)GrowLog.closePopup('split-popup')">
   <div class="popup">
-    <div class="popup-title"><span id="split-popup-title">Transfer seeds</span><button class="popup-close" onclick="closePopup('split-popup')">&#10005;</button></div>
+    <div class="popup-title"><span id="split-popup-title">Transfer seeds</span><button class="popup-close" onclick="GrowLog.closePopup('split-popup')">&#10005;</button></div>
     <div id="split-popup-content"></div>
   </div>
 </div>
-<div class="popup-overlay" id="convert-popup" onclick="if(event.target===this)closePopup('convert-popup')">
+<div class="popup-overlay" id="convert-popup" onclick="if(event.target===this)GrowLog.closePopup('convert-popup')">
   <div class="popup">
-    <div class="popup-title"><span>&#127807; Convert to plant</span><button class="popup-close" onclick="closePopup('convert-popup')">&#10005;</button></div>
+    <div class="popup-title"><span>&#127807; Convert to plant</span><button class="popup-close" onclick="GrowLog.closePopup('convert-popup')">&#10005;</button></div>
     <div id="convert-popup-content"></div>
   </div>
 </div>
 <header>
   <div class="logo">&#127807; GrowLog</div>
   <div class="lang-toggle">
-    <button class="lang-btn active" id="lang-ua" onclick="setLang('ua')">UA</button>
-    <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" id="lang-ua" onclick="GrowLog.setLang('ua')">UA</button>
+    <button class="lang-btn" id="lang-en" onclick="GrowLog.setLang('en')">EN</button>
   </div>
 </header>
 <main>
@@ -256,13 +259,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="page-wishlist-items" class="page"></div>
 </main>
 <nav class="tabbar">
-  <button class="tab active" data-page="locations" onclick="navigate('locations')"><span class="tab-icon">&#127957;&#65039;</span><span class="tab-lbl" data-k="locations">&#1051;&#1086;&#1082;&#1072;&#1094;&#1110;&#1111;</span></button>
-  <button class="tab" data-page="calendar" onclick="navigate('calendar')"><span class="tab-icon">&#128197;</span><span class="tab-lbl" data-k="calendar">&#1050;&#1072;&#1083;&#1077;&#1085;&#1076;&#1072;&#1088;</span></button>
-  <button class="tab" data-page="harvest" onclick="navigate('harvest')"><span class="tab-icon">&#9878;&#65039;</span><span class="tab-lbl" data-k="harvest">&#1042;&#1088;&#1086;&#1078;&#1072;&#1081;</span></button>
-  <button class="tab" data-page="finance" onclick="navigate('finance')"><span class="tab-icon">&#128176;</span><span class="tab-lbl" data-k="finance">&#1060;&#1110;&#1085;&#1072;&#1085;&#1089;&#1080;</span></button>
-  <button class="tab" data-page="seeds" onclick="navigate('seeds')"><span class="tab-icon">&#127792;</span><span class="tab-lbl" data-k="seeds">&#1057;&#1091;&#1084;&#1082;&#1072;</span></button>
+  <button class="tab active" data-page="locations" onclick="GrowLog.navigate('locations')"><span class="tab-icon">&#127957;&#65039;</span><span class="tab-lbl" data-k="locations">&#1051;&#1086;&#1082;&#1072;&#1094;&#1110;&#1111;</span></button>
+  <button class="tab" data-page="calendar" onclick="GrowLog.navigate('calendar')"><span class="tab-icon">&#128197;</span><span class="tab-lbl" data-k="calendar">&#1050;&#1072;&#1083;&#1077;&#1085;&#1076;&#1072;&#1088;</span></button>
+  <button class="tab" data-page="harvest" onclick="GrowLog.navigate('harvest')"><span class="tab-icon">&#9878;&#65039;</span><span class="tab-lbl" data-k="harvest">&#1042;&#1088;&#1086;&#1078;&#1072;&#1081;</span></button>
+  <button class="tab" data-page="finance" onclick="GrowLog.navigate('finance')"><span class="tab-icon">&#128176;</span><span class="tab-lbl" data-k="finance">&#1060;&#1110;&#1085;&#1072;&#1085;&#1089;&#1080;</span></button>
+  <button class="tab" data-page="seeds" onclick="GrowLog.navigate('seeds')"><span class="tab-icon">&#127792;</span><span class="tab-lbl" data-k="seeds">&#1057;&#1091;&#1084;&#1082;&#1072;</span></button>
 </nav>
-<button class="btn-fab" id="fab" onclick="fabAction()">&#65291;</button>
+<button class="btn-fab" id="fab" onclick="GrowLog.fabAction()">&#65291;</button>
 
 <!-- MODAL: Location -->
 <div class="modal-overlay" id="modal-loc"><div class="modal">
@@ -273,8 +276,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><textarea id="loc-notes"></textarea></div>
   <div class="form-error" id="loc-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-loc')" id="btn-loc-cancel">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveLoc()" id="btn-loc-save">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-loc')" id="btn-loc-cancel">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveLoc()" id="btn-loc-save">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Plant -->
@@ -298,8 +301,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field">
     <label>Тип <span class="req">*</span></label>
     <div class="type-toggle">
-      <button type="button" class="type-btn active" id="type-auto" onclick="setType('auto')">🤖 Автоцвіт</button>
-      <button type="button" class="type-btn" id="type-photo" onclick="setType('photo')">☀️ Фотоперіод</button>
+      <button type="button" class="type-btn active" id="type-auto" onclick="GrowLog.setType('auto')">🤖 Автоцвіт</button>
+      <button type="button" class="type-btn" id="type-photo" onclick="GrowLog.setType('photo')">☀️ Фотоперіод</button>
     </div>
   </div>
   <div id="flowering-days-wrap">
@@ -314,8 +317,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
   <div class="form-error" id="plant-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-plant')" id="btn-plant-cancel">Скасувати</button>
-    <button class="btn btn-primary" id="plant-save-btn" onclick="savePlant()">Додати</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-plant')" id="btn-plant-cancel">Скасувати</button>
+    <button class="btn btn-primary" id="plant-save-btn" onclick="GrowLog.savePlant()">Додати</button>
   </div>
 </div></div>
 <!-- MODAL: Stage -->
@@ -336,8 +339,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Реальна дата <span class="req">*</span></label><input id="stage-date" type="date"></div>
   <div class="form-error" id="stage-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-stage')" id="btn-stage-cancel">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveStage()" id="btn-stage-save">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-stage')" id="btn-stage-cancel">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveStage()" id="btn-stage-save">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Harvest form -->
@@ -360,7 +363,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field">
     <label>Оцінка 1–10 <span class="opt">(опц.)</span></label>
     <div class="rating-wrap">
-      <input type="range" class="rating-slider" id="harv-rating" min="1" max="10" value="5" oninput="updateRating(this.value)">
+      <input type="range" class="rating-slider" id="harv-rating" min="1" max="10" value="5" oninput="GrowLog.updateRating(this.value)">
       <div class="rating-display"><span class="rating-val" id="rating-val">5</span><span class="rating-stars" id="rating-stars">⭐⭐⭐⭐⭐</span></div>
     </div>
   </div>
@@ -368,15 +371,15 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field">
     <label>Фото <span class="opt">(опц.)</span></label>
     <div class="photo-area" onclick="document.getElementById('harv-photo-input').click()">📷 Додати фото</div>
-    <input type="file" id="harv-photo-input" accept="image/*" style="display:none" onchange="previewHarvPhoto(this)">
+    <input type="file" id="harv-photo-input" accept="image/*" style="display:none" onchange="GrowLog.previewHarvPhoto(this)">
     <img id="harv-photo-preview" class="photo-preview">
-    <button type="button" id="harv-photo-delete-btn" class="btn btn-danger btn-sm" style="display:none;margin-top:6px" onclick="clearHarvPhoto()">🗑 Видалити фото</button>
+    <button type="button" id="harv-photo-delete-btn" class="btn btn-danger btn-sm" style="display:none;margin-top:6px" onclick="GrowLog.clearHarvPhoto()">🗑 Видалити фото</button>
     <input type="hidden" id="harv-photo-existing" value="">
   </div>
   <div class="form-error" id="harv-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-harvest-form')" id="btn-harv-cancel">Скасувати</button>
-    <button class="btn btn-primary" id="harv-save-btn" onclick="saveHarvest()">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-harvest-form')" id="btn-harv-cancel">Скасувати</button>
+    <button class="btn btn-primary" id="harv-save-btn" onclick="GrowLog.saveHarvest()">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Expense -->
@@ -395,8 +398,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><input id="exp-notes" placeholder="Що саме..."></div>
   <div class="form-error" id="exp-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-expense')" id="btn-exp-cancel">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveExpense()" id="btn-exp-save">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-expense')" id="btn-exp-cancel">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveExpense()" id="btn-exp-save">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Price -->
@@ -406,8 +409,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="modal-price-year" style="font-size:13px;color:var(--text3);margin-bottom:14px"></div>
   <div class="field"><label>UAH/г</label><input id="price-val" type="number" min="0" step="1" placeholder="0"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-price')">Скасувати</button>
-    <button class="btn btn-primary" onclick="savePrice()">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-price')">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.savePrice()">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Seed -->
@@ -429,8 +432,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><textarea id="seed-notes" placeholder="Умови зберігання..."></textarea></div>
   <div class="form-error" id="seed-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-seed')">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveSeed()">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-seed')">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveSeed()">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Wishlist -->
@@ -441,8 +444,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Назва <span class="req">*</span></label><input id="wishlist-name" placeholder="Зима 2026, Список мрій..."></div>
   <div class="form-error" id="wishlist-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-wishlist')">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveWishlist()">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-wishlist')">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveWishlist()">Зберегти</button>
   </div>
 </div></div>
 <!-- MODAL: Wishlist Item -->
@@ -459,1396 +462,10 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field"><label>Ціна (UAH/шт.) <span class="opt">(опц.)</span></label><input id="wi-price" type="number" min="0" step="1" placeholder="0"></div>
   <div class="form-error" id="wi-error"></div>
   <div class="modal-actions">
-    <button class="btn btn-ghost" onclick="closeModal('modal-wishlist-item')">Скасувати</button>
-    <button class="btn btn-primary" onclick="saveWishlistItem()">Зберегти</button>
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-wishlist-item')">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveWishlistItem()">Зберегти</button>
   </div>
 </div></div>
-
-<script>
-
-var SB_URL = 'https://mpxvsyqkocowamwgqzcy.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
-
-// I18N
-var LANG = localStorage.getItem('gl_lang') || 'ua';
-var TR = {
-  ua: {
-    locations: 'Локації', calendar: 'Календар', harvest: 'Врожай', finance: 'Фінанси',
-    loginSub: 'Введи пароль для входу', loginBtn: 'Увійти', wrongPass: 'Невірний пароль',
-    newLoc: 'Нова локація', editLoc: 'Редагувати локацію',
-    addPlant: 'Додати рослину', editPlant: 'Редагувати рослину',
-    save: 'Зберегти', cancel: 'Скасувати', back: 'Назад',
-    noLoc: 'Немає локацій. Натисни + щоб додати.',
-    noPlants: 'Немає рослин. Натисни + щоб додати.',
-    noCalPlants: 'Додай рослини щоб бачити їх в календарі.',
-    active: 'Активних', autoW: 'Авто', photoW: 'Фото',
-    growth: 'Ріст', preflower: 'Передцвіт', flowering: 'Цвітіння',
-    ripening: 'Дозрів.', toHarvest: 'До збору', harvested: 'Зібрано',
-    planting: 'Посадка', cycle: 'Цикл', drying: 'Сушка', days: 'дн',
-    harvests: 'зборів', dry: 'сухого', plants: 'рослин',
-    noHarvests: 'Немає зборів за',
-    income: 'Дохід', expenses: 'Витрати', profit: 'Прибуток', loss: 'Збиток', pricePerG: 'Ціна/г',
-    addExpense: '+ Додати витрату', summary: 'Підсумок', byPlants: 'По рослинах',
-    soil_cat: 'Грунт', pots_cat: 'Горщики', fert_cat: 'Добрива', seeds_cat: 'Насіння', other_cat: 'Різне',
-    confirmLoc: 'Видалити локацію і всі рослини?', confirmPlant: 'Видалити рослину?',
-    confirmHarv: 'Видалити запис врожаю?', confirmExp: 'Видалити?',
-    saved: 'Збережено', added: 'Додано', updated: 'Оновлено', deleted: 'Видалено',
-    errDate: 'Вкажи дату посадки', errVariety: 'Введи назву сорту',
-    errMin: 'Вкажи мін. цвітіння', errMax: 'Вкажи макс. цвітіння', errMinMax: 'Мін. > Макс.',
-    errAmount: 'Введи суму', errHarvDate: 'Вибери дату збору',
-    stageSet: 'Встановити реальну дату',
-    harvModal: 'Збір врожаю', editHarvModal: 'Редагувати врожай',
-    seedling: 'Розсада', growthS: 'Ріст', preflowerS: 'Передцвіт',
-    flowerS: 'Цвітіння', ripeningS: 'Дозрівання', harvestS: 'Збір', doneS: 'Зібрано',
-    autoflower: 'Автоцвіт', photoperiod: 'Фотоперіод', pct: '% циклу',
-    mon: ['Січ','Лют','Бер','Кві','Тра','Чер','Лип','Сер','Вер','Жов','Лис','Гру'],
-    dow: ['Пн','Вт','Ср','Чт','Пт','Сб','Нд']
-  },
-  en: {
-    locations: 'Locations', calendar: 'Calendar', harvest: 'Harvest', finance: 'Finance',
-    loginSub: 'Enter password', loginBtn: 'Login', wrongPass: 'Wrong password',
-    newLoc: 'New location', editLoc: 'Edit location',
-    addPlant: 'Add plant', editPlant: 'Edit plant',
-    save: 'Save', cancel: 'Cancel', back: 'Back',
-    noLoc: 'No locations. Press + to add.',
-    noPlants: 'No plants. Press + to add.',
-    noCalPlants: 'Add plants to see them in the calendar.',
-    active: 'Active', autoW: 'Auto', photoW: 'Photo',
-    growth: 'Veg', preflower: 'Pre-flower', flowering: 'Flowering',
-    ripening: 'Ripening', toHarvest: 'To harvest', harvested: 'Harvested',
-    planting: 'Planted', cycle: 'Cycle', drying: 'Drying', days: 'd',
-    harvests: 'harvests', dry: 'dry', plants: 'plants',
-    noHarvests: 'No harvests for',
-    income: 'Revenue', expenses: 'Expenses', profit: 'Profit', loss: 'Loss', pricePerG: 'Price/g',
-    addExpense: '+ Add expense', summary: 'Summary', byPlants: 'By plants',
-    soil_cat: 'Soil', pots_cat: 'Pots', fert_cat: 'Nutrients', seeds_cat: 'Seeds', other_cat: 'Other',
-    confirmLoc: 'Delete location and all plants?', confirmPlant: 'Delete plant?',
-    confirmHarv: 'Delete harvest record?', confirmExp: 'Delete?',
-    saved: 'Saved', added: 'Added', updated: 'Updated', deleted: 'Deleted',
-    errDate: 'Enter plant date', errVariety: 'Enter strain name',
-    errMin: 'Enter min flowering', errMax: 'Enter max flowering', errMinMax: 'Min > Max',
-    errAmount: 'Enter amount', errHarvDate: 'Select harvest date',
-    stageSet: 'Set real date',
-    harvModal: 'Harvest', editHarvModal: 'Edit harvest',
-    seedling: 'Seedling', growthS: 'Veg', preflowerS: 'Pre-flower',
-    flowerS: 'Flowering', ripeningS: 'Ripening', harvestS: 'Harvest', doneS: 'Done',
-    autoflower: 'Autoflower', photoperiod: 'Photoperiod', pct: '% of cycle',
-    mon: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    dow: ['Mo','Tu','We','Th','Fr','Sa','Su']
-  }
-};
-
-function t(k) { return (TR[LANG] && TR[LANG][k]) || TR.ua[k] || k; }
-
-function applyLang() {
-  document.getElementById('lang-ua').className = 'lang-btn' + (LANG === 'ua' ? ' active' : '');
-  document.getElementById('lang-en').className = 'lang-btn' + (LANG === 'en' ? ' active' : '');
-  document.getElementById('login-sub').textContent = t('loginSub');
-  document.getElementById('login-btn').textContent = t('loginBtn');
-  document.querySelectorAll('.tab-lbl[data-k]').forEach(function(el) {
-    el.textContent = t(el.getAttribute('data-k'));
-  });
-}
-
-function setLang(lang) {
-  LANG = lang;
-  localStorage.setItem('gl_lang', lang);
-  applyLang();
-  renderPage(curPage);
-}
-
-function renderPage(p) {
-  if (p === 'locations') renderLocations();
-  else if (p === 'plants') renderPlants();
-  else if (p === 'calendar') renderCalendar();
-  else if (p === 'harvest') renderHarvestPage();
-  else if (p === 'finance') renderFinance();
-}
-
-// AUTH
-document.getElementById('login-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') checkLogin();
-});
-document.getElementById('login-btn').addEventListener('click', checkLogin);
-
-function checkLogin() {
-  var v = document.getElementById('login-input').value;
-  if (v === atob('R0wyMDI2Iw==')) {
-    sessionStorage.setItem('gl_auth', '1');
-    document.getElementById('login-screen').style.display = 'none';
-    initApp();
-  } else {
-    document.getElementById('login-error').textContent = t('wrongPass');
-    document.getElementById('login-input').value = '';
-    setTimeout(function() { document.getElementById('login-error').textContent = ''; }, 2000);
-  }
-}
-
-// SUPABASE
-async function sb(table, method, body, query) {
-  method = method || 'GET'; query = query || '';
-  var h = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
-  if (method === 'POST') h['Prefer'] = 'return=representation';
-  if (method === 'PATCH') h['Prefer'] = 'return=representation';
-  var r = await fetch(SB_URL + '/rest/v1/' + table + query, { method: method, headers: h, body: body ? JSON.stringify(body) : null });
-  if (!r.ok) { var e = await r.text(); throw new Error(e); }
-  if (method === 'DELETE') return null;
-  var txt = await r.text(); return txt ? JSON.parse(txt) : null;
-}
-
-async function uploadPhoto(file) {
-  var ext = file.name.split('.').pop();
-  var path = 'harvests/' + Date.now() + '.' + ext;
-  var r = await fetch(SB_URL + '/storage/v1/object/plant-photos/' + path, {
-    method: 'POST',
-    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': file.type },
-    body: file
-  });
-  if (!r.ok) throw new Error('Photo upload failed');
-  return SB_URL + '/storage/v1/object/public/plant-photos/' + path;
-}
-
-// STATE
-var curPage = 'locations', curLocId = null, curLocName = '';
-var harvestYear = new Date().getFullYear(), financeYear = new Date().getFullYear();
-var plantViewMode = 'cards', expandedPlantId = null, expandedTimelineId = null;
-var varType = 'auto', cache = { varieties: [], locations: [] };
-var calOffset = 0, finTab = 'summary';
-
-// UTILS
-function fmt(d) {
-  if (!d) return '—';
-  return new Date(d + 'T12:00:00').toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' });
-}
-function today() { return new Date().toISOString().slice(0, 10); }
-function addDays(d, n) { var dt = new Date(d + 'T12:00:00'); dt.setDate(dt.getDate() + n); return dt.toISOString().slice(0, 10); }
-function diffDays(a, b) { return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000); }
-function getYear(d) { return d ? new Date(d + 'T12:00:00').getFullYear() : null; }
-function fmtUAH(n) { return (n || 0).toLocaleString('uk-UA', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' \u20b4'; }
-function showErr(id, msg) { var el = document.getElementById(id); if (el) { el.innerHTML = msg; el.style.display = msg ? 'block' : 'none'; } }
-function clearErr(id) { showErr(id, ''); }
-function parseErr(e) { var m = e.message; try { var p = JSON.parse(m); m = p.message || p.details || m; } catch (x) {} return m; }
-
-// STAGES
-var STAGE_COLORS = { seedling: '#1565c0', growth: '#2d7a3a', pre_flower: '#f9a825', flower: '#e65100', ripening: '#ad1457', harvest: '#c62828', done: '#c62828' };
-var STAGE_ICONS = { seedling: '🌱', growth: '🌿', pre_flower: '🌼', flower: '🌸', ripening: '🟡', harvest: '✂️', done: '✅' };
-var STAGE_KEYS = { seedling: 'seedling', growth: 'growthS', pre_flower: 'preflowerS', flower: 'flowerS', ripening: 'ripeningS', harvest: 'harvestS', done: 'doneS' };
-
-function stageName(sk) { return (STAGE_ICONS[sk] || '') + ' ' + (t(STAGE_KEYS[sk]) || sk); }
-
-function calcStages(plant, v) {
-  var o = plant.stage_overrides || {};
-  var avg = v.seed_type === 'auto' ? Math.round((v.flowering_days_min + v.flowering_days_max) / 2) : 70;
-  var pd = plant.plant_date; var s = {};
-  if (v.seed_type === 'auto') {
-    s.seedling = o.seedling || pd; s.growth = o.growth || addDays(pd, 14);
-    s.pre_flower = o.pre_flower || addDays(pd, 35); s.flower = o.flower || addDays(pd, 42);
-    s.ripening = o.ripening || addDays(s.flower, avg - 10); s.harvest = o.harvest || addDays(s.flower, avg);
-  } else {
-    var yr = new Date(pd + 'T12:00:00').getFullYear();
-    s.seedling = o.seedling || pd; s.growth = o.growth || pd;
-    s.flower = o.flower || (yr + '-08-01'); s.pre_flower = o.pre_flower || addDays(s.flower, -7);
-    s.ripening = o.ripening || addDays(s.flower, 50); s.harvest = o.harvest || addDays(s.flower, 65);
-  }
-  return s;
-}
-
-function getStage(plant, v) {
-  if (plant.is_harvested) return 'done';
-  var tdy = today(), s = calcStages(plant, v);
-  if (tdy >= s.harvest) return 'harvest'; if (tdy >= s.ripening) return 'ripening';
-  if (tdy >= s.flower) return 'flower'; if (tdy >= s.pre_flower) return 'pre_flower';
-  if (tdy >= s.growth) return 'growth'; return 'seedling';
-}
-
-function getWarning(plant, v) {
-  if (plant.is_harvested) return null;
-  var tdy = today(), s = calcStages(plant, v), stage = getStage(plant, v);
-  var order = ['seedling', 'growth', 'pre_flower', 'flower', 'ripening', 'harvest'];
-  var idx = order.indexOf(stage); if (idx < 0 || idx >= order.length - 1) return null;
-  var nextDate = s[order[idx + 1]]; if (!nextDate) return null;
-  var diff = diffDays(tdy, nextDate);
-  if (diff < 0) return { type: 'alert', text: stageName(order[idx + 1]) + ' -' + Math.abs(diff) + t('days') };
-  if (diff <= 5) return { type: 'warn', text: stageName(order[idx + 1]) + ' +' + diff + t('days') };
-  return null;
-}
-
-function getPct(plant, v) {
-  var s = calcStages(plant, v); var total = diffDays(plant.plant_date, s.harvest);
-  if (total <= 0) return 100;
-  return Math.min(100, Math.max(0, Math.round(diffDays(plant.plant_date, today()) / total * 100)));
-}
-
-// NAVIGATE
-function navigate(page, data) {
-  data = data || {};
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-  document.getElementById('page-' + page).classList.add('active');
-  var tabEl = document.querySelector('.tab[data-page="' + page + '"]') || document.querySelector('.tab[data-page="locations"]');
-  if (tabEl) tabEl.classList.add('active');
-  curPage = page;
-  document.getElementById('fab').style.display = ['locations', 'plants'].indexOf(page) >= 0 ? 'flex' : 'none';
-  if (page === 'locations') renderLocations();
-  else if (page === 'plants') { curLocId = data.locId; curLocName = data.locName || ''; cache.varieties = []; renderPlants(); }
-  else if (page === 'calendar') renderCalendar();
-  else if (page === 'harvest') renderHarvestPage();
-  else if (page === 'finance') renderFinance();
-  else if (page === 'seeds') { if(typeof renderSeeds==='function') renderSeeds(); }
-}
-
-function fabAction() { if (curPage === 'locations') openLocModal(); else if (curPage === 'plants') openPlantModal(); else if (curPage === 'seeds' && typeof openSeedModal === 'function') openSeedModal(); }
-
-function toast(msg) {
-  var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show');
-  setTimeout(function() { el.classList.remove('show'); }, 2500);
-}
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function openPopup(id) { document.getElementById(id).classList.add('open'); }
-function closePopup(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(function(el) {
-  el.addEventListener('click', function(e) { if (e.target === el) closeModal(el.id); });
-});
-
-// STATS BAR helper
-function makeStatsBar(chips, hasCycles) {
-  var html = '<div class="stats-bar">';
-  chips.forEach(function(c, i) {
-    if (c === 'divider') { html += '<div class="stats-divider"></div>'; return; }
-    html += '<div class="stat-chip"><div class="stat-chip-val"' + (c.color ? ' style="color:' + c.color + '"' : '') + '>' + c.val + '</div><div class="stat-chip-label">' + c.label + '</div></div>';
-  });
-  html += '</div>';
-  return html;
-}
-
-// LOCATIONS
-async function renderLocations() {
-  var pg = document.getElementById('page-locations'); pg.innerHTML = '<div class="spinner"></div>';
-  try {
-    cache.locations = await sb('locations', 'GET', null, '?order=created_at.asc');
-    var plants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
-    if (!cache.varieties.length) cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
-    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
-    var autoCount = 0, photoCount = 0;
-    var sc = { growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
-    activePlants.forEach(function(p) {
-      var v = cache.varieties.find(function(x) { return x.id === p.variety_id; });
-      if (!v) return;
-      if (v.seed_type === 'auto') autoCount++; else photoCount++;
-      var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
-    });
-    var harvestedCount = plants.filter(function(p) { return p.is_harvested; }).length;
-    var hasCycles = sc.growth > 0 || sc.pre_flower > 0 || sc.flower > 0 || sc.ripening > 0 || sc.harvest > 0 || harvestedCount > 0;
-    var chips = [
-      { val: activePlants.length, label: t('active') },
-      { val: autoCount, label: t('autoW') },
-      { val: photoCount, label: t('photoW') }
-    ];
-    if (hasCycles) {
-      chips.push('divider');
-      if (sc.growth > 0) chips.push({ val: sc.growth, label: t('growth'), color: '#2d7a3a' });
-      if (sc.pre_flower > 0) chips.push({ val: sc.pre_flower, label: t('preflower'), color: '#f9a825' });
-      if (sc.flower > 0) chips.push({ val: sc.flower, label: t('flowering'), color: '#e65100' });
-      if (sc.ripening > 0) chips.push({ val: sc.ripening, label: t('ripening'), color: '#ad1457' });
-      if (sc.harvest > 0) chips.push({ val: sc.harvest, label: t('toHarvest'), color: '#c62828' });
-      if (harvestedCount > 0) chips.push({ val: harvestedCount, label: t('harvested'), color: 'var(--text3)' });
-    }
-    var statsHtml = makeStatsBar(chips);
-    if (!cache.locations.length) { pg.innerHTML = statsHtml + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>'; return; }
-    var locsHtml = cache.locations.map(function(loc) {
-      var lp = plants.filter(function(p) { return p.location_id === loc.id; });
-      var active = lp.filter(function(p) { return !p.is_harvested; }).length;
-      var harv = lp.filter(function(p) { return p.is_harvested; });
-      var totalW = 0;
-      harv.forEach(function(p) { harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); }); });
-      return '<div class="card" style="cursor:pointer" onclick="navigate(\'plants\',{locId:\'' + loc.id + '\',locName:\'' + encodeURIComponent(loc.name) + '\'})">' +
-        '<div class="card-row"><div>' +
-          '<div class="card-title">🏕️ ' + loc.name + '</div>' +
-          '<div class="card-sub">' + active + ' ' + t('active').toLowerCase() + (harv.length ? ' · ' + harv.length + ' ' + t('harvested').toLowerCase() + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') : '') + '</div>' +
-        '</div><span style="color:var(--text3);font-size:20px">›</span></div>' +
-        '<div class="card-actions">' +
-          '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openLocModal(\'' + loc.id + '\')">✏️</button>' +
-          '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteLoc(\'' + loc.id + '\')">🗑</button>' +
-        '</div></div>';
-    }).join('');
-    pg.innerHTML = statsHtml + locsHtml;
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
-}
-
-function openLocModal(id) {
-  id = id || null; clearErr('loc-error');
-  document.getElementById('loc-id').value = id || '';
-  document.getElementById('modal-loc-title').textContent = id ? t('editLoc') : t('newLoc');
-  var loc = id ? cache.locations.find(function(l) { return l.id === id; }) : null;
-  document.getElementById('loc-name').value = loc ? loc.name || '' : '';
-  document.getElementById('loc-notes').value = loc ? loc.notes || '' : '';
-  openModal('modal-loc');
-}
-
-async function saveLoc() {
-  var name = document.getElementById('loc-name').value.trim();
-  if (!name) { showErr('loc-error', '⚠️ Введи назву'); return; }
-  var id = document.getElementById('loc-id').value;
-  try {
-    if (id) await sb('locations', 'PATCH', { name: name, notes: document.getElementById('loc-notes').value.trim() }, '?id=eq.' + id);
-    else await sb('locations', 'POST', { name: name, notes: document.getElementById('loc-notes').value.trim() });
-    closeModal('modal-loc'); toast(t(id ? 'updated' : 'added') + ' ✅'); renderLocations();
-  } catch (e) { showErr('loc-error', '❌ ' + parseErr(e)); }
-}
-
-async function deleteLoc(id) {
-  if (!confirm(t('confirmLoc'))) return;
-  try {
-    var ps = await sb('plants', 'GET', null, '?location_id=eq.' + id + '&select=id');
-    for (var i = 0; i < ps.length; i++) {
-      await sb('harvests', 'DELETE', null, '?plant_id=eq.' + ps[i].id);
-      await sb('expenses', 'DELETE', null, '?plant_id=eq.' + ps[i].id);
-    }
-    await sb('plants', 'DELETE', null, '?location_id=eq.' + id);
-    await sb('locations', 'DELETE', null, '?id=eq.' + id);
-    toast(t('deleted')); renderLocations();
-  } catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-// TYPE
-function setType(type) {
-  varType = type;
-  document.getElementById('type-auto').classList.toggle('active', type === 'auto');
-  document.getElementById('type-photo').classList.toggle('active', type === 'photo');
-  document.getElementById('flowering-days-wrap').style.display = type === 'auto' ? 'block' : 'none';
-}
-
-// PLANTS
-async function renderPlants() {
-  var pg = document.getElementById('page-plants');
-  var locDec = decodeURIComponent(curLocName);
-  function hdr() {
-    return '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
-      '<div style="display:flex;align-items:center;gap:8px">' +
-        '<button class="btn btn-ghost btn-sm" onclick="navigate(\'locations\')">← ' + t('back') + '</button>' +
-        '<span style="font-size:16px;font-weight:700">🏕️ ' + locDec + '</span>' +
-      '</div>' +
-      '<div class="view-toggle">' +
-        '<button class="view-btn ' + (plantViewMode === 'cards' ? 'active' : '') + '" onclick="setViewMode(\'cards\')">▦</button>' +
-        '<button class="view-btn ' + (plantViewMode === 'list' ? 'active' : '') + '" onclick="setViewMode(\'list\')">☰</button>' +
-      '</div></div>';
-  }
-  pg.innerHTML = hdr() + '<div class="spinner"></div>';
-  try {
-    cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var plants = await sb('plants', 'GET', null, '?location_id=eq.' + curLocId + '&order=plant_date.asc');
-    var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g,harvest_date');
-    var html = hdr();
-    if (!plants.length) html += '<div class="empty"><div class="empty-icon">🌱</div><p>' + t('noPlants') + '</p></div>';
-    else if (plantViewMode === 'list') html += plants.map(function(p) { return renderPlantList(p, harvests); }).join('');
-    else html += plants.map(function(p) { return renderPlantCard(p, harvests); }).join('');
-    pg.innerHTML = html;
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
-}
-
-function setViewMode(m) { plantViewMode = m; renderPlants(); }
-
-function renderPlantCard(p, harvests) {
-  var v = cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return '';
-  var stages = calcStages(p, v), stage = getStage(p, v), pct = getPct(p, v), warn = getWarning(p, v), o = p.stage_overrides || {};
-  var barClass = ['flower', 'ripening'].indexOf(stage) >= 0 ? stage : '';
-  var isOpen = expandedTimelineId === p.id;
-  var ph = harvests ? harvests.filter(function(h) { return h.plant_id === p.id; }) : [];
-  var totalW = ph.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-  var stageOrder = ['seedling', 'growth', 'pre_flower', 'flower', 'ripening', 'harvest'];
-  var tlHtml = '<div class="stage-timeline" id="tl-' + p.id + '" style="' + (isOpen ? '' : 'display:none') + '">' +
-    stageOrder.map(function(sk) {
-      var isA = sk === stage && !p.is_harvested, isE = !!(o[sk]);
-      return '<div class="stage-row' + (isA ? ' active-stage' : '') + '">' +
-        '<div class="stage-dot" style="background:' + STAGE_COLORS[sk] + '"></div>' +
-        '<span class="stage-name" style="color:' + (isA ? 'var(--green)' : 'var(--text2)') + '">' + stageName(sk) + '</span>' +
-        '<span class="stage-date">' + fmt(stages[sk]) + '</span>' + (isE ? '<span class="stage-edited">✏️</span>' : '') +
-        '</div>';
-    }).join('') + '</div>';
-  var ne = encodeURIComponent(p.name || v.name);
-  return '<div class="plant-card stage-' + stage + '">' +
-    '<div class="card-row">' +
-      '<div style="flex:1;min-width:0">' +
-        '<div class="card-title">' + (p.name || v.name) + '</div>' +
-        '<div class="card-sub">' + v.name + ' · ' + (v.brand || '') + ' · ' + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>' +
-        (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '🫙 ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' · ' : '') + (p.soil_type || '') + '</div>' : '') +
-        (p.url ? '<a href="' + p.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">🔗 Link</a>' : '') +
-        (p.is_harvested && ph.length ? '<div class="card-sub" style="color:var(--green)">✅ ' + ph.length + 'x' + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '') +
-      '</div>' +
-      '<div style="text-align:right;flex-shrink:0;margin-left:8px">' +
-        (!p.is_harvested ?
-          '<div style="font-size:10px;color:var(--text3)">✂️</div>' +
-          '<div style="font-size:13px;font-weight:600">' + fmt(stages.harvest) + '</div>' +
-          (warn ? '<div class="badge badge-' + warn.type + '" style="margin-top:3px;font-size:10px">' + warn.text + '</div>' : '') :
-          '<span class="badge badge-done">✅</span>') +
-      '</div>' +
-    '</div>' +
-    (!p.is_harvested ? '<div class="progress-wrap"><div class="progress-bar ' + barClass + '" style="width:' + pct + '%"></div></div>' +
-      '<div style="font-size:11px;color:var(--text3);text-align:right;margin-bottom:4px">' + pct + '% ' + t('pct') + '</div>' : '') +
-    '<div class="toggle-row" onclick="toggleTl(\'' + p.id + '\')">' +
-      '<span style="font-size:13px;color:var(--text2);font-weight:500">' + stageName(stage) + '</span>' +
-      '<span class="toggle-chevron' + (isOpen ? ' open' : '') + '" id="ch-' + p.id + '">▾</span>' +
-    '</div>' + tlHtml +
-    '<div class="card-actions">' +
-      '<button class="btn btn-ghost btn-sm" onclick="openEditPlant(\'' + p.id + '\')">✏️</button>' +
-      '<button class="btn btn-ghost btn-sm" onclick="openStageModal(\'' + p.id + '\',\'' + ne + '\')">📅</button>' +
-      (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="openHarvestModal(\'' + p.id + '\',\'' + ne + '\')">✂️</button>' : '') +
-      '<button class="btn btn-danger btn-sm" onclick="deletePlant(\'' + p.id + '\')">🗑</button>' +
-    '</div></div>';
-}
-
-function renderPlantList(p, harvests) {
-  var v = cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return '';
-  var stage = getStage(p, v), stages = calcStages(p, v), warn = getWarning(p, v), isExp = expandedPlantId === p.id;
-  var ph = harvests ? harvests.filter(function(h) { return h.plant_id === p.id; }) : [];
-  var totalW = ph.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-  var ne = encodeURIComponent(p.name || v.name);
-  var html = '<div class="plant-list-item stage-' + stage + '" onclick="toggleExpand(\'' + p.id + '\')">' +
-    '<div style="flex:1;min-width:0">' +
-      '<div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (p.name || v.name) + '</div>' +
-      '<div style="font-size:11px;color:var(--text3)">' + v.name + ' · ✂️ ' + fmt(stages.harvest) + (warn ? ' ⚠️' : '') + (p.is_harvested && ph.length ? ' ✅ ' + totalW.toFixed(1) + 'g' : '') + '</div>' +
-    '</div>' +
-    '<span class="badge badge-' + stage + '" style="margin:0 6px;flex-shrink:0">' + stageName(stage) + '</span>' +
-    '<span style="color:var(--text3);font-size:12px">' + (isExp ? '▲' : '▼') + '</span>' +
-  '</div>';
-  if (isExp) {
-    html += '<div style="background:var(--bg3);border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:10px 12px;margin-top:-4px;margin-bottom:6px">' +
-      (warn ? '<div class="badge badge-' + warn.type + '" style="margin-bottom:8px;display:inline-flex">' + warn.text + '</div>' : '') +
-      '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
-        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openEditPlant(\'' + p.id + '\')">✏️</button>' +
-        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openStageModal(\'' + p.id + '\',\'' + ne + '\')">📅</button>' +
-        (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openHarvestModal(\'' + p.id + '\',\'' + ne + '\')">✂️</button>' : '') +
-        '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deletePlant(\'' + p.id + '\')">🗑</button>' +
-      '</div></div>';
-  }
-  return html;
-}
-
-function toggleTl(id) {
-  expandedTimelineId = expandedTimelineId === id ? null : id;
-  var el = document.getElementById('tl-' + id), ch = document.getElementById('ch-' + id);
-  if (el) el.style.display = expandedTimelineId === id ? 'block' : 'none';
-  if (ch) ch.className = 'toggle-chevron' + (expandedTimelineId === id ? ' open' : '');
-}
-function toggleExpand(id) { expandedPlantId = expandedPlantId === id ? null : id; renderPlants(); }
-
-function openPlantModal() {
-  clearErr('plant-error');
-  document.getElementById('plant-edit-id').value = '';
-  document.getElementById('plant-loc-id').value = curLocId;
-  document.getElementById('modal-plant-title').textContent = t('addPlant');
-  document.getElementById('plant-save-btn').textContent = t('save');
-  document.getElementById('seed-cost-wrap').style.display = 'block';
-  ['plant-name', 'plant-soil', 'var-name', 'var-brand', 'plant-url'].forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
-  document.getElementById('plant-pot').value = '';
-  document.getElementById('var-min').value = ''; document.getElementById('var-max').value = '';
-  document.getElementById('plant-seed-cost').value = '';
-  document.getElementById('plant-date').value = today();
-  setType('auto'); openModal('modal-plant');
-}
-
-async function openEditPlant(plantId) {
-  clearErr('plant-error');
-  try {
-    var rows = await sb('plants', 'GET', null, '?id=eq.' + plantId); var p = rows[0]; if (!p) return;
-    var vr = await sb('varieties', 'GET', null, '?id=eq.' + p.variety_id); var variety = vr[0];
-    document.getElementById('plant-edit-id').value = plantId;
-    document.getElementById('plant-loc-id').value = p.location_id;
-    document.getElementById('modal-plant-title').textContent = t('editPlant');
-    document.getElementById('plant-save-btn').textContent = t('save');
-    document.getElementById('seed-cost-wrap').style.display = 'none';
-    document.getElementById('plant-name').value = p.name || '';
-    document.getElementById('plant-date').value = p.plant_date || today();
-    document.getElementById('plant-pot').value = p.pot_size_l || '';
-    document.getElementById('plant-soil').value = p.soil_type || '';
-    document.getElementById('plant-url').value = p.url || '';
-    document.getElementById('var-name').value = variety ? variety.name || '' : '';
-    document.getElementById('var-brand').value = variety ? variety.brand || '' : '';
-    if (variety) { setType(variety.seed_type || 'auto'); document.getElementById('var-min').value = variety.flowering_days_min || ''; document.getElementById('var-max').value = variety.flowering_days_max || ''; }
-    openModal('modal-plant');
-  } catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-async function savePlant() {
-  var editId = document.getElementById('plant-edit-id').value;
-  var varName = document.getElementById('var-name').value.trim();
-  var date = document.getElementById('plant-date').value;
-  var minV = document.getElementById('var-min').value, maxV = document.getElementById('var-max').value;
-  var min = parseInt(minV), max = parseInt(maxV);
-  clearErr('plant-error'); var errs = [];
-  if (!date) errs.push(t('errDate')); if (!varName) errs.push(t('errVariety'));
-  if (varType === 'auto') { if (!minV) errs.push(t('errMin')); if (!maxV) errs.push(t('errMax')); if (minV && maxV && min > max) errs.push(t('errMinMax')); }
-  if (errs.length) { showErr('plant-error', errs.map(function(e) { return '⚠️ ' + e; }).join('<br>')); return; }
-  try {
-    var varData = { name: varName, brand: document.getElementById('var-brand').value.trim(), seed_type: varType, flowering_days_min: varType === 'auto' ? min : 0, flowering_days_max: varType === 'auto' ? max : 0 };
-    var plantData = { name: document.getElementById('plant-name').value.trim(), plant_date: date, soil_type: document.getElementById('plant-soil').value.trim() || null, pot_size_l: parseFloat(document.getElementById('plant-pot').value) || null, url: document.getElementById('plant-url').value.trim() || null };
-    if (editId) {
-      var rows = await sb('plants', 'GET', null, '?id=eq.' + editId + '&select=variety_id');
-      await sb('varieties', 'PATCH', varData, '?id=eq.' + rows[0].variety_id);
-      await sb('plants', 'PATCH', plantData, '?id=eq.' + editId);
-      closeModal('modal-plant'); toast(t('updated') + ' ✅');
-    } else {
-      var nv = await sb('varieties', 'POST', varData); if (!nv || !nv[0]) throw new Error('Could not create variety');
-      plantData.location_id = curLocId; plantData.variety_id = nv[0].id;
-      plantData.current_stage = 'seedling'; plantData.stage_overrides = {}; plantData.is_harvested = false;
-      var np = await sb('plants', 'POST', plantData); if (!np || !np[0]) throw new Error('Could not add plant');
-      var sc = parseFloat(document.getElementById('plant-seed-cost').value) || 0;
-      if (sc > 0) { var yr = new Date(date + 'T12:00:00').getFullYear(); await sb('expenses', 'POST', { year: yr, category: 'seeds', amount_uah: sc, plant_id: np[0].id, notes: 'Seeds: ' + varName }); }
-      closeModal('modal-plant'); toast(t('added') + ' ✅');
-    }
-    renderPlants();
-  } catch (e) { showErr('plant-error', '❌ ' + parseErr(e)); }
-}
-
-async function deletePlant(id) {
-  if (!confirm(t('confirmPlant'))) return;
-  try {
-    await sb('harvests', 'DELETE', null, '?plant_id=eq.' + id);
-    await sb('expenses', 'DELETE', null, '?plant_id=eq.' + id);
-    await sb('plants', 'DELETE', null, '?id=eq.' + id);
-    toast(t('deleted')); renderPlants();
-  } catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-// STAGE
-function openStageModal(plantId, labelEnc) {
-  clearErr('stage-error');
-  document.getElementById('stage-plant-id').value = plantId;
-  document.getElementById('stage-info').textContent = decodeURIComponent(labelEnc);
-  document.getElementById('stage-date').value = today();
-  document.getElementById('modal-stage-title').textContent = t('stageSet');
-  openModal('modal-stage');
-}
-
-async function saveStage() {
-  var plantId = document.getElementById('stage-plant-id').value;
-  var key = document.getElementById('stage-key').value;
-  var date = document.getElementById('stage-date').value;
-  if (!date) { showErr('stage-error', '⚠️ ' + t('errHarvDate')); return; }
-  try {
-    var rows = await sb('plants', 'GET', null, '?id=eq.' + plantId + '&select=stage_overrides');
-    var o = rows[0] ? rows[0].stage_overrides || {} : {}; o[key] = date;
-    await sb('plants', 'PATCH', { stage_overrides: o }, '?id=eq.' + plantId);
-    cache.varieties = [];
-    closeModal('modal-stage'); toast(t('saved') + ' ✅'); renderPlants();
-  } catch (e) { showErr('stage-error', '❌ ' + parseErr(e)); }
-}
-
-// HARVEST MODAL
-function updateRating(val) {
-  document.getElementById('rating-val').textContent = val;
-  var s = Math.round(val / 2); document.getElementById('rating-stars').textContent = '⭐'.repeat(s) + '☆'.repeat(5 - s);
-}
-function previewHarvPhoto(input) {
-  var file = input.files[0]; if (!file) return;
-  var p = document.getElementById('harv-photo-preview'); p.src = URL.createObjectURL(file); p.style.display = 'block';
-  document.getElementById('harv-photo-delete-btn').style.display = 'inline-flex';
-}
-function clearHarvPhoto() {
-  document.getElementById('harv-photo-input').value = '';
-  document.getElementById('harv-photo-preview').style.display = 'none';
-  document.getElementById('harv-photo-delete-btn').style.display = 'none';
-  document.getElementById('harv-photo-existing').value = 'DELETE';
-}
-function openHarvestModal(plantId, labelEnc) {
-  clearErr('harv-error');
-  document.getElementById('harv-edit-id').value = '';
-  document.getElementById('harv-plant-id').value = plantId;
-  document.getElementById('harv-info').textContent = decodeURIComponent(labelEnc);
-  document.getElementById('harv-modal-title').textContent = t('harvModal');
-  document.getElementById('harv-save-btn').textContent = t('save');
-  document.getElementById('harv-date').value = today();
-  ['harv-wet', 'harv-weight', 'harv-notes'].forEach(function(id) { document.getElementById(id).value = ''; });
-  ['harv-dry-start', 'harv-dry-end'].forEach(function(id) { document.getElementById(id).value = ''; });
-  document.getElementById('harv-photo-input').value = '';
-  document.getElementById('harv-photo-preview').style.display = 'none';
-  document.getElementById('harv-photo-delete-btn').style.display = 'none';
-  document.getElementById('harv-photo-existing').value = '';
-  document.getElementById('harv-rating').value = 5; updateRating(5);
-  openModal('modal-harvest-form');
-}
-
-async function openEditHarvest(harvId) {
-  clearErr('harv-error');
-  try {
-    var rows = await sb('harvests', 'GET', null, '?id=eq.' + harvId); var h = rows[0]; if (!h) return;
-    var pr = await sb('plants', 'GET', null, '?id=eq.' + h.plant_id + '&select=id,name,variety_id'); var p = pr[0]; var label = '';
-    if (p) { var vr = cache.varieties.find(function(x) { return x.id === p.variety_id; }); label = (p.name || '') + ' ' + (vr ? vr.name : ''); }
-    document.getElementById('harv-edit-id').value = harvId;
-    document.getElementById('harv-plant-id').value = h.plant_id;
-    document.getElementById('harv-info').textContent = label.trim();
-    document.getElementById('harv-modal-title').textContent = t('editHarvModal');
-    document.getElementById('harv-save-btn').textContent = t('save');
-    document.getElementById('harv-date').value = h.harvest_date || today();
-    document.getElementById('harv-wet').value = h.wet_weight_g || '';
-    document.getElementById('harv-weight').value = h.dry_weight_g || '';
-    document.getElementById('harv-dry-start').value = h.dry_start_date || '';
-    document.getElementById('harv-dry-end').value = h.dry_end_date || '';
-    document.getElementById('harv-notes').value = h.notes || '';
-    document.getElementById('harv-photo-input').value = '';
-    document.getElementById('harv-photo-existing').value = h.photo_url || '';
-    var prev = document.getElementById('harv-photo-preview');
-    if (h.photo_url) { prev.src = h.photo_url; prev.style.display = 'block'; document.getElementById('harv-photo-delete-btn').style.display = 'inline-flex'; }
-    else { prev.style.display = 'none'; document.getElementById('harv-photo-delete-btn').style.display = 'none'; }
-    var r = h.rating || 5; document.getElementById('harv-rating').value = r; updateRating(r);
-    openModal('modal-harvest-form');
-  } catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-async function saveHarvest() {
-  var plantId = document.getElementById('harv-plant-id').value;
-  var editId = document.getElementById('harv-edit-id').value;
-  var date = document.getElementById('harv-date').value;
-  if (!date) { showErr('harv-error', '⚠️ ' + t('errHarvDate')); return; }
-  try {
-    var photoFile = document.getElementById('harv-photo-input').files[0];
-    var existingPhoto = document.getElementById('harv-photo-existing').value;
-    var photoUrl = null;
-    if (photoFile) photoUrl = await uploadPhoto(photoFile);
-    else if (existingPhoto === 'DELETE') photoUrl = null;
-    else if (existingPhoto) photoUrl = existingPhoto;
-    var data = { plant_id: plantId, harvest_date: date, wet_weight_g: parseFloat(document.getElementById('harv-wet').value) || null, dry_weight_g: parseFloat(document.getElementById('harv-weight').value) || null, dry_start_date: document.getElementById('harv-dry-start').value || null, dry_end_date: document.getElementById('harv-dry-end').value || null, rating: parseInt(document.getElementById('harv-rating').value) || null, notes: document.getElementById('harv-notes').value.trim(), photo_url: photoUrl };
-    if (editId) await sb('harvests', 'PATCH', data, '?id=eq.' + editId);
-    else { await sb('harvests', 'POST', data); await sb('plants', 'PATCH', { is_harvested: true }, '?id=eq.' + plantId); }
-    closeModal('modal-harvest-form'); toast(t('saved') + ' ✅');
-    if (curPage === 'harvest') renderHarvestPage(); else renderPlants();
-  } catch (e) { showErr('harv-error', '❌ ' + parseErr(e)); }
-}
-
-async function deleteHarvest(id) {
-  if (!confirm(t('confirmHarv'))) return;
-  try { await sb('harvests', 'DELETE', null, '?id=eq.' + id); toast(t('deleted')); renderHarvestPage(); }
-  catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-// HARVEST PAGE
-async function renderHarvestPage() {
-  var pg = document.getElementById('page-harvest'); pg.innerHTML = '<div class="spinner"></div>';
-  try {
-    var harvests = await sb('harvests', 'GET', null, '?order=harvest_date.desc');
-    if (!cache.varieties.length) cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var plants = await sb('plants', 'GET', null, '?select=id,name,variety_id,location_id,plant_date,is_harvested,stage_overrides');
-    var locs = await sb('locations', 'GET', null, '?select=id,name');
-    var years = [...new Set(harvests.map(function(h) { return getYear(h.harvest_date); }).filter(Boolean))].sort(function(a, b) { return b - a; });
-    if (!years.includes(harvestYear) && years.length) harvestYear = years[0];
-    var filtered = harvests.filter(function(h) { return getYear(h.harvest_date) === harvestYear; });
-    var totalW = filtered.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
-    var hsc = { growth: 0, flower: 0, ripening: 0 };
-    activePlants.forEach(function(p) {
-      var v = cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
-      var st = getStage(p, v); if (hsc[st] !== undefined) hsc[st]++;
-    });
-    var hasHarvCycles = hsc.growth > 0 || hsc.flower > 0 || hsc.ripening > 0;
-    var chips = [
-      { val: filtered.length, label: t('harvests') },
-      { val: totalW.toFixed(1) + 'g', label: t('dry') },
-      'divider',
-      { val: activePlants.length, label: t('plants') }
-    ];
-    if (hsc.growth > 0) chips.push({ val: hsc.growth, label: t('growth'), color: '#2d7a3a' });
-    if (hsc.flower > 0) chips.push({ val: hsc.flower, label: t('flowering'), color: '#e65100' });
-    if (hsc.ripening > 0) chips.push({ val: hsc.ripening, label: t('ripening'), color: '#ad1457' });
-    var html = makeStatsBar(chips);
-    if (years.length) { html += '<div class="year-tabs">' + years.map(function(y) { return '<div class="year-tab ' + (y === harvestYear ? 'active' : '') + '" onclick="harvestYear=' + y + ';renderHarvestPage()">' + y + '</div>'; }).join('') + '</div>'; }
-    if (!filtered.length) { html += '<div class="empty"><div class="empty-icon">📊</div><p>' + t('noHarvests') + ' ' + harvestYear + '</p></div>'; }
-    else {
-      filtered.forEach(function(h) {
-        var p = plants.find(function(x) { return x.id === h.plant_id; });
-        var v = p ? cache.varieties.find(function(x) { return x.id === p.variety_id; }) : null;
-        var loc = p ? locs.find(function(l) { return l.id === p.location_id; }) : null;
-        var plantDate = p ? p.plant_date : null;
-        var cycleDays = plantDate && h.harvest_date ? diffDays(plantDate, h.harvest_date) : null;
-        var dryDays = h.dry_start_date && h.dry_end_date ? diffDays(h.dry_start_date, h.dry_end_date) : null;
-        var shrink = h.wet_weight_g && h.dry_weight_g ? Math.round((1 - h.dry_weight_g / h.wet_weight_g) * 100) : null;
-        var row2 = []; if (v && v.brand) row2.push(v.brand); if (loc) row2.push(loc.name);
-        var row3 = [];
-        if (plantDate) row3.push('🌱 ' + fmt(plantDate));
-        if (h.harvest_date) row3.push('✂️ ' + fmt(h.harvest_date));
-        if (cycleDays !== null) row3.push('🔄 ' + cycleDays + ' ' + t('days'));
-        var stars = h.rating ? ('⭐'.repeat(Math.round(h.rating / 2)) + '☆'.repeat(5 - Math.round(h.rating / 2))) : '';
-        html += '<div class="harv-card">' +
-          '<div class="harv-card-top">' +
-            (h.photo_url ? '<img src="' + h.photo_url + '" class="harv-thumb" alt="photo">' : '<div class="harv-thumb-ph">🌿</div>') +
-            '<div class="harv-info">' +
-              '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">' +
-                '<div class="harv-name">' + (p && p.name ? p.name + ' · ' : '') + (v ? v.name : '?') + '</div>' +
-                '<div style="text-align:right;flex-shrink:0">' +
-                  '<div style="font-size:17px;font-weight:700;color:var(--green)">' + (h.dry_weight_g || 0) + 'g</div>' +
-                  (h.rating ? '<div style="font-size:11px;color:var(--amber)">' + h.rating + '/10</div>' : '') +
-                  (shrink !== null ? '<div style="font-size:10px;color:var(--blue)">-' + shrink + '%</div>' : '') +
-                '</div>' +
-              '</div>' +
-              (row2.length ? '<div class="harv-meta">' + row2.join(' · ') + '</div>' : '') +
-              (row3.length ? '<div class="harv-meta" style="color:var(--text2)">' + row3.join('  ') + '</div>' : '') +
-              (h.notes ? '<div class="harv-meta" style="font-style:italic">' + h.notes + '</div>' : '') +
-            '</div>' +
-          '</div>' +
-          '<div class="harv-actions">' +
-            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(\'' + h.id + '\')">✏️</button>' +
-            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(\'' + h.id + '\')">🗑</button>' +
-          '</div></div>';
-      });
-    }
-    pg.innerHTML = html;
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
-}
-
-// CALENDAR
-async function renderCalendar() {
-  var pg = document.getElementById('page-calendar'); pg.innerHTML = '<div class="spinner"></div>';
-  try {
-    if (!cache.varieties.length) cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var plants = await sb('plants', 'GET', null, '?order=plant_date.asc');
-    var locs = await sb('locations', 'GET', null, '?select=id,name');
-    if (!plants.length) { pg.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><p>' + t('noCalPlants') + '</p></div>'; return; }
-    var evtMap = {}, perMap = {};
-    function addEvt(d, obj) { if (!d) return; if (!evtMap[d]) evtMap[d] = []; evtMap[d].push(obj); }
-    function addPer(s, e, type, label) {
-      if (!s || !e || s > e) return; var cur = s;
-      while (cur <= e) {
-        if (!perMap[cur]) perMap[cur] = { types: [], labels: [] };
-        if (perMap[cur].types.indexOf(type) < 0) perMap[cur].types.push(type);
-        var dup = perMap[cur].labels.some(function(l) { return l.type === type && l.label === label; });
-        if (!dup) perMap[cur].labels.push({ type: type, label: label });
-        cur = addDays(cur, 1);
-      }
-    }
-    plants.forEach(function(p) {
-      var v = cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
-      var s = calcStages(p, v), loc = locs.find(function(l) { return l.id === p.location_id; });
-      var label = (p.name || v.name) + (loc ? ' (' + loc.name + ')' : '');
-      addEvt(p.plant_date, { label: label, type: 'plant' });
-      addEvt(s.harvest, { label: label, type: 'harvest' });
-      addPer(s.growth, addDays(s.pre_flower || s.flower, -1), 'growth', label + ' - ' + t('growth'));
-      addPer(s.flower, addDays(s.ripening, -1), 'flower', label + ' - ' + t('flowering'));
-      addPer(s.ripening, addDays(s.harvest, -1), 'ripening', label + ' - ' + t('ripening'));
-    });
-    window._evtMap = evtMap; window._perMap = perMap;
-    var now = new Date(), nowYear = now.getFullYear(), nowMonth = now.getMonth();
-    if (calOffset < -24) calOffset = -24; if (calOffset > 24) calOffset = 24;
-    var startYear = nowYear + Math.floor((nowMonth + calOffset) / 12);
-    var startMonth = (nowMonth + calOffset + 120) % 12;
-    var startLabel = t('mon')[startMonth] + ' ' + startYear;
-    var legend = '<div class="cal-legend">' +
-      '<div class="cal-legend-item"><div class="cal-legend-dot" style="background:#1565c0"></div>' + t('planting') + '</div>' +
-      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(45,122,58,.2)"></div>' + t('growth') + '</div>' +
-      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(230,81,0,.2)"></div>' + t('flowering') + '</div>' +
-      '<div class="cal-legend-item"><div class="cal-legend-band" style="background:rgba(173,20,87,.2)"></div>' + t('ripening') + '</div>' +
-      '<div class="cal-legend-item"><div class="cal-legend-dot" style="background:#c2185b"></div>' + t('toHarvest') + '</div>' +
-    '</div>';
-    var nav = '<div class="cal-nav">' +
-      '<button class="cal-nav-btn" onclick="calOffset-=12;renderCalendar()">←</button>' +
-      '<span style="font-size:13px;font-weight:600">' + startLabel + '</span>' +
-      '<button class="cal-nav-btn" onclick="calOffset+=12;renderCalendar()">→</button>' +
-    '</div>';
-    var rows = '';
-    for (var m = 0; m < 12; m += 2) {
-      rows += '<div class="cal-grid-2col">';
-      for (var j = m; j < Math.min(m + 2, 12); j++) {
-        var yr = startYear + Math.floor((startMonth + j) / 12);
-        var mo = (startMonth + j) % 12;
-        rows += buildCalMonth(yr, mo, evtMap, perMap);
-      }
-      rows += '</div>';
-    }
-    pg.innerHTML = legend + nav + rows;
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
-}
-
-function buildCalMonth(year, month, evtMap, perMap) {
-  var dim = new Date(year, month + 1, 0).getDate();
-  var sdow = (new Date(year, month, 1).getDay() + 6) % 7;
-  var mName = t('mon')[month] + ' ' + (year % 100);
-  var tdy = today();
-  var html = '<div class="cal-month"><div class="cal-month-title">' + mName + '</div><div class="cal-days-grid">';
-  t('dow').forEach(function(d) { html += '<div class="cal-dow">' + d + '</div>'; });
-  for (var i = 0; i < sdow; i++) html += '<div></div>';
-  for (var day = 1; day <= dim; day++) {
-    var ds = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-    var isToday = ds === tdy;
-    var dayEvts = evtMap[ds] || []; var periods = perMap[ds];
-    var isPlant = dayEvts.some(function(e) { return e.type === 'plant'; });
-    var isHarv = dayEvts.some(function(e) { return e.type === 'harvest'; });
-    var hasPopup = dayEvts.length > 0 || (periods && periods.labels.length > 0);
-    var cls = 'cal-day';
-    if (isToday) cls += ' is-today';
-    else if (isPlant) cls += ' ev-plant';
-    else if (isHarv) cls += ' ev-harvest-day';
-    else if (periods) {
-      if (periods.types.indexOf('ripening') >= 0) cls += ' period-ripening';
-      else if (periods.types.indexOf('flower') >= 0) cls += ' period-flower';
-      else if (periods.types.indexOf('growth') >= 0) cls += ' period-growth';
-    }
-    if (hasPopup) cls += ' has-popup';
-    html += '<div class="' + cls + '"' + (hasPopup ? ' onclick="showCalPopup(\'' + ds + '\')"' : '') + '>' + day + '</div>';
-  }
-  html += '</div></div>'; return html;
-}
-
-function showCalPopup(ds) {
-  var em = window._evtMap || {}, pm = window._perMap || {};
-  var dayEvts = em[ds] || []; var periods = pm[ds];
-  var d = new Date(ds + 'T12:00:00');
-  document.getElementById('cal-popup-date').textContent = d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
-  var html = '';
-  dayEvts.forEach(function(e) { html += '<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">' + (e.type === 'plant' ? '🌱' : '✂️') + ' <b>' + e.label + '</b></div>'; });
-  if (periods && periods.labels.length) {
-    var seen = {};
-    periods.labels.forEach(function(l) {
-      var k = l.type + '|' + l.label; if (seen[k]) return; seen[k] = true;
-      var ic = l.type === 'flower' ? '🌸' : l.type === 'ripening' ? '🟡' : '🌿';
-      html += '<div style="padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">' + ic + ' ' + l.label + '</div>';
-    });
-  }
-  if (!html) html = '<div style="color:var(--text3);font-size:13px;padding:8px 0">-</div>';
-  document.getElementById('cal-popup-content').innerHTML = html;
-  openPopup('cal-popup');
-}
-
-// FINANCE
-async function renderFinance() {
-  var pg = document.getElementById('page-finance'); pg.innerHTML = '<div class="spinner"></div>';
-  try {
-    if (!cache.varieties.length) cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var allPlants = await sb('plants', 'GET', null, '?select=id,name,variety_id,plant_date,is_harvested');
-    var allHarvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g,harvest_date');
-    var allExpenses = await sb('expenses', 'GET', null, '?order=created_at.desc');
-    var settings = await sb('year_settings', 'GET', null, '?order=year.desc');
-    var curYear = new Date().getFullYear();
-    var allYears = [...new Set([].concat(
-      allExpenses.map(function(e) { return e.year; }),
-      allHarvests.map(function(h) { return getYear(h.harvest_date); }),
-      allPlants.map(function(p) { return getYear(p.plant_date); }),
-      [curYear]
-    ).filter(Boolean))].sort(function(a, b) { return b - a; });
-    if (!allYears.includes(financeYear)) financeYear = allYears[0] || curYear;
-    var ys = settings.find(function(s) { return s.year === financeYear; }) || { price_per_gram: 0 };
-    var ppg = parseFloat(ys.price_per_gram) || 0;
-    var yExp = allExpenses.filter(function(e) { return e.year === financeYear; });
-    var yPlants = allPlants.filter(function(p) { return getYear(p.plant_date) === financeYear; });
-    var yHarv = allHarvests.filter(function(h) { return getYear(h.harvest_date) === financeYear; });
-    var seedExp = yExp.filter(function(e) { return e.category === 'seeds'; });
-    var CAT_LABELS = { soil: '🪴 ' + t('soil_cat'), pots: '🫙 ' + t('pots_cat'), fertilizer: '🧪 ' + t('fert_cat'), seeds: '🌱 ' + t('seeds_cat'), other: '📦 ' + t('other_cat') };
-    function catSum(cat) { return yExp.filter(function(e) { return e.category === cat; }).reduce(function(a, e) { return a + (parseFloat(e.amount_uah) || 0); }, 0); }
-    var soilA = catSum('soil'), potsA = catSum('pots'), fertA = catSum('fertilizer'), seedA = catSum('seeds'), otherA = catSum('other');
-    var totalExp = soilA + potsA + fertA + seedA + otherA;
-    var totalW = yHarv.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-    var revenue = totalW * ppg, profit = revenue - totalExp;
-    var genPerPlant = (soilA + potsA + fertA + otherA) / (yPlants.length || 1);
-    var html = '<div class="year-tabs">' + allYears.map(function(y) { return '<div class="year-tab ' + (y === financeYear ? 'active' : '') + '" onclick="financeYear=' + y + ';renderFinance()">' + y + '</div>'; }).join('') + '</div>';
-    html += '<div class="fin-tabs">' +
-      '<button class="fin-tab ' + (finTab === 'summary' ? 'active' : '') + '" onclick="finTab=\'summary\';renderFinance()">' + t('summary') + '</button>' +
-      '<button class="fin-tab ' + (finTab === 'expenses' ? 'active' : '') + '" onclick="finTab=\'expenses\';renderFinance()">' + t('expenses') + '</button>' +
-      '<button class="fin-tab ' + (finTab === 'plants' ? 'active' : '') + '" onclick="finTab=\'plants\';renderFinance()">' + t('byPlants') + '</button>' +
-    '</div>';
-    if (finTab === 'summary') {
-      html += '<div class="pnl-cards">' +
-        '<div class="pnl-card neutral"><div class="pnl-card-val">' + fmtUAH(revenue) + '</div><div class="pnl-card-label">' + t('income') + ' (' + totalW.toFixed(1) + 'g)</div></div>' +
-        '<div class="pnl-card neutral"><div class="pnl-card-val">' + fmtUAH(totalExp) + '</div><div class="pnl-card-label">' + t('expenses') + '</div></div>' +
-        '<div class="pnl-card ' + (profit >= 0 ? 'profit' : 'loss') + '"><div class="pnl-card-val">' + (profit >= 0 ? '' : '-') + fmtUAH(Math.abs(profit)) + '</div><div class="pnl-card-label">' + (profit >= 0 ? '✅ ' + t('profit') : '❌ ' + t('loss')) + '</div></div>' +
-        '<div class="pnl-card neutral"><div class="pnl-card-val">' + ppg + '</div><div class="pnl-card-label"><button class="btn btn-ghost btn-sm" onclick="openPriceModal(' + financeYear + ',' + ppg + ')" style="font-size:11px">💰 ' + t('pricePerG') + '</button></div></div>' +
-      '</div>';
-      html += '<div class="card"><div class="card-title" style="margin-bottom:10px">' + t('expenses') + '</div>';
-      [{ cat: 'soil', amt: soilA }, { cat: 'pots', amt: potsA }, { cat: 'fertilizer', amt: fertA }, { cat: 'seeds', amt: seedA }, { cat: 'other', amt: otherA }].forEach(function(c) {
-        if (c.amt === 0) return;
-        html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:13px">' + CAT_LABELS[c.cat] + '</span><span style="font-size:13px;font-weight:600;color:var(--red)">' + fmtUAH(c.amt) + '</span></div>';
-      });
-      html += '</div>';
-    } else if (finTab === 'expenses') {
-      html += '<div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-primary btn-sm" onclick="openExpenseModal()">' + t('addExpense') + '</button></div>';
-      ['soil', 'pots', 'fertilizer', 'seeds', 'other'].forEach(function(cat) {
-        var catItems = yExp.filter(function(e) { return e.category === cat; });
-        var catTotal = catItems.reduce(function(a, e) { return a + (parseFloat(e.amount_uah) || 0); }, 0);
-        html += '<div class="exp-cat-card">' +
-          '<div class="exp-cat-header" onclick="toggleExpCat(\'cat-' + cat + '\')">' +
-            '<div class="exp-cat-title">' + CAT_LABELS[cat] + ' <span style="font-size:12px;color:var(--text3)">(' + catItems.length + ')</span></div>' +
-            '<div style="display:flex;align-items:center;gap:8px"><span class="exp-cat-total">' + fmtUAH(catTotal) + '</span><span class="exp-cat-chevron" id="ch-cat-' + cat + '">▾</span></div>' +
-          '</div>' +
-          '<div class="exp-cat-body" id="cat-' + cat + '">';
-        if (!catItems.length) { html += '<div style="padding:10px 0;font-size:13px;color:var(--text3)">-</div>'; }
-        else { catItems.forEach(function(e) { html += '<div class="exp-item"><div style="font-size:13px">' + (e.notes || CAT_LABELS[cat]) + '</div><div style="display:flex;align-items:center;gap:6px"><span style="font-size:13px;font-weight:600;color:var(--red)">' + fmtUAH(e.amount_uah) + '</span><button class="btn btn-danger btn-sm" onclick="deleteExpense(\'' + e.id + '\')">🗑</button></div></div>'; }); }
-        html += '</div></div>';
-      });
-    } else if (finTab === 'plants') {
-      if (!yPlants.length) { html += '<div class="empty"><div class="empty-icon">🌱</div><p>-</p></div>'; }
-      else {
-        html += '<div class="card">';
-        yPlants.forEach(function(p) {
-          var v = cache.varieties.find(function(x) { return x.id === p.variety_id; });
-          var ph = yHarv.filter(function(h) { return h.plant_id === p.id; });
-          var pw = ph.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-          var pr = pw * ppg;
-          var ps = seedExp.filter(function(e) { return e.plant_id === p.id; }).reduce(function(a, e) { return a + (parseFloat(e.amount_uah) || 0); }, 0);
-          var pc = genPerPlant + ps; var pp2 = pr - pc;
-          html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">' +
-            '<div><div style="font-size:14px;font-weight:600">' + (p.name || (v && v.name) || 'Plant') + '</div>' +
-            '<div style="font-size:11px;color:var(--text3)">' + pw.toFixed(1) + 'g · ' + fmtUAH(pc) + '</div></div>' +
-            '<span style="font-size:15px;font-weight:700;color:' + (pp2 >= 0 ? 'var(--green)' : 'var(--red)') + '">' + (pp2 >= 0 ? '+' : '') + fmtUAH(pp2) + '</span></div>';
-        });
-        html += '</div>';
-      }
-    }
-    pg.innerHTML = html;
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
-}
-
-function toggleExpCat(id) {
-  var el = document.getElementById(id), ch = document.getElementById('ch-' + id); if (!el) return;
-  var open = el.classList.toggle('open'); if (ch) ch.className = 'exp-cat-chevron' + (open ? ' open' : '');
-}
-function openExpenseModal() {
-  clearErr('exp-error'); ['exp-amount', 'exp-notes'].forEach(function(id) { document.getElementById(id).value = ''; });
-  document.getElementById('exp-category').value = 'soil'; openModal('modal-expense');
-}
-async function saveExpense() {
-  var amt = parseFloat(document.getElementById('exp-amount').value);
-  if (!amt || amt <= 0) { showErr('exp-error', '⚠️ ' + t('errAmount')); return; }
-  try {
-    await sb('expenses', 'POST', { year: financeYear, category: document.getElementById('exp-category').value, amount_uah: amt, notes: document.getElementById('exp-notes').value.trim() });
-    closeModal('modal-expense'); toast(t('added') + ' ✅'); renderFinance();
-  } catch (e) { showErr('exp-error', '❌ ' + parseErr(e)); }
-}
-async function deleteExpense(id) {
-  if (!confirm(t('confirmExp'))) return;
-  try { await sb('expenses', 'DELETE', null, '?id=eq.' + id); toast(t('deleted')); renderFinance(); }
-  catch (e) { toast('Error: ' + parseErr(e)); }
-}
-function openPriceModal(year, cur) {
-  document.getElementById('modal-price-year').textContent = 'Year: ' + year;
-  document.getElementById('price-val').value = cur || ''; openModal('modal-price');
-}
-async function savePrice() {
-  var val = parseFloat(document.getElementById('price-val').value) || 0;
-  try {
-    var ex = await sb('year_settings', 'GET', null, '?year=eq.' + financeYear);
-    if (ex && ex.length > 0) await sb('year_settings', 'PATCH', { price_per_gram: val }, '?year=eq.' + financeYear);
-    else { try { await sb('year_settings', 'POST', { year: financeYear, price_per_gram: val }); } catch (x) { await sb('year_settings', 'PATCH', { price_per_gram: val }, '?year=eq.' + financeYear); } }
-    closeModal('modal-price'); toast(t('saved') + ' ✅'); renderFinance();
-  } catch (e) { toast('Error: ' + parseErr(e)); }
-}
-
-
-
-// I18N additions for seeds
-var TR_SEEDS_UA = {
-  seeds:"Сумка", bagTab:"Сумка", wishlistTab:"Вишлист",
-  available:"Доступний", soaking:"Замочений", lost:"Пропавший",
-  noSeeds:"Немає насіння. Натисни + щоб додати.",
-  noWishlists:"Немає вишлистів. Натисни + щоб створити.",
-  noWishlistItems:"Немає позицій. Натисни + щоб додати.",
-  archive:"Архів (пропавші)",
-  soakAction:"Замочити", lostAction:"Пропали", convertAction:"В рослину", buyAction:"Куплено",
-  howMany:"Скільки штук перевести?", selectLoc:"Вибери локацію",
-  confirmSeed:"Видалити насіння?", confirmWL:"Видалити вишлист і всі позиції?", confirmWLItem:"Видалити позицію?"
-};
-var TR_SEEDS_EN = {
-  seeds:"Bag", bagTab:"Bag", wishlistTab:"Wishlist",
-  available:"Available", soaking:"Soaking", lost:"Lost",
-  noSeeds:"No seeds. Press + to add.",
-  noWishlists:"No wishlists. Press + to create.",
-  noWishlistItems:"No items. Press + to add.",
-  archive:"Archive (lost)",
-  soakAction:"Soak", lostAction:"Lost", convertAction:"To plant", buyAction:"Bought",
-  howMany:"How many to transfer?", selectLoc:"Select location",
-  confirmSeed:"Delete seed?", confirmWL:"Delete wishlist?", confirmWLItem:"Delete item?"
-};
-// Extend TR
-Object.keys(TR_SEEDS_UA).forEach(function(k){ TR.ua[k] = TR_SEEDS_UA[k]; });
-Object.keys(TR_SEEDS_EN).forEach(function(k){ TR.en[k] = TR_SEEDS_EN[k]; });
-
-// Seeds state
-var seedsTab = "bag";
-var curWishlistId = null, curWishlistName = "";
-
-// Override navigate to handle seeds sub-pages
-var _origNavigate = navigate;
-navigate = function(page, data) {
-  data = data || {};
-  // Handle seeds sub-pages
-  if (page === "wishlist-list" || page === "wishlist-items") {
-    document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
-    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
-    var pageEl = document.getElementById("page-" + page);
-    if (pageEl) pageEl.classList.add("active");
-    var tabEl = document.querySelector(".tab[data-page='seeds']");
-    if (tabEl) tabEl.classList.add("active");
-    curPage = page;
-    document.getElementById("fab").style.display = "flex";
-    if (page === "wishlist-list") renderWishlistList();
-    else if (page === "wishlist-items") { curWishlistId = data.wlId; curWishlistName = data.wlName || ""; renderWishlistItems(); }
-    return;
-  }
-  _origNavigate(page, data);
-};
-
-// Override fabAction to handle seeds
-var _origFabAction = fabAction;
-fabAction = function() {
-  if (curPage === "seeds") { if (seedsTab === "bag") openSeedModal(); else navigate("wishlist-list"); return; }
-  if (curPage === "wishlist-list") { openWishlistModal(); return; }
-  if (curPage === "wishlist-items") { openWishlistItemModal(); return; }
-  _origFabAction();
-};
-
-// Override renderPage to handle seeds
-var _origRenderPage = renderPage;
-renderPage = function(p) {
-  if (p === "seeds") { renderSeeds(); return; }
-  if (p === "wishlist-list") { renderWishlistList(); return; }
-  if (p === "wishlist-items") { renderWishlistItems(); return; }
-  _origRenderPage(p);
-};
-
-// SEEDS (СУМКА)
-async function renderSeeds() {
-  var pg = document.getElementById("page-seeds"); pg.innerHTML = "<div class='spinner'></div>";
-  try {
-    var seeds = await sb("seeds", "GET", null, "?order=created_at.desc");
-    var active = seeds.filter(function(s){ return s.status !== "lost"; });
-    var lost = seeds.filter(function(s){ return s.status === "lost"; });
-    var html = "<div class='inner-tabs'>" +
-      "<button class='inner-tab " + (seedsTab === "bag" ? "active" : "") + "' onclick='seedsTab="bag";renderSeeds()'>" + t("bagTab") + "</button>" +
-      "<button class='inner-tab " + (seedsTab === "wishlist" ? "active" : "") + "' onclick='navigate("wishlist-list")'>" + t("wishlistTab") + "</button></div>";
-    if (!active.length && !lost.length) {
-      html += "<div class='empty'><div class='empty-icon'>&#127792;</div><p>" + t("noSeeds") + "</p></div>";
-    } else {
-      if (active.length) html += active.map(function(s){ return renderSeedCard(s); }).join("");
-      else html += "<div class='empty'><div class='empty-icon'>&#127792;</div><p>" + t("noSeeds") + "</p></div>";
-      if (lost.length) {
-        html += "<div class='archive-section'><div class='archive-title'>&#128451; " + t("archive") + "</div>";
-        html += lost.map(function(s){ return renderSeedCard(s); }).join("") + "</div>";
-      }
-    }
-    pg.innerHTML = html;
-  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
-}
-
-function renderSeedCard(s) {
-  var statusLabels = { available: t("available"), soaking: t("soaking"), lost: t("lost") };
-  var typeLabel = s.seed_type === "auto" ? t("autoflower") : t("photoperiod");
-  var isLost = s.status === "lost";
-  return "<div class='seed-card status-" + s.status + "'>" +
-    "<div class='card-row'>" +
-      "<div style='flex:1;min-width:0'>" +
-        "<div class='card-title'>&#127792; " + s.name + "</div>" +
-        "<div class='card-sub'>" + (s.brand || "") + (s.brand ? " &middot; " : "") + typeLabel + (s.purchase_date ? " &middot; " + fmt(s.purchase_date) : "") + "</div>" +
-        (s.notes ? "<div class='card-sub'>" + s.notes + "</div>" : "") +
-      "</div>" +
-      "<div style='text-align:right;flex-shrink:0;margin-left:12px'>" +
-        "<div class='seed-qty' style='color:" + (isLost ? "var(--red)" : "var(--green)") + "'>" + s.quantity + " &#1096;&#1090;.</div>" +
-        "<span class='badge badge-" + s.status + "'>" + statusLabels[s.status] + "</span>" +
-        (s.price_uah ? "<div style='font-size:11px;color:var(--text3);margin-top:2px'>" + fmtUAH(s.price_uah) + "/&#1096;&#1090;.</div>" : "") +
-      "</div>" +
-    "</div>" +
-    (!isLost ? "<div class='card-actions'>" +
-      (s.status === "available" ? "<button class='btn btn-ghost btn-sm' onclick='openSplitPopup("" + s.id + "","soaking")'>" + t("soakAction") + "</button>" : "") +
-      "<button class='btn btn-warning btn-sm' onclick='openSplitPopup("" + s.id + "","lost")'>" + t("lostAction") + "</button>" +
-      "<button class='btn btn-primary btn-sm' onclick='openConvertPopup("" + s.id + "")'>" + t("convertAction") + "</button>" +
-      "<button class='btn btn-ghost btn-sm' onclick='openSeedModal("" + s.id + "")'>&#9999;&#65039;</button>" +
-      "<button class='btn btn-danger btn-sm' onclick='deleteSeed("" + s.id + "")'>&#128465;</button></div>"
-      : "<div class='card-actions'><button class='btn btn-danger btn-sm' onclick='deleteSeed("" + s.id + "")'>&#128465;</button></div>") +
-  "</div>";
-}
-
-function openSeedModal(id) {
-  id = id || null; clearErr("seed-error");
-  document.getElementById("seed-edit-id").value = id || "";
-  document.getElementById("modal-seed-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;" : "&#1053;&#1086;&#1074;&#1077; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;";
-  if (id) {
-    sb("seeds","GET",null,"?id=eq." + id).then(function(rows){
-      var s = rows[0]; if (!s) return;
-      document.getElementById("seed-name").value = s.name || "";
-      document.getElementById("seed-brand").value = s.brand || "";
-      document.getElementById("seed-type").value = s.seed_type || "auto";
-      document.getElementById("seed-qty").value = s.quantity || 1;
-      document.getElementById("seed-price").value = s.price_uah || "";
-      document.getElementById("seed-purchase-date").value = s.purchase_date || "";
-      document.getElementById("seed-notes").value = s.notes || "";
-    });
-  } else {
-    ["seed-name","seed-brand","seed-notes"].forEach(function(id){ document.getElementById(id).value = ""; });
-    document.getElementById("seed-qty").value = 1;
-    document.getElementById("seed-price").value = "";
-    document.getElementById("seed-purchase-date").value = "";
-    document.getElementById("seed-type").value = "auto";
-  }
-  window._convertFromWLItem = null;
-  openModal("modal-seed");
-}
-
-async function saveSeed() {
-  var name = document.getElementById("seed-name").value.trim();
-  var qty = parseInt(document.getElementById("seed-qty").value);
-  if (!name) { showErr("seed-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091; &#1089;&#1086;&#1088;&#1090;&#1091;"); return; }
-  if (!qty || qty < 1) { showErr("seed-error", "&#9888;&#65039; &#1050;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100; &#8805; 1"); return; }
-  var id = document.getElementById("seed-edit-id").value;
-  var data = { name: name, brand: document.getElementById("seed-brand").value.trim() || null, seed_type: document.getElementById("seed-type").value, quantity: qty, price_uah: parseFloat(document.getElementById("seed-price").value) || null, purchase_date: document.getElementById("seed-purchase-date").value || null, notes: document.getElementById("seed-notes").value.trim() || null, year: new Date().getFullYear() };
-  try {
-    if (id) await sb("seeds","PATCH",data,"?id=eq." + id);
-    else { data.status = "available"; await sb("seeds","POST",data); }
-    var wlItemId = window._convertFromWLItem;
-    window._convertFromWLItem = null;
-    closeModal("modal-seed"); toast(t(id ? "updated" : "added") + " &#10003;");
-    if (wlItemId) {
-      if (confirm("&#1042;&#1080;&#1076;&#1072;&#1083;&#1080;&#1090;&#1080; &#1087;&#1086;&#1079;&#1080;&#1094;&#1110;&#1102; &#1079; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;&#1072;?")) {
-        await sb("wishlist_items","DELETE",null,"?id=eq." + wlItemId);
-      }
-      navigate("seeds");
-    } else { renderSeeds(); }
-  } catch(e) { showErr("seed-error", "&#10060; " + parseErr(e)); }
-}
-
-async function deleteSeed(id) {
-  if (!confirm(t("confirmSeed"))) return;
-  try { await sb("seeds","DELETE",null,"?id=eq." + id); toast(t("deleted")); renderSeeds(); }
-  catch(e) { toast("Error: " + parseErr(e)); }
-}
-
-async function openSplitPopup(seedId, newStatus) {
-  var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
-  var s = rows[0]; if (!s) return;
-  var actionLabel = newStatus === "soaking" ? t("soakAction") : t("lostAction");
-  var costNote = (newStatus === "lost" && s.price_uah) ? "<div style='background:var(--red2);color:var(--red);padding:8px 12px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px' id='split-cost-note'>&#1042;&#1080;&#1090;&#1088;&#1072;&#1090;&#1072;: " + fmtUAH(s.price_uah * s.quantity) + "</div>" : "";
-  var content = "<div style='margin-bottom:12px'><b>" + s.name + "</b> &middot; " + s.quantity + " &#1096;&#1090;.</div>" +
-    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>" + t("howMany") + " (max " + s.quantity + ")</label>" +
-    "<input type='number' class='fi-input' id='split-qty' min='1' max='" + s.quantity + "' value='" + s.quantity + "'></div>" +
-    costNote +
-    "<div style='display:flex;gap:10px;margin-top:16px'>" +
-      "<button class='btn btn-ghost' style='flex:1' onclick='closePopup("split-popup")'>" + t("cancel") + "</button>" +
-      "<button class='btn btn-primary' style='flex:1' onclick='executeSplit("" + seedId + "","" + newStatus + ""," + (s.price_uah || 0) + ")'>" + actionLabel + "</button></div>";
-  document.getElementById("split-popup-title").textContent = actionLabel + ": " + s.name;
-  document.getElementById("split-popup-content").innerHTML = content;
-  if (newStatus === "lost" && s.price_uah) {
-    setTimeout(function(){
-      var qi = document.getElementById("split-qty");
-      var ni = document.getElementById("split-cost-note");
-      if (qi && ni) qi.addEventListener("input", function(){ ni.textContent = "&#1042;&#1080;&#1090;&#1088;&#1072;&#1090;&#1072;: " + fmtUAH(s.price_uah * (parseInt(qi.value)||0)); });
-    }, 50);
-  }
-  openPopup("split-popup");
-}
-
-async function executeSplit(seedId, newStatus, pricePerUnit) {
-  var qtyInput = document.getElementById("split-qty");
-  var qty = parseInt(qtyInput ? qtyInput.value : 0);
-  if (!qty || qty < 1) { toast("&#1042;&#1074;&#1077;&#1076;&#1080; &#1082;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100;"); return; }
-  try {
-    var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
-    var s = rows[0]; if (!s) return;
-    if (qty > s.quantity) { toast("&#1053;&#1077; &#1073;&#1110;&#1083;&#1100;&#1096;&#1077; " + s.quantity); return; }
-    if (qty === s.quantity) {
-      await sb("seeds","PATCH",{ status: newStatus },"?id=eq." + seedId);
-    } else {
-      await sb("seeds","PATCH",{ quantity: s.quantity - qty },"?id=eq." + seedId);
-      await sb("seeds","POST",{ name: s.name, brand: s.brand, seed_type: s.seed_type, quantity: qty, status: newStatus, price_uah: s.price_uah, purchase_date: s.purchase_date, notes: s.notes, year: s.year });
-    }
-    if (newStatus === "lost" && pricePerUnit > 0) {
-      await sb("expenses","POST",{ year: new Date().getFullYear(), category: "seeds", amount_uah: pricePerUnit * qty, notes: "&#1055;&#1088;&#1086;&#1087;&#1072;&#1083;&#1086; &#1085;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;: " + s.name + " x" + qty });
-    }
-    closePopup("split-popup"); toast(t("saved") + " &#10003;"); renderSeeds();
-  } catch(e) { toast("Error: " + parseErr(e)); }
-}
-
-async function openConvertPopup(seedId) {
-  var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
-  var s = rows[0]; if (!s) return;
-  var locs = await sb("locations","GET",null,"?order=created_at.asc");
-  var locOpts = locs.map(function(l){ return "<option value='" + l.id + "'>" + l.name + "</option>"; }).join("");
-  var content = "<div style='margin-bottom:12px'><b>" + s.name + "</b>" + (s.brand ? " &middot; " + s.brand : "") + "</div>" +
-    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1050;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100; (max " + s.quantity + ") <span style='color:var(--red)'>*</span></label>" +
-    "<input type='number' class='fi-input' id='conv-qty' min='1' max='" + s.quantity + "' value='1'></div>" +
-    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1051;&#1086;&#1082;&#1072;&#1094;&#1110;&#1103; <span style='color:var(--red)'>*</span></label>" +
-    "<select class='fi-select' id='conv-loc'><option value=''>-- &#1042;&#1080;&#1073;&#1077;&#1088;&#1080; --</option>" + locOpts + "</select></div>" +
-    "<div style='margin-bottom:12px'><label style='font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase'>&#1044;&#1072;&#1090;&#1072; &#1087;&#1086;&#1089;&#1072;&#1076;&#1082;&#1080; <span style='color:var(--red)'>*</span></label>" +
-    "<input type='date' class='fi-input' id='conv-date' value='" + today() + "'></div>" +
-    "<div id='conv-error' style='color:var(--red);font-size:13px;margin-top:4px'></div>" +
-    "<div style='display:flex;gap:10px;margin-top:16px'>" +
-      "<button class='btn btn-ghost' style='flex:1' onclick='closePopup("convert-popup")'>" + t("cancel") + "</button>" +
-      "<button class='btn btn-primary' style='flex:1' onclick='executeConvert("" + seedId + "","" + (s.name||"") + "","" + (s.brand||"") + "","" + (s.seed_type||"auto") + ""," + (s.price_uah||0) + ")'>" + t("convertAction") + "</button></div>";
-  document.getElementById("convert-popup-content").innerHTML = content;
-  openPopup("convert-popup");
-}
-
-async function executeConvert(seedId, sName, sBrand, sType, pricePerUnit) {
-  var qty = parseInt(document.getElementById("conv-qty").value) || 0;
-  var locId = document.getElementById("conv-loc").value;
-  var date = document.getElementById("conv-date").value;
-  var errEl = document.getElementById("conv-error");
-  if (!qty || qty < 1) { errEl.textContent = "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1082;&#1110;&#1083;&#1100;&#1082;&#1110;&#1089;&#1090;&#1100;"; return; }
-  if (!locId) { errEl.textContent = "&#9888;&#65039; &#1042;&#1080;&#1073;&#1077;&#1088;&#1080; &#1083;&#1086;&#1082;&#1072;&#1094;&#1110;&#1102;"; return; }
-  if (!date) { errEl.textContent = "&#9888;&#65039; &#1042;&#1082;&#1072;&#1078;&#1080; &#1076;&#1072;&#1090;&#1091;"; return; }
-  errEl.textContent = "";
-  try {
-    var rows = await sb("seeds","GET",null,"?id=eq." + seedId);
-    var s = rows[0]; if (!s) return;
-    if (qty > s.quantity) { errEl.textContent = "&#9888;&#65039; &#1053;&#1077; &#1073;&#1110;&#1083;&#1100;&#1096;&#1077; " + s.quantity; return; }
-    var nv = await sb("varieties","POST",{ name: sName, brand: sBrand, seed_type: sType, flowering_days_min: 0, flowering_days_max: 0 });
-    if (!nv || !nv[0]) throw new Error("Could not create variety");
-    for (var i = 0; i < qty; i++) {
-      await sb("plants","POST",{ location_id: locId, variety_id: nv[0].id, name: qty > 1 ? sName + " #" + (i+1) : "", plant_date: date, current_stage: "seedling", stage_overrides: {}, is_harvested: false });
-    }
-    if (pricePerUnit > 0) {
-      var yr = new Date(date + "T12:00:00").getFullYear();
-      await sb("expenses","POST",{ year: yr, category: "seeds", amount_uah: pricePerUnit * qty, notes: "&#1053;&#1072;&#1089;&#1110;&#1085;&#1085;&#1103;: " + sName + " x" + qty });
-    }
-    if (qty >= s.quantity) await sb("seeds","DELETE",null,"?id=eq." + seedId);
-    else await sb("seeds","PATCH",{ quantity: s.quantity - qty },"?id=eq." + seedId);
-    closePopup("convert-popup"); toast(t("added") + " " + qty + " &#10003;"); renderSeeds();
-  } catch(e) { errEl.textContent = "&#10060; " + parseErr(e); }
-}
-
-// WISHLIST
-async function renderWishlistList() {
-  var pg = document.getElementById("page-wishlist-list"); pg.innerHTML = "<div class='spinner'></div>";
-  try {
-    var wishlists = await sb("wishlists","GET",null,"?order=created_at.desc");
-    var html = "<div class='inner-tabs'>" +
-      "<button class='inner-tab' onclick='navigate("seeds")'>" + t("bagTab") + "</button>" +
-      "<button class='inner-tab active'>" + t("wishlistTab") + "</button></div>";
-    if (!wishlists.length) { html += "<div class='empty'><div class='empty-icon'>&#10024;</div><p>" + t("noWishlists") + "</p></div>"; }
-    else {
-      html += wishlists.map(function(wl){
-        return "<div class='card' style='cursor:pointer' onclick='navigate("wishlist-items",{wlId:"" + wl.id + "",wlName:"" + encodeURIComponent(wl.name) + ""})'>" +
-          "<div class='card-row'><div><div class='card-title'>&#10024; " + wl.name + "</div></div><span style='color:var(--text3);font-size:20px'>&#8250;</span></div>" +
-          "<div class='card-actions'>" +
-            "<button class='btn btn-ghost btn-sm' onclick='event.stopPropagation();openWishlistModal("" + wl.id + "")'>&#9999;&#65039;</button>" +
-            "<button class='btn btn-danger btn-sm' onclick='event.stopPropagation();deleteWishlist("" + wl.id + "")'>&#128465;</button>" +
-          "</div></div>";
-      }).join("");
-    }
-    pg.innerHTML = html;
-  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
-}
-
-function openWishlistModal(id) {
-  id = id || null; clearErr("wishlist-error");
-  document.getElementById("wishlist-edit-id").value = id || "";
-  document.getElementById("modal-wishlist-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080;" : "&#1053;&#1086;&#1074;&#1080;&#1081; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;";
-  if (id) sb("wishlists","GET",null,"?id=eq." + id).then(function(r){ if(r[0]) document.getElementById("wishlist-name").value = r[0].name || ""; });
-  else document.getElementById("wishlist-name").value = "";
-  openModal("modal-wishlist");
-}
-
-async function saveWishlist() {
-  var name = document.getElementById("wishlist-name").value.trim();
-  if (!name) { showErr("wishlist-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091;"); return; }
-  var id = document.getElementById("wishlist-edit-id").value;
-  try {
-    if (id) await sb("wishlists","PATCH",{ name: name },"?id=eq." + id);
-    else await sb("wishlists","POST",{ name: name });
-    closeModal("modal-wishlist"); toast(t(id ? "updated" : "added") + " &#10003;"); renderWishlistList();
-  } catch(e) { showErr("wishlist-error", "&#10060; " + parseErr(e)); }
-}
-
-async function deleteWishlist(id) {
-  if (!confirm(t("confirmWL"))) return;
-  try {
-    await sb("wishlist_items","DELETE",null,"?wishlist_id=eq." + id);
-    await sb("wishlists","DELETE",null,"?id=eq." + id);
-    toast(t("deleted")); renderWishlistList();
-  } catch(e) { toast("Error: " + parseErr(e)); }
-}
-
-async function renderWishlistItems() {
-  var pg = document.getElementById("page-wishlist-items");
-  var wlDec = decodeURIComponent(curWishlistName);
-  pg.innerHTML = "<div class='spinner'></div>";
-  try {
-    var items = await sb("wishlist_items","GET",null,"?wishlist_id=eq." + curWishlistId + "&order=created_at.desc");
-    var html = "<div style='display:flex;align-items:center;gap:8px;margin-bottom:14px'>" +
-      "<button class='btn btn-ghost btn-sm' onclick='navigate("wishlist-list")'>&#8592; " + t("back") + "</button>" +
-      "<span style='font-size:16px;font-weight:700'>&#10024; " + wlDec + "</span></div>";
-    if (!items.length) { html += "<div class='empty'><div class='empty-icon'>&#10024;</div><p>" + t("noWishlistItems") + "</p></div>"; }
-    else {
-      html += items.map(function(item){
-        var typeLabel = item.seed_type === "auto" ? t("autoflower") : t("photoperiod");
-        return "<div class='card'>" +
-          "<div class='card-row'><div>" +
-            "<div class='card-title'>&#127807; " + item.name + "</div>" +
-            "<div class='card-sub'>" + (item.brand||"") + (item.brand?" &middot; ":"") + typeLabel + (item.price_uah?" &middot; " + fmtUAH(item.price_uah):"") + "</div>" +
-          "</div></div>" +
-          "<div class='card-actions'>" +
-            "<button class='btn btn-primary btn-sm' onclick='convertWishlistItemToBag("" + item.id + "")'>" + t("buyAction") + "</button>" +
-            "<button class='btn btn-ghost btn-sm' onclick='openWishlistItemModal("" + item.id + "")'>&#9999;&#65039;</button>" +
-            "<button class='btn btn-danger btn-sm' onclick='deleteWishlistItem("" + item.id + "")'>&#128465;</button>" +
-          "</div></div>";
-      }).join("");
-    }
-    pg.innerHTML = html;
-  } catch(e) { pg.innerHTML = "<div class='empty'><p>Error: " + e.message + "</p></div>"; }
-}
-
-function openWishlistItemModal(id) {
-  id = id || null; clearErr("wi-error");
-  document.getElementById("wi-edit-id").value = id || "";
-  document.getElementById("wi-wishlist-id").value = curWishlistId;
-  document.getElementById("modal-wi-title").textContent = id ? "&#1056;&#1077;&#1076;&#1072;&#1075;&#1091;&#1074;&#1072;&#1090;&#1080;" : "&#1044;&#1086;&#1076;&#1072;&#1090;&#1080; &#1074; &#1074;&#1080;&#1096;&#1083;&#1080;&#1089;&#1090;";
-  if (id) {
-    sb("wishlist_items","GET",null,"?id=eq." + id).then(function(rows){
-      var item = rows[0]; if (!item) return;
-      document.getElementById("wi-name").value = item.name || "";
-      document.getElementById("wi-brand").value = item.brand || "";
-      document.getElementById("wi-type").value = item.seed_type || "auto";
-      document.getElementById("wi-price").value = item.price_uah || "";
-    });
-  } else {
-    ["wi-name","wi-brand"].forEach(function(id){ document.getElementById(id).value = ""; });
-    document.getElementById("wi-price").value = "";
-    document.getElementById("wi-type").value = "auto";
-  }
-  openModal("modal-wishlist-item");
-}
-
-async function saveWishlistItem() {
-  var name = document.getElementById("wi-name").value.trim();
-  if (!name) { showErr("wi-error", "&#9888;&#65039; &#1042;&#1074;&#1077;&#1076;&#1080; &#1085;&#1072;&#1079;&#1074;&#1091;"); return; }
-  var id = document.getElementById("wi-edit-id").value;
-  var wlId = document.getElementById("wi-wishlist-id").value;
-  var data = { name: name, brand: document.getElementById("wi-brand").value.trim() || null, seed_type: document.getElementById("wi-type").value, price_uah: parseFloat(document.getElementById("wi-price").value) || null, wishlist_id: wlId };
-  try {
-    if (id) await sb("wishlist_items","PATCH",data,"?id=eq." + id);
-    else await sb("wishlist_items","POST",data);
-    closeModal("modal-wishlist-item"); toast(t(id ? "updated" : "added") + " &#10003;"); renderWishlistItems();
-  } catch(e) { showErr("wi-error", "&#10060; " + parseErr(e)); }
-}
-
-async function deleteWishlistItem(id) {
-  if (!confirm(t("confirmWLItem"))) return;
-  try { await sb("wishlist_items","DELETE",null,"?id=eq." + id); toast(t("deleted")); renderWishlistItems(); }
-  catch(e) { toast("Error: " + parseErr(e)); }
-}
-
-async function convertWishlistItemToBag(itemId) {
-  var rows = await sb("wishlist_items","GET",null,"?id=eq." + itemId);
-  var item = rows[0]; if (!item) return;
-  clearErr("seed-error");
-  document.getElementById("seed-edit-id").value = "";
-  document.getElementById("modal-seed-title").textContent = "&#1050;&#1091;&#1087;&#1083;&#1077;&#1085;&#1086; &#8212; &#1076;&#1086;&#1076;&#1072;&#1090;&#1080; &#1074; &#1057;&#1091;&#1084;&#1082;&#1091;";
-  document.getElementById("seed-name").value = item.name || "";
-  document.getElementById("seed-brand").value = item.brand || "";
-  document.getElementById("seed-type").value = item.seed_type || "auto";
-  document.getElementById("seed-price").value = item.price_uah || "";
-  document.getElementById("seed-qty").value = 1;
-  document.getElementById("seed-purchase-date").value = today();
-  document.getElementById("seed-notes").value = "";
-  window._convertFromWLItem = itemId;
-  openModal("modal-seed");
-}
-
-
-// INIT
-function initApp() {
-  updateRating(5); applyLang(); navigate('locations');
-}
-if (sessionStorage.getItem('gl_auth')) {
-  document.getElementById('login-screen').style.display = 'none'; initApp();
-} else {
-  applyLang(); setTimeout(function() { document.getElementById('login-input').focus(); }, 300);
-}
-
-</script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
