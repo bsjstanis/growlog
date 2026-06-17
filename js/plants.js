@@ -75,6 +75,7 @@ export function renderPlantCard(p, harvests) {
     '<span class="toggle-chevron' + (isOpen ? ' open' : '') + '" id="ch-' + p.id + '">▾</span></div>' + tlHtml +
     '<div class="card-actions">' +
     '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openEditPlant(\'' + p.id + '\')">✏️</button>' +
+    (!p.is_harvested ? '<button class="btn btn-warning btn-sm" onclick="GrowLog.markPlantLost(\'' + p.id + '\')">☠️ Lost</button>' : '') +
     '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openStageModal(\'' + p.id + '\',\'' + ne + '\')">📅</button>' +
     (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openHarvestModal(\'' + p.id + '\',\'' + ne + '\')">✂️</button>' : '') +
     '<button class="btn btn-danger btn-sm" onclick="GrowLog.deletePlant(\'' + p.id + '\')">🗑</button></div></div>';
@@ -96,6 +97,7 @@ export function renderPlantList(p, harvests) {
       (warn ? '<div class="badge badge-' + warn.type + '" style="margin-bottom:8px;display:inline-flex">' + warn.text + '</div>' : '') +
       '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
       '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openEditPlant(\'' + p.id + '\')">✏️</button>' +
+        (!p.is_harvested ? '<button class="btn btn-warning btn-sm" onclick="event.stopPropagation();GrowLog.markPlantLost(\'' + p.id + '\')">☠️</button>' : '') +
       '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openStageModal(\'' + p.id + '\',\'' + ne + '\')">📅</button>' +
       (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openHarvestModal(\'' + p.id + '\',\'' + ne + '\')">✂️</button>' : '') +
       '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deletePlant(\'' + p.id + '\')">🗑</button></div></div>';
@@ -180,6 +182,24 @@ export async function savePlant() {
     }
     renderPlants();
   } catch (e) { showErr('plant-error', '❌ ' + parseErr(e)); }
+}
+
+export async function markPlantLost(id) {
+  if (!confirm('Позначити рослину як пропавшу?')) return;
+  try {
+    var yr = new Date().getFullYear();
+    // Get plant info for expense note
+    var rows = await sb('plants', 'GET', null, '?id=eq.' + id + '&select=name,variety_id,plant_date');
+    var p = rows[0];
+    var vName = '';
+    if (p && p.variety_id) {
+      var vr = await sb('varieties', 'GET', null, '?id=eq.' + p.variety_id + '&select=name');
+      if (vr[0]) vName = vr[0].name;
+    }
+    await sb('plants', 'PATCH', { is_harvested: true, stage_overrides: Object.assign(p && p.stage_overrides || {}, { lost: today() }) }, '?id=eq.' + id);
+    toast('Рослину позначено як пропавшу');
+    renderPlants();
+  } catch (e) { toast('Error: ' + parseErr(e)); }
 }
 
 export async function deletePlant(id) {

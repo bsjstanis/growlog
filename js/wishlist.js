@@ -8,6 +8,7 @@ export async function renderWishlistList() {
   var pg = document.getElementById('page-wishlist-list'); pg.innerHTML = '<div class="spinner"></div>';
   try {
     var wishlists = await sb('wishlists', 'GET', null, '?order=created_at.desc');
+    var allItems = await sb('wishlist_items', 'GET', null, '?select=wishlist_id');
     var html = '<div class="inner-tabs">' +
       '<button class="inner-tab" onclick="GrowLog.navigate(\'seeds\')">' + t('bagTab') + '</button>' +
       '<button class="inner-tab active">' + t('wishlistTab') + '</button></div>';
@@ -15,8 +16,12 @@ export async function renderWishlistList() {
       html += '<div class="empty"><div class="empty-icon">💫</div><p>' + t('noWishlists') + '</p></div>';
     } else {
       html += wishlists.map(function(wl) {
-        return '<div class="card" style="cursor:pointer" onclick="GrowLog.navigate(\'wishlist-items\',{wlId:\'' + wl.id + '\',wlName:\'' + encodeURIComponent(wl.name) + '\'})">' +
-          '<div class="card-row"><div><div class="card-title">💫 ' + wl.name + '</div></div><span style="color:var(--text3);font-size:20px">›</span></div>' +
+        var cnt = allItems.filter(function(i){ return i.wishlist_id === wl.id; }).length;
+        var cntLabel = cnt + ' ' + (cnt === 1 ? 'позиція' : cnt > 1 && cnt < 5 ? 'позиції' : 'позицій');
+        return '<div class="card" style="cursor:pointer" onclick="GrowLog.navigate(\'wishlist-items\',{wlId:\''+wl.id+'\',wlName:\''+encodeURIComponent(wl.name)+'\'})">' +
+          '<div class="card-row"><div><div class="card-title">💫 ' + wl.name + '</div>' +
+          '<div class="card-sub">' + cntLabel + '</div>' +
+          '</div><span style="color:var(--text3);font-size:20px">›</span></div>' +
           '<div class="card-actions">' +
           '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openWishlistModal(\'' + wl.id + '\')">✏️</button>' +
           '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteWishlist(\'' + wl.id + '\')">🗑</button>' +
