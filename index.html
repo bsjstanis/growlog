@@ -644,10 +644,12 @@ async function renderLocations(){
       var st=getStage(p,v);if(sc[st]!==undefined)sc[st]++;
     });
     var harvestedCount=plants.filter(function(p){return p.is_harvested;}).length;
+    var hasCycles=sc.growth>0||sc.pre_flower>0||sc.flower>0||sc.ripening>0||sc.harvest>0||harvestedCount>0;
     var statsHtml='<div class="stats-bar">'+
       '<div class="stat-chip"><div class="stat-chip-val">'+activePlants.length+'</div><div class="stat-chip-label">'+t('active')+'</div></div>'+
       '<div class="stat-chip"><div class="stat-chip-val">'+autoCount+'</div><div class="stat-chip-label">'+t('autoW')+'</div></div>'+
       '<div class="stat-chip"><div class="stat-chip-val">'+photoCount+'</div><div class="stat-chip-label">'+t('photoW')+'</div></div>'+
+      (hasCycles?'<div style="width:1px;background:var(--border);margin:2px 4px;flex-shrink:0"></div>':'')+
       (sc.growth>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#2d7a3a">'+sc.growth+'</div><div class="stat-chip-label">'+t('growth')+'</div></div>':'')+
       (sc.pre_flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#f9a825">'+sc.pre_flower+'</div><div class="stat-chip-label">'+t('preflower')+'</div></div>':'')+
       (sc.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#e65100">'+sc.flower+'</div><div class="stat-chip-label">'+t('flowering')+'</div></div>':'')+
@@ -1026,9 +1028,11 @@ async function renderHarvestPage(){
       var v=cache.varieties.find(function(x){return x.id===p.variety_id;});if(!v)return;
       var st=getStage(p,v);if(hsc[st]!==undefined)hsc[st]++;
     });
+    var hasHarvCycles=hsc.growth>0||hsc.flower>0||hsc.ripening>0;
     var html='<div class="stats-bar" style="margin-bottom:12px">'+
       '<div class="stat-chip"><div class="stat-chip-val">'+filtered.length+'</div><div class="stat-chip-label">'+t('harvests')+'</div></div>'+
       '<div class="stat-chip"><div class="stat-chip-val">'+totalW.toFixed(1)+'g</div><div class="stat-chip-label">'+t('dry')+'</div></div>'+
+      (hasHarvCycles?'<div style="width:1px;background:var(--border);margin:2px 4px;flex-shrink:0"></div>':'')+
       '<div class="stat-chip"><div class="stat-chip-val">'+activePlants.length+'</div><div class="stat-chip-label">'+t('plants')+'</div></div>'+
       (hsc.growth>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#2d7a3a">'+hsc.growth+'</div><div class="stat-chip-label">'+t('growth')+'</div></div>':'')+
       (hsc.flower>0?'<div class="stat-chip"><div class="stat-chip-val" style="color:#e65100">'+hsc.flower+'</div><div class="stat-chip-label">'+t('flowering')+'</div></div>':'')+
@@ -1046,14 +1050,13 @@ async function renderHarvestPage(){
         var cycleDays=plantDate&&h.harvest_date?diffDays(plantDate,h.harvest_date):null;
         var dryDays=h.dry_start_date&&h.dry_end_date?diffDays(h.dry_start_date,h.dry_end_date):null;
         var shrink=h.wet_weight_g&&h.dry_weight_g?Math.round((1-h.dry_weight_g/h.wet_weight_g)*100):null;
-        var metaParts=[];
-        if(loc)metaParts.push(loc.name);
-        if(v&&v.brand)metaParts.push(v.brand);
-        metaParts.push(fmt(h.harvest_date));
-        var cycleParts=[];
-        if(plantDate)cycleParts.push(t('planting')+': '+fmt(plantDate));
-        if(cycleDays!==null)cycleParts.push(t('cycle')+': '+cycleDays+t('days'));
-        if(dryDays!==null)cycleParts.push(t('drying')+': '+dryDays+t('days'));
+        var row2Parts=[];
+        if(v&&v.brand)row2Parts.push(v.brand);
+        if(loc)row2Parts.push(loc.name);
+        var row3Parts=[];
+        if(plantDate)row3Parts.push('🌱 '+fmt(plantDate));
+        if(h.harvest_date)row3Parts.push('✂️ '+fmt(h.harvest_date));
+        if(cycleDays!==null)row3Parts.push('🔄 '+cycleDays+' '+t('days'));
         html+='<div class="harv-card">'+
           '<div class="harv-card-top">'+
             (h.photo_url?'<img src="'+h.photo_url+'" class="harv-thumb" alt="photo">':'<div class="harv-thumb-placeholder">🌿</div>')+
@@ -1066,16 +1069,16 @@ async function renderHarvestPage(){
                   (shrink!==null?'<div style="font-size:10px;color:var(--blue)">-'+shrink+'%</div>':'')+
                 '</div>'+
               '</div>'+
-              '<div class="harv-meta">'+metaParts.join(' · ')+'</div>'+
-              (cycleParts.length?'<div class="harv-meta">'+cycleParts.join(' · ')+'</div>':'')+
-              (h.notes?'<div class="harv-meta" style="color:var(--text2)">'+h.notes+'</div>':'')+
+              (row2Parts.length?'<div class="harv-meta">'+row2Parts.join(' · ')+'</div>':'')+
+              (row3Parts.length?'<div class="harv-meta" style="color:var(--text2)">'+row3Parts.join('&nbsp;&nbsp;')+'</div>':'')+
+              (h.notes?'<div class="harv-meta" style="color:var(--text3);font-style:italic">'+h.notes+'</div>':'')+
             '</div>'+
           '</div>'+
           '<div class="harv-actions">'+
-            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(\''+h.id+'\')">✏️</button>'+
-            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(\''+h.id+'\')">🗑</button>'+
+            '<button class="btn btn-ghost btn-sm" onclick="openEditHarvest(''+h.id+'')">✏️</button>'+
+            '<button class="btn btn-danger btn-sm" onclick="deleteHarvest(''+h.id+'')">🗑</button>'+
           '</div>'+
-        '</div>';
+        '</div>'
       });
     }
     pg.innerHTML=html;
