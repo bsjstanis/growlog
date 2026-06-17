@@ -1,0 +1,2 @@
+export const SB_URL = 'https://mpxvsyqkocowamwgqzcy.supabase.co';
+export const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHZzeXFrb2Nvd2Ftd2dxemN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NTU3MzUsImV4cCI6MjA5NzAzMTczNX0.1-pbrp9KQJRy7zrMC3Yn3zX0GbYuFldRLwQYaN2p0aI';
