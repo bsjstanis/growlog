@@ -3,7 +3,7 @@ import { t } from './i18n.js';
 import { addDays } from './utils.js';
 import { calcStages } from './stages.js';
 import { openPopup } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 import { makeModeTabs } from './grows.js';
 
 export async function renderCalendar() {

@@ -10,22 +10,7 @@ import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, execu
 import { renderWishlistList, openWishlistModal, saveWishlist, deleteWishlist, renderWishlistItems, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag } from './wishlist.js';
 import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow } from './grows.js';
 
-// ═══ STATE ═══
-export var state = {
-  curPage: 'locations',
-  curLocId: null, curLocName: '',
-  curWishlistId: null, curWishlistName: '',
-  curGrowId: null, curGrowName: '',
-  curFinanceGrowId: null,
-  mode: localStorage.getItem('gl_mode') || 'outdoor',
-  harvestYear: new Date().getFullYear(),
-  financeYear: new Date().getFullYear(),
-  plantViewMode: 'cards',
-  expandedPlantId: null, expandedTimelineId: null,
-  finTab: 'summary', seedsTab: 'bag', calOffset: 0,
-  convertFromWLItem: null,
-  cache: { varieties: [], locations: [] }
-};
+import { state } from './state.js'; export { state };
 
 // ═══ MODE ═══
 function setMode(mode) {

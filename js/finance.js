@@ -2,7 +2,7 @@ import { sb } from './supabase.js';
 import { t } from './i18n.js';
 import { getYear, fmtUAH, parseErr, showErr, clearErr } from './utils.js';
 import { toast, openModal, closeModal } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 import { makeModeTabs } from './grows.js';
 
 export async function renderFinance() {

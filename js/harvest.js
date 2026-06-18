@@ -3,7 +3,7 @@ import { t } from './i18n.js';
 import { fmt, today, diffDays, getYear, fmtUAH, parseErr, showErr, makeStatsBar } from './utils.js';
 import { getStage } from './stages.js';
 import { toast, openModal, closeModal, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 import { makeModeTabs } from './grows.js';
 
 export { updateRating, previewHarvPhoto, clearHarvPhoto };

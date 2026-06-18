@@ -3,7 +3,7 @@ import { t } from './i18n.js';
 import { makeStatsBar, parseErr, showErr, clearErr } from './utils.js';
 import { getStage } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 import { makeModeTabs, renderGrows } from './grows.js';
 
 export async function renderLocations() {

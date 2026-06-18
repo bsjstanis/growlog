@@ -2,7 +2,7 @@ import { sb } from './supabase.js';
 import { t } from './i18n.js';
 import { today, fmtUAH, parseErr, showErr, clearErr } from './utils.js';
 import { toast, openModal, closeModal } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 
 export async function renderWishlistList() {
   var pg = document.getElementById('page-wishlist-list'); pg.innerHTML = '<div class="spinner"></div>';

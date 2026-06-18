@@ -2,7 +2,7 @@ import { sb } from './supabase.js';
 import { t } from './i18n.js';
 import { fmt, today, fmtUAH, parseErr, showErr, clearErr } from './utils.js';
 import { toast, openModal, closeModal, openPopup, closePopup } from './ui.js';
-import { state } from './app.js';
+import { state } from './state.js';
 
 export async function renderSeeds() {
   var pg = document.getElementById('page-seeds'); pg.innerHTML = '<div class="spinner"></div>';
