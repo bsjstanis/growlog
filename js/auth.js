@@ -110,9 +110,11 @@ export function renderAuthScreen(isRegister) {
   var title = document.getElementById('auth-title');
   var toggle = document.getElementById('auth-toggle-btn');
   var submit = document.getElementById('auth-submit-btn');
+  var forgot = document.getElementById('auth-forgot-btn');
   if (title) title.textContent = isRegister ? 'Реєстрація' : 'Вхід';
   if (toggle) toggle.textContent = isRegister ? 'Вже є акаунт? Увійти' : 'Немає акаунту? Реєстрація';
   if (submit) submit.textContent = isRegister ? 'Зареєструватись' : 'Увійти';
+  if (forgot) forgot.style.display = isRegister ? 'none' : 'block';
   window._authIsRegister = isRegister;
 }
 
@@ -142,4 +144,15 @@ export async function handleAuthSubmit() {
     errEl.textContent = e.message || 'Помилка входу';
     btn.textContent = window._authIsRegister ? 'Зареєструватись' : 'Увійти';
   }
+}
+
+export async function forgotPassword(email) {
+  var { SB_URL, SB_KEY } = await import('./config.js');
+  var r = await fetch(SB_URL + '/auth/v1/recover', {
+    method: 'POST',
+    headers: { apikey: SB_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  });
+  var d = await r.json();
+  if (!r.ok) throw new Error(d.msg || d.error_description || 'Error');
 }

@@ -109,10 +109,16 @@ window.GrowLog = {
   handleLogout,
   handleAuthSubmit,
   toggleAuthMode: function() { renderAuthScreen(!window._authIsRegister); },
-  handleGoogleLogin: async function() {
-    var { signInWithGoogle } = await import('./auth.js');
-    try { await signInWithGoogle(); }
-    catch(e) { var el = document.getElementById('auth-error'); if (el) el.textContent = e.message; }
+  handleForgotPassword: async function() {
+    var email = document.getElementById('auth-email').value.trim();
+    var errEl = document.getElementById('auth-error');
+    if (!email) { errEl.style.color = 'var(--red)'; errEl.textContent = 'Введи email'; return; }
+    try {
+      var { forgotPassword } = await import('./auth.js');
+      await forgotPassword(email);
+      errEl.style.color = 'var(--green)';
+      errEl.textContent = 'Лист для відновлення відправлено на ' + email;
+    } catch(e) { errEl.style.color = 'var(--red)'; errEl.textContent = e.message; }
   },
   _onSignIn: initApp,
   get curPage() { return state.curPage; }
