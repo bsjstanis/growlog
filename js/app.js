@@ -1,7 +1,6 @@
 import { t, setLang, applyLang } from './i18n.js';
 import { initModalClosers, toast, openModal, closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
-import { supabase } from './supabase.js';
-import { getSession, signOut, handleAuthSubmit, renderAuthScreen, onAuthChange } from './auth.js';
+import { getSession, signOut, handleAuthSubmit, renderAuthScreen } from './auth.js';
 import { renderLocations, openLocModal, saveLoc, deleteLoc } from './locations.js';
 import { renderPlants, setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, setType } from './plants.js';
 import { renderHarvestPage, openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest } from './harvest.js';
@@ -9,7 +8,7 @@ import { renderCalendar, showCalPopup } from './calendar.js';
 import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice } from './finance.js';
 import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert } from './seeds.js';
 import { renderWishlistList, openWishlistModal, saveWishlist, deleteWishlist, renderWishlistItems, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag } from './wishlist.js';
-import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow, makeModeTabs } from './grows.js';
+import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow } from './grows.js';
 
 // ═══ STATE ═══
 export var state = {
@@ -44,14 +43,14 @@ function navigateToGrow(growId, growNameEnc) {
 
 function backToGrows() {
   state.curGrowId = null; state.curGrowName = '';
-  renderGrows();
+  renderLocations();
 }
 
 // ═══ NAVIGATE ═══
 function navigate(page, data) {
   data = data || {};
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(tab) { tab.classList.remove('active'); });
   var tabPage = page;
   if (page === 'plants') tabPage = 'locations';
   if (page === 'wishlist-list' || page === 'wishlist-items') tabPage = 'seeds';
@@ -84,14 +83,7 @@ function fabAction() {
   else if (state.curPage === 'wishlist-items') openWishlistItemModal();
 }
 
-// ═══ LOGOUT ═══
-async function handleLogout() {
-  await signOut();
-  document.getElementById('login-screen').style.display = 'flex';
-  renderAuthScreen(false);
-}
-
-// ═══ INIT ═══
+// ═══ AUTH ═══
 function initApp() {
   updateRating(5);
   applyLang();
@@ -100,23 +92,33 @@ function initApp() {
   navigate('locations');
 }
 
+async function handleLogout() {
+  await signOut();
+  state.cache = { varieties: [], locations: [] };
+  renderAuthScreen(false);
+}
+
 // ═══ GLOBAL API ═══
 window.GrowLog = {
   navigate, renderPage, fabAction,
   setLang,
   closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto,
   openLocModal, saveLoc, deleteLoc,
-  setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, setType,
+  setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant,
+  markPlantLost, openStageModal, saveStage, setType,
   openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest,
   setHarvestYear: function(y) { state.harvestYear = y; renderHarvestPage(); },
-  showCalPopup, calBack: function() { state.calOffset -= 12; renderCalendar(); }, calForward: function() { state.calOffset += 12; renderCalendar(); },
+  showCalPopup,
+  calBack: function() { state.calOffset -= 12; renderCalendar(); },
+  calForward: function() { state.calOffset += 12; renderCalendar(); },
   toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice,
   setFinanceYear: function(y) { state.financeYear = y; renderFinance(); },
   setFinanceGrow: function(id) { state.curFinanceGrowId = id; renderFinance(); },
   setFinTab: function(tab) { state.finTab = tab; renderFinance(); },
   setSeedsTab: function(tab) { state.seedsTab = tab; renderSeeds(); },
   openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert,
-  openWishlistModal, saveWishlist, deleteWishlist, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag,
+  openWishlistModal, saveWishlist, deleteWishlist,
+  openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag,
   openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow,
   setMode, navigateToGrow, backToGrows,
   handleLogout,
@@ -124,28 +126,25 @@ window.GrowLog = {
   toggleAuthMode: function() { renderAuthScreen(!window._authIsRegister); },
   handleGoogleLogin: async function() {
     var { signInWithGoogle } = await import('./auth.js');
-    try { await signInWithGoogle(); } catch(e) { document.getElementById('auth-error').textContent = e.message; }
+    try { await signInWithGoogle(); }
+    catch(e) { var el = document.getElementById('auth-error'); if (el) el.textContent = e.message; }
   },
+  _onSignIn: initApp,
   get curPage() { return state.curPage; }
 };
 
 // ═══ BOOTSTRAP ═══
 (async function() {
   applyLang();
-  // Listen for auth state changes
-  onAuthChange(function(event, session) {
+  try {
+    var session = await getSession();
     if (session) {
       initApp();
     } else {
-      document.getElementById('login-screen').style.display = 'flex';
+      renderAuthScreen(false);
     }
-  });
-  // Check existing session
-  var session = await getSession();
-  if (session) {
-    initApp();
-  } else {
+  } catch(e) {
+    console.error('Auth error:', e);
     renderAuthScreen(false);
-    document.getElementById('login-screen').style.display = 'flex';
   }
 })();
