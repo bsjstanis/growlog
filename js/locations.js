@@ -1,6 +1,6 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { makeStatsBar, parseErr, showErr, clearErr } from './utils.js';
+import { makeStatsBar, renderStatsBar, parseErr, showErr, clearErr } from './utils.js';
 import { getStage } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
@@ -33,17 +33,50 @@ export async function renderLocations() {
     });
     var harvestedCount = plants.filter(function(p) { return p.is_harvested; }).length;
     var hasCycles = sc.growth > 0 || sc.pre_flower > 0 || sc.flower > 0 || sc.ripening > 0 || sc.harvest > 0 || harvestedCount > 0;
-    var chips = [{ val: activePlants.length, label: t('active') }, { val: autoCount, label: t('autoW') }, { val: photoCount, label: t('photoW') }];
-    if (hasCycles) {
-      chips.push('divider');
-      if (sc.growth > 0) chips.push({ val: sc.growth, label: t('growth'), color: '#2d7a3a' });
-      if (sc.pre_flower > 0) chips.push({ val: sc.pre_flower, label: t('preflower'), color: '#f9a825' });
-      if (sc.flower > 0) chips.push({ val: sc.flower, label: t('flowering'), color: '#e65100' });
-      if (sc.ripening > 0) chips.push({ val: sc.ripening, label: t('ripening'), color: '#ad1457' });
-      if (sc.harvest > 0) chips.push({ val: sc.harvest, label: t('toHarvest'), color: '#c62828' });
-      if (harvestedCount > 0) chips.push({ val: harvestedCount, label: t('harvested'), color: 'var(--text3)' });
+    var statsHtml = renderStatsBar('plants', {
+      active: activePlants.length, auto: autoCount, photo: photoCount,
+      seedling: sc.seedling || 0, growth: sc.growth, pre_flower: sc.pre_flower,
+      flower: sc.flower, ripening: sc.ripening, harvested: harvestedCount
+    });
+import { t } from './i18n.js';
+import { makeStatsBar, renderStatsBar, parseErr, showErr, clearErr } from './utils.js';
+import { getStage } from './stages.js';
+import { toast, openModal, closeModal } from './ui.js';
+import { state } from './state.js';
+import { makeModeTabs, renderGrows } from './grows.js';
+
+export async function renderLocations() {
+  if (state.mode === 'indoor') {
+    if (state.curGrowId) {
+      await renderGrowLocations();
+    } else {
+      await renderGrows();
     }
-    var html = makeModeTabs() + makeStatsBar(chips);
+    return;
+  }
+  // OUTDOOR mode
+  var pg = document.getElementById('page-locations'); pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
+  try {
+    var allLocs = await sb('locations', 'GET', null, '?mode=eq.outdoor&order=created_at.asc');
+    state.cache.locations = allLocs;
+    var plants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
+    if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
+    var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
+    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
+    var autoCount = 0, photoCount = 0;
+    var sc = { growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
+    activePlants.forEach(function(p) {
+      var v = state.cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
+      if (v.seed_type === 'auto') autoCount++; else photoCount++;
+      var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
+    });
+    var harvestedCount = plants.filter(function(p) { return p.is_harvested; }).length;
+    var hasCycles = sc.growth > 0 || sc.pre_flower > 0 || sc.flower > 0 || sc.ripening > 0 || sc.harvest > 0 || harvestedCount > 0;
+    var statsHtml = renderStatsBar('plants', {
+      active: activePlants.length, auto: autoCount, photo: photoCount,
+      seedling: sc.seedling || 0, growth: sc.growth, pre_flower: sc.pre_flower,
+      flower: sc.flower, ripening: sc.ripening, harvested: harvestedCount
+    });
     if (!allLocs.length) { pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>'; return; }
     pg.innerHTML = html + allLocs.map(function(loc) {
       var lp = plants.filter(function(p) { return p.location_id === loc.id; });

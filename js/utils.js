@@ -29,3 +29,51 @@ export function makeStatsBar(chips) {
   });
   html += '</div>'; return html;
 }
+
+export function renderStatsBar(variant, data) {
+  // data for 'plants': { active, auto, photo, seedling, growth, pre_flower, flower, ripening, harvested }
+  // data for 'harvest': { plants, harvests, totalWeight, seedling, growth, pre_flower, flower, ripening, harvested }
+  var stageGrid = '<div class="stage-grid">' +
+    makeStageCell(data.seedling || 0, '🌱', 'Паросток', 'sc-neutral') +
+    makeStageCell(data.growth || 0, '🌿', 'Ріст', 'sc-green') +
+    makeStageCell(data.pre_flower || 0, '🌼', 'Передцвіт', 'sc-blue') +
+    makeStageCell(data.flower || 0, '🌸', 'Цвітіння', 'sc-purple') +
+    makeStageCell(data.ripening || 0, '🟡', 'Дозрів.', 'sc-yellow') +
+    makeStageCell(data.harvested || 0, '✅', 'Зібрано', 'sc-neutral') +
+  '</div>';
+
+  var leftBlock = '';
+  if (variant === 'plants') {
+    leftBlock = '<div class="stats-left-plants">' +
+      '<div class="slp-big">' + (data.active || 0) + '</div>' +
+      '<div class="slp-lbl">Активних</div>' +
+      '<div class="slp-div"></div>' +
+      '<div class="slp-sub">А' + (data.auto || 0) + ' · Ф' + (data.photo || 0) + '</div>' +
+    '</div>';
+  } else {
+    var wStr = data.totalWeight >= 1000
+      ? (data.totalWeight / 1000).toFixed(1) + 'kg'
+      : (data.totalWeight || 0).toFixed(1) + 'g';
+    leftBlock = '<div class="stats-left-harvest">' +
+      '<div class="slh-top">' +
+        '<div class="slh-big">' + (data.plants || 0) + '</div>' +
+        '<div class="slh-lbl">рослин</div>' +
+      '</div>' +
+      '<div class="slh-hdiv"></div>' +
+      '<div class="slh-bottom">' +
+        '<div class="slh-metric"><span class="slh-icon">✂️</span><span class="slh-num">' + (data.harvests || 0) + '</span></div>' +
+        '<div class="slh-vdiv"></div>' +
+        '<div class="slh-metric"><span class="slh-num">' + wStr + '</span></div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  return '<div class="stats-row" style="margin-bottom:14px">' + leftBlock + stageGrid + '</div>';
+}
+
+function makeStageCell(count, icon, label, colorClass) {
+  return '<div class="sc ' + colorClass + '">' +
+    '<span class="sc-num">' + count + '</span>' +
+    '<span class="sc-nm">' + icon + ' ' + label + '</span>' +
+  '</div>';
+}

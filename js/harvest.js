@@ -1,6 +1,6 @@
 import { sb, uploadPhoto } from './supabase.js';
 import { t } from './i18n.js';
-import { fmt, today, diffDays, getYear, fmtUAH, parseErr, showErr, makeStatsBar } from './utils.js';
+import { fmt, today, diffDays, getYear, fmtUAH, parseErr, showErr, makeStatsBar, renderStatsBar } from './utils.js';
 import { getStage } from './stages.js';
 import { toast, openModal, closeModal, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
 import { state } from './state.js';
@@ -112,16 +112,19 @@ export async function renderHarvestPage() {
       : harvests;
     var totalW = filtered.reduce(function(a,h) { return a+(parseFloat(h.dry_weight_g)||0); }, 0);
     var activePlants = plants.filter(function(p) { return !p.is_harvested; });
-    var hsc = { growth: 0, flower: 0, ripening: 0 };
+    var hsc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvested: 0 };
     activePlants.forEach(function(p) {
       var v = state.cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
       var st = getStage(p, v); if (hsc[st] !== undefined) hsc[st]++;
     });
-    var chips = [{ val: filtered.length, label: t('harvests') }, { val: totalW.toFixed(1)+'g', label: t('dry') }, 'divider', { val: activePlants.length, label: t('plants') }];
-    if (hsc.growth > 0) chips.push({ val: hsc.growth, label: t('growth'), color: '#2d7a3a' });
-    if (hsc.flower > 0) chips.push({ val: hsc.flower, label: t('flowering'), color: '#e65100' });
-    if (hsc.ripening > 0) chips.push({ val: hsc.ripening, label: t('ripening'), color: '#ad1457' });
-    var html = makeModeTabs() + makeStatsBar(chips);
+    hsc.harvested = plants.filter(function(p) { return p.is_harvested; }).length;
+    var statsBarHtml = renderStatsBar('harvest', {
+      plants: activePlants.length,
+      harvests: filtered.length,
+      totalWeight: totalW,
+      seedling: hsc.seedling || 0, growth: hsc.growth, pre_flower: hsc.pre_flower || 0,
+      flower: hsc.flower, ripening: hsc.ripening, harvested: hsc.harvested || 0
+    });
     if (state.mode === 'outdoor' && years.length) {
       html += '<div class="year-tabs">' + years.map(function(y) { return '<div class="year-tab '+(y===state.harvestYear?'active':'')+'" onclick="GrowLog.setHarvestYear('+y+')">'+y+'</div>'; }).join('') + '</div>';
     }

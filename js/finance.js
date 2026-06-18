@@ -18,7 +18,7 @@ export async function renderFinance() {
 }
 
 async function renderOutdoorFinance(pg) {
-  var allPlants = await sb('plants', 'GET', null, '?select=id,name,variety_id,plant_date,is_harvested');
+  var allPlants = await sb('plants', 'GET', null, '?select=id,name,variety_id,plant_date,is_harvested,location_id');
   var allHarvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g,harvest_date');
   var allExpenses = await sb('expenses', 'GET', null, '?mode=eq.outdoor&order=created_at.desc');
   var settings = await sb('year_settings', 'GET', null, '?order=year.desc');
