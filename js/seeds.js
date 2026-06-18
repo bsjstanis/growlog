@@ -72,6 +72,8 @@ export function openSeedModal(id) {
       document.getElementById('seed-price').value = s.price_uah || '';
       document.getElementById('seed-purchase-date').value = s.purchase_date || '';
       document.getElementById('seed-notes').value = s.notes || '';
+      document.getElementById('seed-flower-min').value = s.flowering_days_min || '';
+      document.getElementById('seed-flower-max').value = s.flowering_days_max || '';
     });
   } else {
     ['seed-name', 'seed-brand', 'seed-notes'].forEach(function(id) { document.getElementById(id).value = ''; });
@@ -79,6 +81,8 @@ export function openSeedModal(id) {
     document.getElementById('seed-price').value = '';
     document.getElementById('seed-purchase-date').value = '';
     document.getElementById('seed-type').value = 'auto';
+    document.getElementById('seed-flower-min').value = '';
+    document.getElementById('seed-flower-max').value = '';
   }
   state.convertFromWLItem = null;
   openModal('modal-seed');
@@ -98,7 +102,9 @@ export async function saveSeed() {
     price_uah: parseFloat(document.getElementById('seed-price').value) || null,
     purchase_date: document.getElementById('seed-purchase-date').value || null,
     notes: document.getElementById('seed-notes').value.trim() || null,
-    year: new Date().getFullYear()
+    year: new Date().getFullYear(),
+    flowering_days_min: parseInt(document.getElementById('seed-flower-min').value) || null,
+    flowering_days_max: parseInt(document.getElementById('seed-flower-max').value) || null
   };
   try {
     if (id) await sb('seeds', 'PATCH', data, '?id=eq.' + id);

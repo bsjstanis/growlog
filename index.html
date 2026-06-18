@@ -449,6 +449,12 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div class="field"><label>Кількість (шт.) <span class="req">*</span></label><input id="seed-qty" type="number" min="1" step="1" placeholder="1"></div>
     <div class="field"><label>Ціна/шт. (UAH) <span class="opt">(опц.)</span></label><input id="seed-price" type="number" min="0" step="1" placeholder="0"></div>
   </div>
+  <div id="seed-flowering-wrap">
+    <div class="field-row">
+      <div class="field"><label>Цвітіння від (днів) <span class="opt">(опц.)</span></label><input id="seed-flower-min" type="number" min="30" max="150" placeholder="60"></div>
+      <div class="field"><label>Цвітіння до (днів) <span class="opt">(опц.)</span></label><input id="seed-flower-max" type="number" min="30" max="150" placeholder="70"></div>
+    </div>
+  </div>
   <div class="field"><label>Дата покупки <span class="opt">(опц.)</span></label><input id="seed-purchase-date" type="date"></div>
   <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><textarea id="seed-notes" placeholder="Умови зберігання..."></textarea></div>
   <div class="form-error" id="seed-error"></div>
@@ -481,6 +487,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <select id="wi-type"><option value="auto">Автоцвіт</option><option value="photo">Фотоперіод</option></select>
   </div>
   <div class="field"><label>Ціна (UAH/шт.) <span class="opt">(опц.)</span></label><input id="wi-price" type="number" min="0" step="1" placeholder="0"></div>
+  <div class="field"><label>Посилання <span class="opt">(опц.)</span></label><input id="wi-url" type="url" placeholder="https://..."></div>
   <div class="form-error" id="wi-error"></div>
   <div class="modal-actions">
     <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-wishlist-item')">Скасувати</button>

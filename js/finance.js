@@ -23,7 +23,7 @@ async function renderOutdoorFinance(pg) {
   var allExpenses = await sb('expenses', 'GET', null, '?mode=eq.outdoor&order=created_at.desc');
   var settings = await sb('year_settings', 'GET', null, '?order=year.desc');
   // Filter plants to outdoor locations
-  var outdoorLocs = await sb('locations', 'GET', null, '?mode=eq.outdoor&select=id');
+  var outdoorLocs = await sb('locations', 'GET', null, '?or=(mode.eq.outdoor,mode.is.null)&select=id');
   var outdoorLocIds = outdoorLocs.map(function(l) { return l.id; });
   var outdoorPlants = allPlants.filter(function(p) { return outdoorLocIds.indexOf(p.location_id) >= 0; });
   var outdoorPlantIds = outdoorPlants.map(function(p) { return p.id; });

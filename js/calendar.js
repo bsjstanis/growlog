@@ -11,7 +11,7 @@ export async function renderCalendar() {
   try {
     if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
     // Filter locations by mode
-    var modeQuery = state.mode === 'indoor' ? '?mode=eq.indoor&select=id' : '?mode=eq.outdoor&select=id';
+    var modeQuery = state.mode === 'indoor' ? '?mode=eq.indoor&select=id' : '?or=(mode.eq.outdoor,mode.is.null)&select=id';
     var modeLocs = await sb('locations', 'GET', null, modeQuery);
     var modeLocIds = modeLocs.map(function(l) { return l.id; });
     var allPlants = await sb('plants', 'GET', null, '?order=plant_date.asc');

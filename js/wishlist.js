@@ -80,6 +80,7 @@ export async function renderWishlistItems() {
           '<div class="card-row"><div>' +
           '<div class="card-title">🌱 ' + item.name + '</div>' +
           '<div class="card-sub">' + (item.brand || '') + (item.brand ? ' · ' : '') + typeLabel + (item.price_uah ? ' · ' + fmtUAH(item.price_uah) : '') + '</div>' +
+          (item.url ? '<a href="' + item.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px" onclick="event.stopPropagation()">🔗 Link</a>' : '') +
           '</div></div>' +
           '<div class="card-actions">' +
           '<button class="btn btn-primary btn-sm" onclick="GrowLog.convertWishlistItemToBag(\'' + item.id + '\')">' + t('buyAction') + '</button>' +
@@ -104,10 +105,12 @@ export function openWishlistItemModal(id) {
       document.getElementById('wi-brand').value = item.brand || '';
       document.getElementById('wi-type').value = item.seed_type || 'auto';
       document.getElementById('wi-price').value = item.price_uah || '';
+      document.getElementById('wi-url').value = item.url || '';
     });
   } else {
     ['wi-name', 'wi-brand'].forEach(function(id) { document.getElementById(id).value = ''; });
     document.getElementById('wi-price').value = '';
+    document.getElementById('wi-url').value = '';
     document.getElementById('wi-type').value = 'auto';
   }
   openModal('modal-wishlist-item');
@@ -123,6 +126,7 @@ export async function saveWishlistItem() {
     brand: document.getElementById('wi-brand').value.trim() || null,
     seed_type: document.getElementById('wi-type').value,
     price_uah: parseFloat(document.getElementById('wi-price').value) || null,
+    url: document.getElementById('wi-url').value.trim() || null,
     wishlist_id: wlId
   };
   try {
