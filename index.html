@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<link rel="icon" href="growlog-favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" href="growlog-logo-512.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GrowLog v2.0</title>
+<title>GrowLog v3.0</title>
+<link rel="icon" href="growlog-favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="growlog-logo-512.png">
 <style>
 :root{
   --bg:#f7f9f7;--bg2:#fff;--bg3:#f0f4f0;--card:#fff;
@@ -211,17 +211,35 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .fi-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit}
 .fi-input:focus{border-color:var(--green2);background:#fff}
 .fi-select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--bg3);color:var(--text);outline:none;-webkit-appearance:none;font-family:inherit;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+.mode-tabs{display:flex;gap:0;background:var(--bg3);border-radius:var(--radius-sm);padding:3px;margin-bottom:14px}
+.mode-tab{flex:1;text-align:center;padding:7px 4px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text3);border-radius:6px;transition:all .15s}
+.mode-tab.active.outdoor{background:var(--green);color:#fff}
+.mode-tab.active.indoor{background:var(--blue);color:#fff}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text3);font-size:12px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-google{width:100%;background:#fff;color:#444;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.header-logout{background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;padding:4px 8px}
 </style>
 </head>
 <body>
-<div class="login-screen" id="login-screen">
+<div class="login-screen" id="login-screen" style="display:none">
   <div class="login-card">
-    <div class="login-logo">&#127807;</div>
+    <div class="login-logo"><img src="growlog-logo-512.png" style="width:56px;height:56px;border-radius:12px;object-fit:cover"></div>
     <div class="login-title">GrowLog</div>
-    <div class="login-sub" id="login-sub">Введи пароль</div>
-    <input class="login-input" type="password" id="login-input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
-    <button class="login-btn" id="login-btn">&#1059;&#1074;&#1110;&#1081;&#1090;&#1080;</button>
-    <div class="login-error" id="login-error"></div>
+    <div class="login-sub" id="auth-title">Вхід</div>
+    <div style="margin-top:20px">
+      <input class="login-input" type="email" id="auth-email" placeholder="email@example.com" style="letter-spacing:0;text-align:left;padding:12px 14px;margin-bottom:10px">
+      <input class="login-input" type="password" id="auth-password" placeholder="Пароль" style="letter-spacing:2px">
+    </div>
+    <button class="login-btn" id="auth-submit-btn" onclick="GrowLog.handleAuthSubmit()">Увійти</button>
+    <div class="auth-divider">або</div>
+    <button class="btn-google" onclick="GrowLog.handleGoogleLogin()">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+      Увійти через Google
+    </button>
+    <div class="login-error" id="auth-error" style="margin-top:12px"></div>
+    <button style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;margin-top:14px;width:100%" id="auth-toggle-btn" onclick="GrowLog.toggleAuthMode()">Немає акаунту? Реєстрація</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -249,6 +267,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <button class="lang-btn active" id="lang-ua" onclick="GrowLog.setLang('ua')">UA</button>
     <button class="lang-btn" id="lang-en" onclick="GrowLog.setLang('en')">EN</button>
   </div>
+<button class="header-logout" onclick="GrowLog.handleLogout()">Вийти</button>
 </header>
 <main>
   <div id="page-locations" class="page active"><div class="spinner"></div></div>
@@ -468,6 +487,21 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <button class="btn btn-primary" onclick="GrowLog.saveWishlistItem()">Зберегти</button>
   </div>
 </div></div>
+
+<!-- MODAL: Grow -->
+<div class="modal-overlay" id="modal-grow"><div class="modal">
+  <div class="modal-handle"></div>
+  <div class="modal-title" id="modal-grow-title">Новий Grow</div>
+  <input type="hidden" id="grow-edit-id">
+  <div class="field"><label>Назва <span class="req">*</span></label><input id="grow-name" placeholder="Grow #1..."></div>
+  <div class="field"><label>Дата старту <span class="req">*</span></label><input id="grow-start-date" type="date"></div>
+  <div class="form-error" id="grow-error"></div>
+  <div class="modal-actions">
+    <button class="btn btn-ghost" onclick="GrowLog.closeModal('modal-grow')">Скасувати</button>
+    <button class="btn btn-primary" onclick="GrowLog.saveGrow()">Зберегти</button>
+  </div>
+</div></div>
+
 <script type="module" src="js/app.js"></script>
 </body>
 </html>

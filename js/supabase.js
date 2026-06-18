@@ -1,8 +1,13 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { SB_URL, SB_KEY } from './config.js';
+
+export const supabase = createClient(SB_URL, SB_KEY);
 
 export async function sb(table, method, body, query) {
   method = method || 'GET'; query = query || '';
-  var h = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = (session && session.access_token) ? session.access_token : SB_KEY;
+  var h = { apikey: SB_KEY, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
   if (method === 'POST') h['Prefer'] = 'return=representation';
   if (method === 'PATCH') h['Prefer'] = 'return=representation';
   var r = await fetch(SB_URL + '/rest/v1/' + table + query, { method: method, headers: h, body: body ? JSON.stringify(body) : null });
@@ -12,11 +17,13 @@ export async function sb(table, method, body, query) {
 }
 
 export async function uploadPhoto(file) {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = (session && session.access_token) ? session.access_token : SB_KEY;
   var ext = file.name.split('.').pop();
   var path = 'harvests/' + Date.now() + '.' + ext;
   var r = await fetch(SB_URL + '/storage/v1/object/plant-photos/' + path, {
     method: 'POST',
-    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': file.type },
+    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + token, 'Content-Type': file.type },
     body: file
   });
   if (!r.ok) throw new Error('Photo upload failed');

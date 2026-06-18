@@ -1,15 +1,25 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { makeStatsBar, parseErr } from './utils.js';
+import { makeStatsBar, parseErr, showErr, clearErr } from './utils.js';
 import { getStage } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
-import { showErr, clearErr } from './utils.js';
 import { state } from './app.js';
+import { makeModeTabs, renderGrows } from './grows.js';
 
 export async function renderLocations() {
-  var pg = document.getElementById('page-locations'); pg.innerHTML = '<div class="spinner"></div>';
+  if (state.mode === 'indoor') {
+    if (state.curGrowId) {
+      await renderGrowLocations();
+    } else {
+      await renderGrows();
+    }
+    return;
+  }
+  // OUTDOOR mode
+  var pg = document.getElementById('page-locations'); pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
   try {
-    state.cache.locations = await sb('locations', 'GET', null, '?order=created_at.asc');
+    var allLocs = await sb('locations', 'GET', null, '?mode=eq.outdoor&order=created_at.asc');
+    state.cache.locations = allLocs;
     var plants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
     if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
@@ -23,11 +33,7 @@ export async function renderLocations() {
     });
     var harvestedCount = plants.filter(function(p) { return p.is_harvested; }).length;
     var hasCycles = sc.growth > 0 || sc.pre_flower > 0 || sc.flower > 0 || sc.ripening > 0 || sc.harvest > 0 || harvestedCount > 0;
-    var chips = [
-      { val: activePlants.length, label: t('active') },
-      { val: autoCount, label: t('autoW') },
-      { val: photoCount, label: t('photoW') }
-    ];
+    var chips = [{ val: activePlants.length, label: t('active') }, { val: autoCount, label: t('autoW') }, { val: photoCount, label: t('photoW') }];
     if (hasCycles) {
       chips.push('divider');
       if (sc.growth > 0) chips.push({ val: sc.growth, label: t('growth'), color: '#2d7a3a' });
@@ -37,30 +43,52 @@ export async function renderLocations() {
       if (sc.harvest > 0) chips.push({ val: sc.harvest, label: t('toHarvest'), color: '#c62828' });
       if (harvestedCount > 0) chips.push({ val: harvestedCount, label: t('harvested'), color: 'var(--text3)' });
     }
-    var statsHtml = makeStatsBar(chips);
-    if (!state.cache.locations.length) {
-      pg.innerHTML = statsHtml + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>';
-      return;
-    }
-    pg.innerHTML = statsHtml + state.cache.locations.map(function(loc) {
+    var html = makeModeTabs() + makeStatsBar(chips);
+    if (!allLocs.length) { pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>'; return; }
+    pg.innerHTML = html + allLocs.map(function(loc) {
       var lp = plants.filter(function(p) { return p.location_id === loc.id; });
       var active = lp.filter(function(p) { return !p.is_harvested; }).length;
       var harv = lp.filter(function(p) { return p.is_harvested; });
       var totalW = 0;
-      harv.forEach(function(p) {
-        harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); });
-      });
+      harv.forEach(function(p) { harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); }); });
       return '<div class="card" style="cursor:pointer" onclick="GrowLog.navigate(\'plants\',{locId:\'' + loc.id + '\',locName:\'' + encodeURIComponent(loc.name) + '\'})">' +
         '<div class="card-row"><div><div class="card-title">🏕️ ' + loc.name + '</div>' +
-        '<div class="card-sub">' + active + ' ' + t('active').toLowerCase() +
-        (harv.length ? ' · ' + harv.length + ' ' + t('harvested').toLowerCase() + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') : '') +
-        '</div></div><span style="color:var(--text3);font-size:20px">›</span></div>' +
-        '<div class="card-actions">' +
-        '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openLocModal(\'' + loc.id + '\')">✏️</button>' +
-        '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteLoc(\'' + loc.id + '\')">🗑</button>' +
-        '</div></div>';
+        '<div class="card-sub">' + active + ' ' + t('active').toLowerCase() + (harv.length ? ' · ' + harv.length + ' ' + t('harvested').toLowerCase() + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') : '') + '</div></div>' +
+        '<span style="color:var(--text3);font-size:20px">›</span></div>' +
+        '<div class="card-actions"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openLocModal(\'' + loc.id + '\')">✏️</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteLoc(\'' + loc.id + '\')">🗑</button></div></div>';
     }).join('');
-  } catch (e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
+  } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
+}
+
+async function renderGrowLocations() {
+  var pg = document.getElementById('page-locations');
+  var growName = decodeURIComponent(state.curGrowName || '');
+  pg.innerHTML = '<div class="spinner"></div>';
+  try {
+    var locs = await sb('locations', 'GET', null, '?grow_id=eq.' + state.curGrowId + '&order=created_at.asc');
+    state.cache.locations = locs;
+    var plants = await sb('plants', 'GET', null, '?select=id,location_id,is_harvested');
+    var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
+    var html = makeModeTabs() +
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
+      '<button class="btn btn-ghost btn-sm" onclick="GrowLog.backToGrows()">← Grows</button>' +
+      '<span style="font-size:16px;font-weight:700">💡 ' + growName + '</span></div>';
+    if (!locs.length) { pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>'; return; }
+    pg.innerHTML = html + locs.map(function(loc) {
+      var lp = plants.filter(function(p) { return p.location_id === loc.id; });
+      var active = lp.filter(function(p) { return !p.is_harvested; }).length;
+      var harv = lp.filter(function(p) { return p.is_harvested; });
+      var totalW = 0;
+      harv.forEach(function(p) { harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); }); });
+      return '<div class="card" style="cursor:pointer" onclick="GrowLog.navigate(\'plants\',{locId:\'' + loc.id + '\',locName:\'' + encodeURIComponent(loc.name) + '\'})">' +
+        '<div class="card-row"><div><div class="card-title">🏕️ ' + loc.name + '</div>' +
+        '<div class="card-sub">' + active + ' ' + t('active').toLowerCase() + (harv.length ? ' · ' + harv.length + ' ' + t('harvested').toLowerCase() + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') : '') + '</div></div>' +
+        '<span style="color:var(--text3);font-size:20px">›</span></div>' +
+        '<div class="card-actions"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openLocModal(\'' + loc.id + '\')">✏️</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteLoc(\'' + loc.id + '\')">🗑</button></div></div>';
+    }).join('');
+  } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
 }
 
 export function openLocModal(id) {
@@ -75,13 +103,18 @@ export function openLocModal(id) {
 
 export async function saveLoc() {
   var name = document.getElementById('loc-name').value.trim();
-  if (!name) { showErr('loc-error', '⚠️ ' + t('errName') || 'Введи назву'); return; }
+  if (!name) { showErr('loc-error', '⚠️ Введи назву'); return; }
   var id = document.getElementById('loc-id').value;
+  var data = { name: name, notes: document.getElementById('loc-notes').value.trim() };
+  if (!id) {
+    data.mode = state.mode;
+    if (state.mode === 'indoor' && state.curGrowId) data.grow_id = state.curGrowId;
+  }
   try {
-    if (id) await sb('locations', 'PATCH', { name: name, notes: document.getElementById('loc-notes').value.trim() }, '?id=eq.' + id);
-    else await sb('locations', 'POST', { name: name, notes: document.getElementById('loc-notes').value.trim() });
+    if (id) await sb('locations', 'PATCH', data, '?id=eq.' + id);
+    else await sb('locations', 'POST', data);
     closeModal('modal-loc'); toast(t(id ? 'updated' : 'added') + ' ✅'); renderLocations();
-  } catch (e) { showErr('loc-error', '❌ ' + parseErr(e)); }
+  } catch(e) { showErr('loc-error', '❌ ' + parseErr(e)); }
 }
 
 export async function deleteLoc(id) {
@@ -95,5 +128,5 @@ export async function deleteLoc(id) {
     await sb('plants', 'DELETE', null, '?location_id=eq.' + id);
     await sb('locations', 'DELETE', null, '?id=eq.' + id);
     toast(t('deleted')); renderLocations();
-  } catch (e) { toast('Error: ' + parseErr(e)); }
+  } catch(e) { toast('Error: ' + parseErr(e)); }
 }

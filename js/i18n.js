@@ -38,6 +38,14 @@ export var TR = {
     archive:'Архів (пропавші)',
     soakAction:'Замочити', lostAction:'Пропали', convertAction:'В рослину', buyAction:'Куплено',
     howMany:'Скільки штук перевести?', selectLoc:'Вибери локацію',
+    newGrow:'Новий Grow', editGrow:'Редагувати Grow',
+    noGrows:'Немає Grow циклів. Натисни + щоб додати.',
+    activeGrows:'Активні', completedGrows:'Завершені',
+    growActive:'Активний', growCompleted:'Завершений', growArchive:'Архів',
+    growComplete:'Завершити', growArchiveBtn:'В архів',
+    confirmCompleteGrow:'Завершити цей Grow цикл?',
+    indoorLocs:'Локації Grow', selectGrow:'Вибери Grow',
+    logout:'Вийти',
     mon:['Січ','Лют','Бер','Кві','Тра','Чер','Лип','Сер','Вер','Жов','Лис','Гру'],
     dow:['Пн','Вт','Ср','Чт','Пт','Сб','Нд']
   },
@@ -78,6 +86,14 @@ export var TR = {
     archive:'Archive (lost)',
     soakAction:'Soak', lostAction:'Lost', convertAction:'To plant', buyAction:'Bought',
     howMany:'How many to transfer?', selectLoc:'Select location',
+    newGrow:'New Grow', editGrow:'Edit Grow',
+    noGrows:'No Grow cycles. Press + to add.',
+    activeGrows:'Active', completedGrows:'Completed',
+    growActive:'Active', growCompleted:'Completed', growArchive:'Archive',
+    growComplete:'Complete', growArchiveBtn:'Archive',
+    confirmCompleteGrow:'Complete this Grow cycle?',
+    indoorLocs:'Grow locations', selectGrow:'Select Grow',
+    logout:'Logout',
     mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
     dow:['Mo','Tu','We','Th','Fr','Sa','Su']
   }
@@ -89,15 +105,16 @@ export function setLang(lang) {
   LANG = lang;
   localStorage.setItem('gl_lang', lang);
   applyLang();
-  // trigger re-render via app
   if (window.GrowLog) window.GrowLog.renderPage(window.GrowLog.curPage);
 }
 
 export function applyLang() {
-  document.getElementById('lang-ua').className = 'lang-btn' + (LANG === 'ua' ? ' active' : '');
-  document.getElementById('lang-en').className = 'lang-btn' + (LANG === 'en' ? ' active' : '');
-  document.getElementById('login-sub').textContent = t('loginSub');
-  document.getElementById('login-btn').textContent = t('loginBtn');
+  var ua = document.getElementById('lang-ua');
+  var en = document.getElementById('lang-en');
+  if (ua) ua.className = 'lang-btn' + (LANG === 'ua' ? ' active' : '');
+  if (en) en.className = 'lang-btn' + (LANG === 'en' ? ' active' : '');
+  var sub = document.getElementById('login-sub');
+  if (sub) sub.textContent = t('loginSub');
   document.querySelectorAll('.tab-lbl[data-k]').forEach(function(el) {
     el.textContent = t(el.getAttribute('data-k'));
   });

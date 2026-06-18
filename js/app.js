@@ -1,33 +1,53 @@
 import { t, setLang, applyLang } from './i18n.js';
 import { initModalClosers, toast, openModal, closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
+import { supabase } from './supabase.js';
+import { getSession, signOut, handleAuthSubmit, renderAuthScreen, onAuthChange } from './auth.js';
 import { renderLocations, openLocModal, saveLoc, deleteLoc } from './locations.js';
-import { renderPlants, setViewMode, renderPlantCard, renderPlantList, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, setType } from './plants.js';
+import { renderPlants, setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, setType } from './plants.js';
 import { renderHarvestPage, openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest } from './harvest.js';
 import { renderCalendar, showCalPopup } from './calendar.js';
 import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice } from './finance.js';
 import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert } from './seeds.js';
 import { renderWishlistList, openWishlistModal, saveWishlist, deleteWishlist, renderWishlistItems, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag } from './wishlist.js';
+import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow, makeModeTabs } from './grows.js';
 
-// ═══ SHARED STATE ═══
+// ═══ STATE ═══
 export var state = {
   curPage: 'locations',
-  curLocId: null,
-  curLocName: '',
-  curWishlistId: null,
-  curWishlistName: '',
+  curLocId: null, curLocName: '',
+  curWishlistId: null, curWishlistName: '',
+  curGrowId: null, curGrowName: '',
+  curFinanceGrowId: null,
+  mode: localStorage.getItem('gl_mode') || 'outdoor',
   harvestYear: new Date().getFullYear(),
   financeYear: new Date().getFullYear(),
   plantViewMode: 'cards',
-  expandedPlantId: null,
-  expandedTimelineId: null,
-  finTab: 'summary',
-  seedsTab: 'bag',
-  calOffset: 0,
+  expandedPlantId: null, expandedTimelineId: null,
+  finTab: 'summary', seedsTab: 'bag', calOffset: 0,
   convertFromWLItem: null,
   cache: { varieties: [], locations: [] }
 };
 
-// ═══ NAVIGATION ═══
+// ═══ MODE ═══
+function setMode(mode) {
+  state.mode = mode;
+  state.curGrowId = null; state.curGrowName = '';
+  localStorage.setItem('gl_mode', mode);
+  renderPage(state.curPage);
+}
+
+function navigateToGrow(growId, growNameEnc) {
+  state.curGrowId = growId;
+  state.curGrowName = growNameEnc;
+  renderLocations();
+}
+
+function backToGrows() {
+  state.curGrowId = null; state.curGrowName = '';
+  renderGrows();
+}
+
+// ═══ NAVIGATE ═══
 function navigate(page, data) {
   data = data || {};
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -40,7 +60,7 @@ function navigate(page, data) {
   var tabEl = document.querySelector('.tab[data-page="' + tabPage + '"]');
   if (tabEl) tabEl.classList.add('active');
   state.curPage = page;
-  var showFab = ['locations', 'plants', 'seeds', 'wishlist-list', 'wishlist-items'].indexOf(page) >= 0;
+  var showFab = ['locations','plants','seeds','wishlist-list','wishlist-items'].indexOf(page) >= 0;
   document.getElementById('fab').style.display = showFab ? 'flex' : 'none';
   if (page === 'locations') renderLocations();
   else if (page === 'plants') { state.curLocId = data.locId; state.curLocName = data.locName || ''; state.cache.varieties = []; renderPlants(); }
@@ -55,25 +75,20 @@ function navigate(page, data) {
 function renderPage(p) { navigate(p); }
 
 function fabAction() {
-  if (state.curPage === 'locations') openLocModal();
-  else if (state.curPage === 'plants') openPlantModal();
+  if (state.curPage === 'locations') {
+    if (state.mode === 'indoor' && !state.curGrowId) openGrowModal();
+    else openLocModal();
+  } else if (state.curPage === 'plants') openPlantModal();
   else if (state.curPage === 'seeds') { if (state.seedsTab === 'bag') openSeedModal(); else openWishlistModal(); }
   else if (state.curPage === 'wishlist-list') openWishlistModal();
   else if (state.curPage === 'wishlist-items') openWishlistItemModal();
 }
 
-// ═══ AUTH ═══
-function checkLogin() {
-  var v = document.getElementById('login-input').value;
-  if (v === atob('R0wyMDI2Iw==')) {
-    sessionStorage.setItem('gl_auth', '1');
-    document.getElementById('login-screen').style.display = 'none';
-    initApp();
-  } else {
-    document.getElementById('login-error').textContent = t('wrongPass');
-    document.getElementById('login-input').value = '';
-    setTimeout(function() { document.getElementById('login-error').textContent = ''; }, 2000);
-  }
+// ═══ LOGOUT ═══
+async function handleLogout() {
+  await signOut();
+  document.getElementById('login-screen').style.display = 'flex';
+  renderAuthScreen(false);
 }
 
 // ═══ INIT ═══
@@ -81,93 +96,56 @@ function initApp() {
   updateRating(5);
   applyLang();
   initModalClosers();
+  document.getElementById('login-screen').style.display = 'none';
   navigate('locations');
 }
 
 // ═══ GLOBAL API ═══
-// All onclick handlers in HTML use GrowLog.xxx()
 window.GrowLog = {
-  // navigation
-  navigate: navigate,
-  renderPage: renderPage,
-  // auth
-  checkLogin: checkLogin,
-  // lang
-  setLang: setLang,
-  // ui
-  closeModal: closeModal,
-  openPopup: openPopup,
-  closePopup: closePopup,
-  updateRating: updateRating,
-  previewHarvPhoto: previewHarvPhoto,
-  clearHarvPhoto: clearHarvPhoto,
-  // locations
-  openLocModal: openLocModal,
-  saveLoc: saveLoc,
-  deleteLoc: deleteLoc,
-  // plants
-  setViewMode: setViewMode,
-  toggleTl: toggleTl,
-  toggleExpand: toggleExpand,
-  openPlantModal: openPlantModal,
-  openEditPlant: openEditPlant,
-  savePlant: savePlant,
-  deletePlant: deletePlant,
-  markPlantLost: markPlantLost,
-  openStageModal: openStageModal,
-  saveStage: saveStage,
-  setType: setType,
-  // harvest
-  openHarvestModal: openHarvestModal,
-  openEditHarvest: openEditHarvest,
-  saveHarvest: saveHarvest,
-  deleteHarvest: deleteHarvest,
+  navigate, renderPage, fabAction,
+  setLang,
+  closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto,
+  openLocModal, saveLoc, deleteLoc,
+  setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, setType,
+  openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest,
   setHarvestYear: function(y) { state.harvestYear = y; renderHarvestPage(); },
-  // calendar
-  showCalPopup: showCalPopup,
-  calBack: function() { state.calOffset -= 12; renderCalendar(); },
-  calForward: function() { state.calOffset += 12; renderCalendar(); },
-  // finance
-  toggleExpCat: toggleExpCat,
-  openExpenseModal: openExpenseModal,
-  saveExpense: saveExpense,
-  deleteExpense: deleteExpense,
-  openPriceModal: openPriceModal,
-  savePrice: savePrice,
+  showCalPopup, calBack: function() { state.calOffset -= 12; renderCalendar(); }, calForward: function() { state.calOffset += 12; renderCalendar(); },
+  toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice,
   setFinanceYear: function(y) { state.financeYear = y; renderFinance(); },
+  setFinanceGrow: function(id) { state.curFinanceGrowId = id; renderFinance(); },
   setFinTab: function(tab) { state.finTab = tab; renderFinance(); },
-  // seeds
   setSeedsTab: function(tab) { state.seedsTab = tab; renderSeeds(); },
-  openSeedModal: openSeedModal,
-  saveSeed: saveSeed,
-  deleteSeed: deleteSeed,
-  openSplitPopup: openSplitPopup,
-  executeSplit: executeSplit,
-  openConvertPopup: openConvertPopup,
-  executeConvert: executeConvert,
-  // wishlist
-  openWishlistModal: openWishlistModal,
-  saveWishlist: saveWishlist,
-  deleteWishlist: deleteWishlist,
-  openWishlistItemModal: openWishlistItemModal,
-  saveWishlistItem: saveWishlistItem,
-  deleteWishlistItem: deleteWishlistItem,
-  convertWishlistItemToBag: convertWishlistItemToBag,
-  // fab
-  fabAction: fabAction,
-  // state getter
+  openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert,
+  openWishlistModal, saveWishlist, deleteWishlist, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag,
+  openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow,
+  setMode, navigateToGrow, backToGrows,
+  handleLogout,
+  handleAuthSubmit,
+  toggleAuthMode: function() { renderAuthScreen(!window._authIsRegister); },
+  handleGoogleLogin: async function() {
+    var { signInWithGoogle } = await import('./auth.js');
+    try { await signInWithGoogle(); } catch(e) { document.getElementById('auth-error').textContent = e.message; }
+  },
   get curPage() { return state.curPage; }
 };
 
 // ═══ BOOTSTRAP ═══
-if (sessionStorage.getItem('gl_auth')) {
-  document.getElementById('login-screen').style.display = 'none';
-  initApp();
-} else {
+(async function() {
   applyLang();
-  document.getElementById('login-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') checkLogin();
+  // Listen for auth state changes
+  onAuthChange(function(event, session) {
+    if (session) {
+      initApp();
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+    }
   });
-  document.getElementById('login-btn').addEventListener('click', checkLogin);
-  setTimeout(function() { document.getElementById('login-input').focus(); }, 300);
-}
+  // Check existing session
+  var session = await getSession();
+  if (session) {
+    initApp();
+  } else {
+    renderAuthScreen(false);
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+})();
