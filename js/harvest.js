@@ -159,7 +159,3 @@ export async function renderHarvestPage() {
   } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: '+e.message+'</p></div>'; }
 }
 
-function showErr(id, msg) {
-  var el = document.getElementById(id);
-  if (el) { el.innerHTML = msg; el.style.display = msg ? 'block' : 'none'; }
-}
