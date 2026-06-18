@@ -125,10 +125,11 @@ export async function renderHarvestPage() {
       seedling: hsc.seedling || 0, growth: hsc.growth, pre_flower: hsc.pre_flower || 0,
       flower: hsc.flower, ripening: hsc.ripening, harvested: hsc.harvested || 0
     });
+    var html = makeModeTabs() + statsBarHtml;
     if (state.mode === 'outdoor' && years.length) {
       html += '<div class="year-tabs">' + years.map(function(y) { return '<div class="year-tab '+(y===state.harvestYear?'active':'')+'" onclick="GrowLog.setHarvestYear('+y+')">'+y+'</div>'; }).join('') + '</div>';
     }
-    if (!filtered.length) { html += '<div class="empty"><div class="empty-icon">📊</div><p>'+t('noHarvests')+' '+(state.mode==='outdoor'?state.harvestYear:''+'</p></div>'); }
+    if (!filtered.length) { html += '<div class="empty"><div class="empty-icon">📊</div><p>' + t('noHarvests') + ' ' + (state.mode === 'outdoor' ? state.harvestYear : '') + '</p></div>'; }
     else {
       filtered.forEach(function(h) {
         var p = plants.find(function(x) { return x.id === h.plant_id; });
