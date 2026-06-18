@@ -118,9 +118,10 @@ export async function renderHarvestPage() {
       var st = getStage(p, v); if (hsc[st] !== undefined) hsc[st]++;
     });
     hsc.harvested = plants.filter(function(p) { return p.is_harvested; }).length;
+    var harvestedPlantsCount = [...new Set(filtered.map(function(h){ return h.plant_id; }))].length;
     var statsBarHtml = renderStatsBar('harvest', {
       plants: activePlants.length,
-      harvests: filtered.length,
+      harvests: harvestedPlantsCount,
       totalWeight: totalW,
       seedling: hsc.seedling || 0, growth: hsc.growth, pre_flower: hsc.pre_flower || 0,
       flower: hsc.flower, ripening: hsc.ripening, harvested: hsc.harvested || 0

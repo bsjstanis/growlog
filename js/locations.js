@@ -68,10 +68,13 @@ async function renderGrowLocations() {
     state.cache.locations = locs;
     var plants = await sb('plants', 'GET', null, '?select=id,location_id,is_harvested');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
+    var locIds = locs.map(function(l) { return l.id; });
+    var growStatsHtml = locs.length ? await buildLocationsStatsBar(locIds) : '';
     var html = makeModeTabs() +
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
       '<button class="btn btn-ghost btn-sm" onclick="GrowLog.backToGrows()">← Grows</button>' +
-      '<span style="font-size:16px;font-weight:700">💡 ' + growName + '</span></div>';
+      '<span style="font-size:16px;font-weight:700">💡 ' + growName + '</span></div>' +
+      growStatsHtml;
     if (!locs.length) {
       pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>';
       return;
@@ -135,4 +138,35 @@ export async function deleteLoc(id) {
     await sb('locations', 'DELETE', null, '?id=eq.' + id);
     toast(t('deleted')); renderLocations();
   } catch(e) { toast('Error: ' + parseErr(e)); }
+}
+
+// Helper: build stats bar for a specific set of locations
+async function buildLocationsStatsBar(locIds) {
+  var { renderStatsBar } = await import('./utils.js');
+  var { getStage } = await import('./stages.js');
+  var varieties = await (await import('./supabase.js')).sb('varieties', 'GET', null, '?order=name.asc');
+  var plants = await (await import('./supabase.js')).sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
+  var harvests = await (await import('./supabase.js')).sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
+  var growPlants = plants.filter(function(p) { return locIds.indexOf(p.location_id) >= 0; });
+  var activePlants = growPlants.filter(function(p) { return !p.is_harvested; });
+  var harvestedPlants = growPlants.filter(function(p) { return p.is_harvested; });
+  var totalW = 0;
+  harvestedPlants.forEach(function(p) {
+    harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); });
+  });
+  var harvestCount = harvests.filter(function(h) {
+    return growPlants.some(function(p) { return p.id === h.plant_id; });
+  }).length;
+  var sc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
+  activePlants.forEach(function(p) {
+    var v = varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
+    var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
+  });
+  return renderStatsBar('harvest', {
+    plants: activePlants.length,
+    harvests: harvestCount,
+    totalWeight: totalW,
+    seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
+    flower: sc.flower, ripening: sc.harvest, harvested: harvestedPlants.length
+  });
 }

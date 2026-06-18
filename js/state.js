@@ -12,5 +12,6 @@ export var state = {
   expandedPlantId: null, expandedTimelineId: null,
   finTab: 'summary', seedsTab: 'bag', calOffset: 0,
   convertFromWLItem: null,
+  seedTypeFilter: 'all',
   cache: { varieties: [], locations: [] }
 };

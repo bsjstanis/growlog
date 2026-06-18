@@ -1,6 +1,6 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { fmt, today, parseErr, showErr, clearErr, renderStatsBar } from './utils.js';
+import { fmt, today, parseErr, showErr, clearErr } from './utils.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 
@@ -12,26 +12,7 @@ export async function renderGrows() {
     var active = grows.filter(function(g) { return g.status === 'active'; });
     var done = grows.filter(function(g) { return g.status !== 'active' && g.status !== 'archive'; });
     var archived = grows.filter(function(g) { return g.status === 'archive'; });
-    // Stats for all indoor plants
-    var indoorLocs = await sb('locations', 'GET', null, '?mode=eq.indoor&select=id');
-    var indoorLocIds = indoorLocs.map(function(l){ return l.id; });
-    var allPlants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
-    if (!window._varietiesCache) window._varietiesCache = await sb('varieties', 'GET', null, '?order=name.asc');
-    var indoorPlants = allPlants.filter(function(p){ return indoorLocIds.indexOf(p.location_id) >= 0; });
-    var activePlants = indoorPlants.filter(function(p){ return !p.is_harvested; });
-    var sc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
-    var { getStage: _gs } = await import('./stages.js');
-    activePlants.forEach(function(p){
-      var v = window._varietiesCache.find(function(x){ return x.id === p.variety_id; }); if (!v) return;
-      var st = _gs(p, v); if (sc[st] !== undefined) sc[st]++;
-    });
-    var harvestedCount = indoorPlants.filter(function(p){ return p.is_harvested; }).length;
-    var statsHtml = renderStatsBar('plants', {
-      active: activePlants.length, auto: 0, photo: 0,
-      seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
-      flower: sc.flower, ripening: sc.harvest, harvested: harvestedCount
-    });
-    var html = makeModeTabs() + statsHtml;
+    var html = makeModeTabs();
     html += '<div style="display:flex;justify-content:flex-end;margin-bottom:10px">' +
       '<button class="btn btn-primary btn-sm" onclick="GrowLog.openGrowModal()">＋ ' + t('newGrow') + '</button></div>';
     if (!grows.filter(function(g){ return g.status !== 'archive'; }).length) {
