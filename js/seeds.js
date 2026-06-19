@@ -13,7 +13,6 @@ export async function renderSeeds() {
     var active = seeds.filter(function(s) { return s.status !== 'lost'; });
     var lost = seeds.filter(function(s) { return s.status === 'lost'; });
     // FIX: use single quotes in onclick, no nested quote conflict
-    var typeFilter = state.seedTypeFilter || 'all';
     var html = '<div class="inner-tabs">' +
       '<button class="inner-tab ' + (state.seedsTab === 'bag' ? 'active' : '') + '" onclick="GrowLog.setSeedsTab('bag')">' + t('bagTab') + '</button>' +
       '<button class="inner-tab ' + (state.seedsTab === 'wishlist' ? 'active' : '') + '" onclick="GrowLog.navigate('wishlist-list')">' + t('wishlistTab') + '</button>' +
