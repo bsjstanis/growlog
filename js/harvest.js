@@ -146,15 +146,18 @@ export async function renderHarvestPage() {
         if (h.harvest_date) row3.push('✂️ '+fmt(h.harvest_date));
         if (cycleDays !== null) row3.push('🔄 '+cycleDays+' '+t('days'));
         html += '<div class="harv-card"><div class="harv-card-top">' +
-          (h.photo_url?'<img src="'+h.photo_url+'" class="harv-thumb" alt="photo">':'<div class="harv-thumb-ph">🌿</div>') +
-          '<div class="harv-info"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">' +
-          '<div class="harv-name">'+(p&&p.name?p.name+' · ':'')+( v?v.name:'?')+'</div>' +
-          '<div style="text-align:right;flex-shrink:0"><div style="font-size:17px;font-weight:700;color:var(--green)">'+(h.dry_weight_g||0)+'g</div>' +
-          (h.rating?'<div style="font-size:11px;color:var(--amber)">'+h.rating+'/10</div>':'') +
-          (shrink!==null?'<div style="font-size:10px;color:var(--blue)">-'+shrink+'%</div>':'')+'</div></div>' +
-          (row2.length?'<div class="harv-meta">'+row2.join(' · ')+'</div>':'') +
-          (row3.length?'<div class="harv-meta" style="color:var(--text2)">'+row3.join('  ')+'</div>':'') +
-          (h.notes?'<div class="harv-meta" style="font-style:italic">'+h.notes+'</div>':'') +
+          (h.photo_url ? '<img src="' + h.photo_url + '" class="harv-thumb" alt="photo">' : '<div class="harv-thumb-ph">&#127807;</div>') +
+          '<div class="harv-info">' +
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:3px">' +
+          '<div class="harv-name">' + (p&&p.name?p.name+' &middot; ':'') + (v?v.name:'?') + '</div>' +
+          '<div style="font-size:17px;font-weight:700;color:var(--green);flex-shrink:0">' + (h.dry_weight_g||0) + 'g' +
+          (shrink!==null?'<span style="font-size:10px;color:var(--blue);margin-left:4px">-'+shrink+'%</span>':'') + '</div></div>' +
+          (row2.length ? '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">' +
+            '<div class="harv-meta" style="margin:0">' + row2.join(' &middot; ') + '</div>' +
+            (h.rating ? '<div style="font-size:11px;color:var(--amber);flex-shrink:0;margin-left:8px">&#11088; ' + h.rating + '/10</div>' : '') +
+          '</div>' : (h.rating ? '<div style="font-size:11px;color:var(--amber);margin-bottom:3px">&#11088; ' + h.rating + '/10</div>' : '')) +
+          (row3.length ? '<div class="harv-meta" style="color:var(--text2)">' + row3.join('  ') + '</div>' : '') +
+          (h.notes ? '<div class="harv-meta" style="font-style:italic">' + h.notes + '</div>' : '') +
           '</div></div>' +
           '<div class="harv-actions"><button class="btn btn-ghost btn-sm" onclick="GrowLog.openEditHarvest(\''+h.id+'\')">✏️</button>' +
           '<button class="btn btn-danger btn-sm" onclick="GrowLog.deleteHarvest(\''+h.id+'\')">🗑</button></div></div>';
