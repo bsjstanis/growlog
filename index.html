@@ -372,12 +372,14 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div id="stage-info" style="background:var(--bg3);border-radius:var(--radius-sm);padding:9px 12px;margin-bottom:14px;font-size:13px;color:var(--text2)"></div>
   <div class="field"><label>Стадія <span class="req">*</span></label>
     <select id="stage-key">
-      <option value="growth">🌿 Ріст</option>
-      <option value="pre_flower">🌼 Передцвіт</option>
-      <option value="flower">🌸 Цвітіння</option>
-      <option value="ripening">🟡 Дозрівання</option>
-      <option value="harvest">✂️ Збір</option>
+      <option value="seedling" data-label="&#127807; Паросток">&#127807; Паросток</option>
+      <option value="growth" data-label="&#127807; Ріст">&#127807; Ріст</option>
+      <option value="pre_flower" data-label="&#127804; Передцвіт">&#127804; Передцвіт</option>
+      <option value="flower" data-label="&#127800; Цвітіння">&#127800; Цвітіння</option>
+      <option value="ripening" data-label="&#127839; Дозрівання">&#127839; Дозрівання</option>
+      <option value="harvest" data-label="&#9986;&#65039; Збір">&#9986;&#65039; Збір</option>
     </select>
+    <div id="stage-overrides-info" style="font-size:12px;color:#b45309;margin-top:6px;padding:6px 10px;background:#fffbeb;border-radius:6px;display:none"></div>
   </div>
   <div class="field"><label>Реальна дата <span class="req">*</span></label><input id="stage-date" type="date"></div>
   <div class="form-error" id="stage-error"></div>
