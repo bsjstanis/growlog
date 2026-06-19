@@ -55,15 +55,18 @@ export function renderStatsBar(variant, data) {
       ? (data.totalWeight / 1000).toFixed(1) + 'kg'
       : (data.totalWeight || 0).toFixed(1) + 'g';
     leftBlock = '<div class="stats-left-harvest">' +
-      '<div class="slh-top">' +
-        '<div class="slh-big">' + (data.plants || 0) + '</div>' +
-        '<div class="slh-lbl">рослин</div>' +
+      '<div class="slh-row">' +
+        '<span class="slh-big">' + (data.plants || 0) + '</span>' +
+        '<span class="slh-lbl">рослин</span>' +
       '</div>' +
       '<div class="slh-hdiv"></div>' +
-      '<div class="slh-bottom">' +
-        '<div class="slh-metric"><span class="slh-icon">✂️</span><span class="slh-num">' + (data.harvests || 0) + '</span></div>' +
-        '<div class="slh-vdiv"></div>' +
-        '<div class="slh-metric"><span class="slh-num">' + wStr + '</span></div>' +
+      '<div class="slh-row">' +
+        '<span class="slh-icon">✂️</span>' +
+        '<span class="slh-num">' + (data.harvests || 0) + '</span>' +
+      '</div>' +
+      '<div class="slh-hdiv"></div>' +
+      '<div class="slh-row">' +
+        '<span class="slh-num">' + wStr + '</span>' +
       '</div>' +
     '</div>';
   }
