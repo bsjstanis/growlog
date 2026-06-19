@@ -19,16 +19,24 @@ export function stageName(sk) { return (STAGE_ICONS[sk] || '') + ' ' + (t(STAGE_
 export function calcStages(plant, v) {
   var o = plant.stage_overrides || {};
   var avg = v.seed_type === 'auto' ? Math.round((v.flowering_days_min + v.flowering_days_max) / 2) : 70;
+  if (avg < 30) avg = 65; // fallback if flowering days not set
   var pd = plant.plant_date; var s = {};
   if (v.seed_type === 'auto') {
-    s.seedling = o.seedling || pd; s.growth = o.growth || addDays(pd, 14);
-    s.pre_flower = o.pre_flower || addDays(pd, 35); s.flower = o.flower || addDays(pd, 42);
-    s.ripening = o.ripening || addDays(s.flower, avg - 10); s.harvest = o.harvest || addDays(s.flower, avg);
+    // Cascade: each stage flows from the previous one
+    s.seedling   = o.seedling   || pd;
+    s.growth     = o.growth     || addDays(s.seedling, 14);
+    s.pre_flower = o.pre_flower || addDays(s.growth, 21);
+    s.flower     = o.flower     || addDays(s.pre_flower, 7);
+    s.ripening   = o.ripening   || addDays(s.flower, avg - 10);
+    s.harvest    = o.harvest    || addDays(s.flower, avg);
   } else {
     var yr = new Date(pd + 'T12:00:00').getFullYear();
-    s.seedling = o.seedling || pd; s.growth = o.growth || pd;
-    s.flower = o.flower || (yr + '-08-01'); s.pre_flower = o.pre_flower || addDays(s.flower, -7);
-    s.ripening = o.ripening || addDays(s.flower, 50); s.harvest = o.harvest || addDays(s.flower, 65);
+    s.seedling   = o.seedling   || pd;
+    s.growth     = o.growth     || s.seedling;
+    s.flower     = o.flower     || (yr + '-08-01');
+    s.pre_flower = o.pre_flower || addDays(s.flower, -7);
+    s.ripening   = o.ripening   || addDays(s.flower, 50);
+    s.harvest    = o.harvest    || addDays(s.flower, 65);
   }
   return s;
 }

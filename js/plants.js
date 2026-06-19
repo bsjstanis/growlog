@@ -63,7 +63,7 @@ export function renderPlantCard(p, harvests) {
     '<div class="card-row"><div style="flex:1;min-width:0">' +
     '<div class="card-title">' + (p.name || v.name) + '</div>' +
     '<div class="card-sub">' + v.name + ' · ' + (v.brand || '') + ' · ' + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>' +
-    (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '🫙 ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' · ' : '') + (p.soil_type || '') + '</div>' : '') +
+    (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '🪣 ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' · ' : '') + (p.soil_type || '') + '</div>' : '') +
     (p.url ? '<a href="' + p.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">🔗 Link</a>' : '') +
     (p.is_harvested && ph.length ? '<div class="card-sub" style="color:var(--green)">✅ ' + ph.length + 'x' + (totalW > 0 ? ' · ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '') +
     '</div><div style="text-align:right;flex-shrink:0;margin-left:8px">' +
@@ -219,6 +219,20 @@ export function openStageModal(plantId, labelEnc) {
   document.getElementById('stage-date').value = today();
   document.getElementById('modal-stage-title').textContent = t('stageSet');
   openModal('modal-stage');
+}
+
+export async function resetStage() {
+  var plantId = document.getElementById('stage-plant-id').value;
+  var key = document.getElementById('stage-key').value;
+  if (!confirm('Скинути стадію "' + key + '" до автоматичного розрахунку?')) return;
+  try {
+    var rows = await sb('plants', 'GET', null, '?id=eq.' + plantId + '&select=stage_overrides');
+    var o = rows[0] ? Object.assign({}, rows[0].stage_overrides || {}) : {};
+    delete o[key];
+    await sb('plants', 'PATCH', { stage_overrides: o }, '?id=eq.' + plantId);
+    state.cache.varieties = [];
+    closeModal('modal-stage'); toast('🔄 ' + t('saved') + ' ✅'); renderPlants();
+  } catch(e) { showErr('stage-error', '❌ ' + parseErr(e)); }
 }
 
 export async function saveStage() {
