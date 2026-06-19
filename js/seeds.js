@@ -13,15 +13,14 @@ export async function renderSeeds() {
     var active = seeds.filter(function(s) { return s.status !== 'lost'; });
     var lost = seeds.filter(function(s) { return s.status === 'lost'; });
     // FIX: use single quotes in onclick, no nested quote conflict
-    var typeFilter = state.seedTypeFilter || 'all';
     var html = '<div class="inner-tabs">' +
-      '<button class="inner-tab ' + (state.seedsTab === 'bag' ? 'active' : '') + '" onclick="GrowLog.setSeedsTab('bag')">' + t('bagTab') + '</button>' +
-      '<button class="inner-tab ' + (state.seedsTab === 'wishlist' ? 'active' : '') + '" onclick="GrowLog.navigate('wishlist-list')">' + t('wishlistTab') + '</button>' +
+      '<button class="inner-tab ' + (state.seedsTab === 'bag' ? 'active' : '') + '" onclick="GrowLog.setSeedsTab(\'bag\')">' + t('bagTab') + '</button>' +
+      '<button class="inner-tab ' + (state.seedsTab === 'wishlist' ? 'active' : '') + '" onclick="GrowLog.navigate(\'wishlist-list\')">' + t('wishlistTab') + '</button>' +
       '</div>' +
       '<div style="display:flex;gap:6px;margin-bottom:12px">' +
-      '<button class="btn btn-sm ' + (typeFilter==='all'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter('all')">Всі</button>' +
-      '<button class="btn btn-sm ' + (typeFilter==='auto'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter('auto')">&#129302; Авто</button>' +
-      '<button class="btn btn-sm ' + (typeFilter==='photo'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter('photo')">&#9728;&#65039; Фото</button>' +
+      '<button class="btn btn-sm ' + (typeFilter==='all'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'all\')">Всі</button>' +
+      '<button class="btn btn-sm ' + (typeFilter==='auto'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'auto\')">&#129302; Авто</button>' +
+      '<button class="btn btn-sm ' + (typeFilter==='photo'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'photo\')">&#9728; Фото</button>' +
       '</div>';
     if (!active.length && !lost.length) {
       html += '<div class="empty"><div class="empty-icon">🌰</div><p>' + t('noSeeds') + '</p></div>';
