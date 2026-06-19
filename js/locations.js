@@ -162,10 +162,13 @@ async function buildLocationsStatsBar(locIds) {
     var v = varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
     var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
   });
-  return renderStatsBar('harvest', {
-    plants: activePlants.length,
-    harvests: harvestCount,
-    totalWeight: totalW,
+  var autoCount = 0, photoCount = 0;
+  growPlants.filter(function(p){ return !p.is_harvested; }).forEach(function(p){
+    var v = varieties.find(function(x){ return x.id === p.variety_id; }); if (!v) return;
+    if (v.seed_type === 'auto') autoCount++; else photoCount++;
+  });
+  return renderStatsBar('plants', {
+    active: activePlants.length, auto: autoCount, photo: photoCount,
     seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
     flower: sc.flower, ripening: sc.harvest, harvested: harvestedPlants.length
   });
