@@ -90,7 +90,7 @@ window.GrowLog = {
   closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto,
   openLocModal, saveLoc, deleteLoc,
   setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant,
-  markPlantLost, openStageModal, saveStage, setType,
+  markPlantLost, openStageModal, saveStage, resetStage, setType,
   openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest,
   setHarvestYear: function(y) { state.harvestYear = y; renderHarvestPage(); },
   showCalPopup,
