@@ -224,7 +224,7 @@ export async function executeConvert(seedId, nameEnc, brandEnc, sType, pricePerU
     var nv = await sb('varieties', 'POST', { name: sName, brand: sBrand, seed_type: sType, flowering_days_min: s.flowering_days_min || 0, flowering_days_max: s.flowering_days_max || 0 });
     if (!nv || !nv[0]) throw new Error('Could not create variety');
     for (var i = 0; i < qty; i++) {
-      await sb('plants', 'POST', { location_id: locId, variety_id: nv[0].id, name: qty > 1 ? sName + ' #' + (i + 1) : '', plant_date: date, current_stage: 'seedling', stage_overrides: {}, is_harvested: false });
+      await sb('plants', 'POST', { location_id: locId, variety_id: nv[0].id, name: qty > 1 ? '#' + (i + 1) : '', plant_date: date, current_stage: 'seedling', stage_overrides: {}, is_harvested: false });
     }
     if (pricePerUnit > 0) {
       var yr = new Date(date + 'T12:00:00').getFullYear();

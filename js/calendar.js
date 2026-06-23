@@ -33,7 +33,7 @@ export async function renderCalendar() {
     plants.forEach(function(p){
       var v=state.cache.varieties.find(function(x){return x.id===p.variety_id;});if(!v)return;
       var s=calcStages(p,v),loc=locs.find(function(l){return l.id===p.location_id;});
-      var label=(p.name||v.name)+(loc?' ('+loc.name+')':'');
+      var label=(v.name+(p.name?' · '+p.name:''))+(loc?' ('+loc.name+')':'');
       addEvt(p.plant_date,{label:label,type:'plant'});
       addEvt(s.harvest,{label:label,type:'harvest'});
       addPer(s.growth,addDays(s.pre_flower||s.flower,-1),'growth',label+' - '+t('growth'));

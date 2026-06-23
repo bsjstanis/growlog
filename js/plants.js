@@ -60,12 +60,12 @@ export function renderPlantCard(p, harvests) {
         + (isE ? '<span class="stage-edited">&#9999;&#65039;</span>' : '')
         + '</div>';
     }).join('') + '</div>';
-  var ne = encodeURIComponent(p.name || v.name);
+  var ne = encodeURIComponent(v.name + (p.name ? ' · ' + p.name : ''));
   return '<div class="plant-card stage-' + stage + '">'
     + '<div class="card-row"><div style="flex:1;min-width:0">'
-    + '<div class="card-title">' + (p.name || v.name) + '</div>'
-    + '<div class="card-sub">' + v.name + ' &middot; ' + (v.brand || '') + ' &middot; ' + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>'
-    + (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '&#129507; ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' &middot; ' : '') + (p.soil_type || '') + '</div>' : '')
+    + '<div class="card-title">' + v.name + (p.name ? ' &middot; ' + p.name : '') + '</div>'
+    + '<div class="card-sub">' + (v.brand || '') + (v.brand ? ' &middot; ' : '') + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>'
+    + (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '&#129699; ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' &middot; ' : '') + (p.soil_type || '') + '</div>' : '')
     + (p.url ? '<a href="' + p.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">&#128279; Link</a>' : '')
     + (p.is_harvested && ph.length ? '<div class="card-sub" style="color:var(--green)">&#10003; ' + ph.length + 'x' + (totalW > 0 ? ' &middot; ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '')
     + '</div><div style="text-align:right;flex-shrink:0;margin-left:8px">'
@@ -96,7 +96,7 @@ export function renderPlantList(p, harvests) {
   var stage = getStage(p, v), stages = calcStages(p, v), warn = getWarning(p, v), isExp = state.expandedPlantId === p.id;
   var ph = harvests ? harvests.filter(function(h) { return h.plant_id === p.id; }) : [];
   var totalW = ph.reduce(function(a, h) { return a + (parseFloat(h.dry_weight_g) || 0); }, 0);
-  var ne = encodeURIComponent(p.name || v.name);
+  var ne = encodeURIComponent(v.name + (p.name ? ' · ' + p.name : ''));
   var html = '<div class="plant-list-item stage-' + stage + '" onclick="GrowLog.toggleExpand(\'' + p.id + '\')">'
     + '<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (p.name || v.name) + '</div>'
     + '<div style="font-size:11px;color:var(--text3)">' + v.name + ' &middot; &#9986;&#65039; ' + fmt(stages.harvest) + (warn ? ' &#9888;&#65039;' : '') + (p.is_harvested && ph.length ? ' &#10003; ' + totalW.toFixed(1) + 'g' : '') + '</div></div>'
@@ -264,13 +264,13 @@ export async function resetStage() {
     var p = rows[0]; if (!p) return;
     var o = Object.assign({}, p.stage_overrides || {});
     if (!(key in o)) {
-      toast('&#9888;&#65039; Ця стадія вже за замовчуванням'); return;
+      toast('ℹ️ Стадія "' + stageName(key) + '" вже за замовчуванням'); return;
     }
     delete o[key];
     await sb('plants', 'PATCH', { stage_overrides: o }, '?id=eq.' + plantId);
     state.cache.varieties = [];
     closeModal('modal-stage');
-    toast('&#128260; ' + key + ' скинуто &#10003;');
+    toast('✅ Стадію "' + stageName(key) + '" скинуто до авторозрахунку');
     renderPlants();
   } catch(e) { showErr('stage-error', '&#10060; ' + parseErr(e)); }
 }

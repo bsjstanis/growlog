@@ -149,7 +149,7 @@ export async function renderHarvestPage() {
           (h.photo_url ? '<img src="' + h.photo_url + '" class="harv-thumb" alt="photo">' : '<div class="harv-thumb-ph">&#127807;</div>') +
           '<div class="harv-info">' +
           '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:3px">' +
-          '<div class="harv-name">' + (p&&p.name?p.name+' &middot; ':'') + (v?v.name:'?') + '</div>' +
+          '<div class="harv-name">' + (v?v.name:'?') + (p&&p.name?' &middot; '+p.name:'') + '</div>' +
           '<div style="font-size:17px;font-weight:700;color:var(--green);flex-shrink:0">' + (h.dry_weight_g||0) + 'g' +
           (shrink!==null?'<span style="font-size:10px;color:var(--blue);margin-left:4px">-'+shrink+'%</span>':'') + '</div></div>' +
           (row2.length ? '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">' +
