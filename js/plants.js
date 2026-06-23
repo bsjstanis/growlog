@@ -63,8 +63,13 @@ export function renderPlantCard(p, harvests) {
   var ne = encodeURIComponent(v.name + (p.name ? ' · ' + p.name : ''));
   return '<div class="plant-card stage-' + stage + '">'
     + '<div class="card-row"><div style="flex:1;min-width:0">'
+<<<<<<< HEAD
     + '<div class="card-title">' + v.name + (p.name ? ' &middot; ' + p.name : '') + '</div>'
     + '<div class="card-sub">' + (v.brand || '') + (v.brand ? ' &middot; ' : '') + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>'
+=======
+    + '<div class="card-title">' + (p.name || v.name) + '</div>'
+    + '<div class="card-sub">' + v.name + ' &middot; ' + (v.brand || '') + ' &middot; ' + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>'
+>>>>>>> c8c7b5bbe1e46cbb78e549b4da3c4c399018a74a
     + (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '&#129699; ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' &middot; ' : '') + (p.soil_type || '') + '</div>' : '')
     + (p.url ? '<a href="' + p.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">&#128279; Link</a>' : '')
     + (p.is_harvested && ph.length ? '<div class="card-sub" style="color:var(--green)">&#10003; ' + ph.length + 'x' + (totalW > 0 ? ' &middot; ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '')
