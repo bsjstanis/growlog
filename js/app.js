@@ -101,6 +101,7 @@ window.GrowLog = {
   setFinanceGrow: function(id) { state.curFinanceGrowId = id; renderFinance(); },
   setFinTab: function(tab) { state.finTab = tab; renderFinance(); },
   setSeedsTab: function(tab) { state.seedsTab = tab; renderSeeds(); },
+  toggleLostSection: function() { state.lostSectionOpen = !state.lostSectionOpen; renderPlants(); },
   setSeedTypeFilter: function(f) { state.seedTypeFilter = f; renderSeeds(); },
   openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert,
   openWishlistModal, saveWishlist, deleteWishlist,

@@ -33,9 +33,28 @@ export async function renderPlants() {
     var plants = await sb('plants', 'GET', null, '?location_id=eq.' + state.curLocId + '&order=plant_date.asc');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g,harvest_date');
     var html = hdr();
-    if (!plants.length) html += '<div class="empty"><div class="empty-icon">&#127807;</div><p>' + t('noPlants') + '</p></div>';
-    else if (state.plantViewMode === 'list') html += plants.map(function(p) { return renderPlantList(p, harvests); }).join('');
-    else html += plants.map(function(p) { return renderPlantCard(p, harvests); }).join('');
+    var activePlants = plants.filter(function(p) { return !(p.is_harvested && p.stage_overrides && p.stage_overrides.lost); });
+    var lostPlants = plants.filter(function(p) { return p.is_harvested && p.stage_overrides && p.stage_overrides.lost; });
+    if (!activePlants.length && !lostPlants.length) {
+      html += '<div class="empty"><div class="empty-icon">&#127807;</div><p>' + t('noPlants') + '</p></div>';
+    } else {
+      if (activePlants.length) {
+        if (state.plantViewMode === 'list') html += activePlants.map(function(p) { return renderPlantList(p, harvests); }).join('');
+        else html += activePlants.map(function(p) { return renderPlantCard(p, harvests); }).join('');
+      } else {
+        html += '<div class="empty"><div class="empty-icon">&#127807;</div><p>' + t('noPlants') + '</p></div>';
+      }
+      if (lostPlants.length) {
+        var lostOpen = state.lostSectionOpen ? ' open' : '';
+        html += '<div class="lost-section">'
+          + '<div class="lost-section-header" onclick="GrowLog.toggleLostSection()">'
+          + '&#9760;&#65039; Пропалі (' + lostPlants.length + ')'
+          + '<span>' + (state.lostSectionOpen ? '&#9650;' : '&#9660;') + '</span></div>'
+          + '<div class="lost-section-body' + lostOpen + '">'
+          + lostPlants.map(function(p) { return '<div class="plant-card-lost">' + (state.plantViewMode === 'list' ? renderPlantList(p, harvests) : renderPlantCard(p, harvests)) + '</div>'; }).join('')
+          + '</div></div>';
+      }
+    }
     pg.innerHTML = html;
   } catch(e) { pg.innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
 }

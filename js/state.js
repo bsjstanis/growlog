@@ -13,5 +13,6 @@ export var state = {
   finTab: 'summary', seedsTab: 'bag', calOffset: 0,
   convertFromWLItem: null,
   seedTypeFilter: 'all',
+  lostSectionOpen: false,
   cache: { varieties: [], locations: [] }
 };

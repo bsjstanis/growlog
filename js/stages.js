@@ -42,6 +42,7 @@ export function calcStages(plant, v) {
 }
 
 export function getStage(plant, v) {
+  if (plant.is_harvested && plant.stage_overrides && plant.stage_overrides.lost) return 'lost';
   if (plant.is_harvested) return 'done';
   var tdy = today(), s = calcStages(plant, v);
   if (tdy >= s.harvest) return 'harvest'; if (tdy >= s.ripening) return 'ripening';
