@@ -67,12 +67,14 @@ export function renderPlantCard(p, harvests) {
     + '<div class="card-sub">' + (v.brand || '') + (v.brand ? ' &middot; ' : '') + (v.seed_type === 'auto' ? t('autoflower') : t('photoperiod')) + '</div>'
     + (p.soil_type || p.pot_size_l ? '<div class="card-sub">' + (p.pot_size_l ? '&#129699; ' + p.pot_size_l + 'L' : '') + ((p.pot_size_l && p.soil_type) ? ' &middot; ' : '') + (p.soil_type || '') + '</div>' : '')
     + (p.url ? '<a href="' + p.url + '" target="_blank" class="card-sub" style="color:var(--blue);display:block;font-size:12px">&#128279; Link</a>' : '')
-    + (p.is_harvested && ph.length ? '<div class="card-sub" style="color:var(--green)">&#10003; ' + ph.length + 'x' + (totalW > 0 ? ' &middot; ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '')
+    + (p.is_harvested && !( p.stage_overrides && p.stage_overrides.lost) && ph.length ? '<div class="card-sub" style="color:var(--green)">&#10003; ' + ph.length + 'x' + (totalW > 0 ? ' &middot; ' + totalW.toFixed(1) + 'g' : '') + '</div>' : '')
     + '</div><div style="text-align:right;flex-shrink:0;margin-left:8px">'
     + (!p.is_harvested
       ? '<div style="font-size:10px;color:var(--text3)">&#9986;&#65039;</div><div style="font-size:13px;font-weight:600">' + fmt(stages.harvest) + '</div>'
         + (warn ? '<div class="badge badge-' + warn.type + '" style="margin-top:3px;font-size:10px">' + warn.text + '</div>' : '')
-      : '<span class="badge badge-done">&#10003;</span>')
+      : (p.stage_overrides && p.stage_overrides.lost
+          ? '<span class="badge badge-lost">&#9760;&#65039; Пропала</span>'
+          : '<span class="badge badge-done">&#10003;</span>'))
     + '</div></div>'
     + (!p.is_harvested
       ? '<div class="progress-wrap"><div class="progress-bar ' + barClass + '" style="width:' + pct + '%"></div></div>'

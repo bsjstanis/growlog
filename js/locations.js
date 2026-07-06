@@ -19,7 +19,7 @@ export async function renderLocations() {
     var plants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
     if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
-    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
+    var activePlants = plants.filter(function(p) { return !p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
     var autoCount = 0, photoCount = 0;
     var sc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
     activePlants.forEach(function(p) {
@@ -27,7 +27,7 @@ export async function renderLocations() {
       if (v.seed_type === 'auto') autoCount++; else photoCount++;
       var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
     });
-    var harvestedCount = plants.filter(function(p) { return p.is_harvested; }).length;
+    var harvestedCount = plants.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); }).length;
     var statsHtml = renderStatsBar('plants', {
       active: activePlants.length, auto: autoCount, photo: photoCount,
       seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
@@ -41,7 +41,7 @@ export async function renderLocations() {
     pg.innerHTML = html + allLocs.map(function(loc) {
       var lp = plants.filter(function(p) { return p.location_id === loc.id; });
       var active = lp.filter(function(p) { return !p.is_harvested; }).length;
-      var harv = lp.filter(function(p) { return p.is_harvested; });
+      var harv = lp.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
       var totalW = 0;
       harv.forEach(function(p) {
         harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); });
@@ -82,7 +82,7 @@ async function renderGrowLocations() {
     pg.innerHTML = html + locs.map(function(loc) {
       var lp = plants.filter(function(p) { return p.location_id === loc.id; });
       var active = lp.filter(function(p) { return !p.is_harvested; }).length;
-      var harv = lp.filter(function(p) { return p.is_harvested; });
+      var harv = lp.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
       var totalW = 0;
       harv.forEach(function(p) {
         harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); });

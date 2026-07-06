@@ -91,7 +91,8 @@ export async function renderHarvestPage() {
     // Get plants in those locations
     var allPlants = await sb('plants', 'GET', null, '?select=id,name,variety_id,location_id,plant_date,is_harvested,stage_overrides');
     var plants = allPlants.filter(function(p) { return modeLocIds.indexOf(p.location_id) >= 0; });
-    var plantIds = plants.map(function(p) { return p.id; });
+    var realPlants = plants.filter(function(p) { return !(p.stage_overrides && p.stage_overrides.lost); });
+    var plantIds = realPlants.map(function(p) { return p.id; });
     var locs = await sb('locations', 'GET', null, '?select=id,name');
     // Get harvests for those plants
     var allHarvests = await sb('harvests', 'GET', null, '?order=harvest_date.desc');
@@ -111,13 +112,13 @@ export async function renderHarvestPage() {
       ? harvests.filter(function(h) { return getYear(h.harvest_date) === state.harvestYear; })
       : harvests;
     var totalW = filtered.reduce(function(a,h) { return a+(parseFloat(h.dry_weight_g)||0); }, 0);
-    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
+    var activePlants = plants.filter(function(p) { return !p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
     var hsc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvested: 0 };
     activePlants.forEach(function(p) {
       var v = state.cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
       var st = getStage(p, v); if (hsc[st] !== undefined) hsc[st]++;
     });
-    hsc.harvested = plants.filter(function(p) { return p.is_harvested; }).length;
+    hsc.harvested = plants.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); }).length;
     var harvestedPlantsCount = [...new Set(filtered.map(function(h){ return h.plant_id; }))].length;
     var statsBarHtml = renderStatsBar('harvest', {
       plants: activePlants.length,
