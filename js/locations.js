@@ -14,11 +14,17 @@ export async function renderLocations() {
   var pg = document.getElementById('page-locations');
   pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
   try {
-    var allLocs = await sb('locations', 'GET', null, '?or=(mode.eq.outdoor,mode.is.null)&order=created_at.asc');
-    state.cache.locations = allLocs;
-    var plants = await sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
-    if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
+    // Parallel fetch - all 4 queries at once instead of sequential
+    var results = await Promise.all([
+      sb('locations', 'GET', null, '?or=(mode.eq.outdoor,mode.is.null)&order=created_at.asc'),
+      sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides'),
+      state.cache.varieties.length ? Promise.resolve(state.cache.varieties) : sb('varieties', 'GET', null, '?order=name.asc'),
+      sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g')
+    ]);
+    var allLocs = results[0]; state.cache.locations = allLocs;
+    var plants = results[1];
+    state.cache.varieties = results[2];
+    var harvests = results[3];
     var activePlants = plants.filter(function(p) { return !p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
     var autoCount = 0, photoCount = 0;
     var sc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };

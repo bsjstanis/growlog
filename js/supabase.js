@@ -30,5 +30,25 @@ export async function uploadPhoto(file) {
     body: file
   });
   if (!r.ok) throw new Error('Photo upload failed');
-  return SB_URL + '/storage/v1/object/public/plant-photos/' + path;
+  // Store the path, not a public URL - we'll sign it on display
+  return 'sb://' + path;
+}
+
+// Get a signed URL for a private photo (1 hour expiry)
+export async function getPhotoUrl(storedUrl) {
+  if (!storedUrl) return null;
+  // Legacy public URLs - return as-is
+  if (storedUrl.indexOf('sb://') !== 0) return storedUrl;
+  var path = storedUrl.slice(5);
+  var token = (_session && _session.access_token) ? _session.access_token : SB_KEY;
+  try {
+    var r = await fetch(SB_URL + '/storage/v1/object/sign/plant-photos/' + path, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ expiresIn: 3600 })
+    });
+    if (!r.ok) return null;
+    var data = await r.json();
+    return SB_URL + '/storage/v1' + data.signedURL;
+  } catch(e) { return null; }
 }

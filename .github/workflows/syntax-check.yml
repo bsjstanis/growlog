@@ -1,0 +1,36 @@
+name: JS Syntax Check
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check all JS modules
+        run: |
+          set -e
+          fail=0
+          for f in js/*.js; do
+            if node --input-type=module --check < "$f" 2>/tmp/err; then
+              echo "OK: $f"
+            else
+              echo "SYNTAX ERROR in $f:"
+              cat /tmp/err
+              fail=1
+            fi
+          done
+          exit $fail
+      - name: Check for git conflict markers
+        run: |
+          if grep -rn "<<<<<<<\|>>>>>>>" js/ index.html 2>/dev/null; then
+            echo "Git conflict markers found!"
+            exit 1
+          fi
+          echo "No conflict markers"

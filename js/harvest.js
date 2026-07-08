@@ -1,4 +1,4 @@
-import { sb, uploadPhoto } from './supabase.js';
+import { sb, uploadPhoto, getPhotoUrl } from './supabase.js';
 import { t } from './i18n.js';
 import { fmt, today, diffDays, getYear, fmtUAH, parseErr, showErr, makeStatsBar, renderStatsBar } from './utils.js';
 import { getStage } from './stages.js';
@@ -46,7 +46,12 @@ export async function openEditHarvest(harvId) {
     document.getElementById('harv-photo-input').value = '';
     document.getElementById('harv-photo-existing').value = h.photo_url || '';
     var prev = document.getElementById('harv-photo-preview');
-    if (h.photo_url) { prev.src = h.photo_url; prev.style.display = 'block'; document.getElementById('harv-photo-delete-btn').style.display = 'inline-flex'; }
+    if (h.photo_url) {
+      if (h.photo_url.indexOf('sb://') === 0) {
+        getPhotoUrl(h.photo_url).then(function(url) { if (url) prev.src = url; });
+      } else { prev.src = h.photo_url; }
+      prev.style.display = 'block'; document.getElementById('harv-photo-delete-btn').style.display = 'inline-flex';
+    }
     else { prev.style.display = 'none'; document.getElementById('harv-photo-delete-btn').style.display = 'none'; }
     var r = h.rating || 5; document.getElementById('harv-rating').value = r; updateRating(r);
     openModal('modal-harvest-form');
@@ -83,10 +88,14 @@ export async function deleteHarvest(id) {
 export async function renderHarvestPage() {
   var pg = document.getElementById('page-harvest'); pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
   try {
-    if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
-    // Get all locations filtered by mode
+    // Parallel fetch
     var modeQuery = state.mode === 'indoor' ? '?mode=eq.indoor&select=id' : '?or=(mode.eq.outdoor,mode.is.null)&select=id';
-    var modeLocs = await sb('locations', 'GET', null, modeQuery);
+    var pre = await Promise.all([
+      state.cache.varieties.length ? Promise.resolve(state.cache.varieties) : sb('varieties', 'GET', null, '?order=name.asc'),
+      sb('locations', 'GET', null, modeQuery)
+    ]);
+    state.cache.varieties = pre[0];
+    var modeLocs = pre[1];
     var modeLocIds = modeLocs.map(function(l) { return l.id; });
     // Get plants in those locations
     var allPlants = await sb('plants', 'GET', null, '?select=id,name,variety_id,location_id,plant_date,is_harvested,stage_overrides');
@@ -147,7 +156,7 @@ export async function renderHarvestPage() {
         if (h.harvest_date) row3.push('✂️ '+fmt(h.harvest_date));
         if (cycleDays !== null) row3.push('🔄 '+cycleDays+' '+t('days'));
         html += '<div class="harv-card"><div class="harv-card-top">' +
-          (h.photo_url ? '<img src="' + h.photo_url + '" class="harv-thumb" alt="photo">' : '<div class="harv-thumb-ph">&#127807;</div>') +
+          (h.photo_url ? (h.photo_url.indexOf('sb://') === 0 ? '<img class="harv-thumb" data-sbpath="' + h.photo_url + '" alt="photo">' : '<img src="' + h.photo_url + '" class="harv-thumb" alt="photo">') : '<div class="harv-thumb-ph">&#127807;</div>') +
           '<div class="harv-info">' +
           '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:3px">' +
           '<div class="harv-name">' + (v?v.name:'?') + (p&&p.name?' &middot; '+p.name:'') + '</div>' +
@@ -165,6 +174,12 @@ export async function renderHarvestPage() {
       });
     }
     pg.innerHTML = html;
+    // Resolve private photo URLs (sb:// scheme) to signed URLs
+    document.querySelectorAll('img.harv-thumb[data-sbpath]').forEach(function(img) {
+      getPhotoUrl(img.getAttribute('data-sbpath')).then(function(url) {
+        if (url) img.src = url;
+      });
+    });
   } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: '+e.message+'</p></div>'; }
 }
 
