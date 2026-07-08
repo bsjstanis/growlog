@@ -32,7 +32,7 @@ jobs:
           ls -lh *.gz
 
       - name: Upload backup artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: db-backup-${{ github.run_number }}
           path: '*.sql.gz'
