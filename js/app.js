@@ -2,7 +2,7 @@ import { t, setLang, applyLang } from './i18n.js';
 import { initModalClosers, toast, openModal, closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
 import { getSession, signOut, handleAuthSubmit, renderAuthScreen } from './auth.js';
 import { renderLocations, openLocModal, saveLoc, deleteLoc } from './locations.js';
-import { renderPlants, setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, resetStage, setType } from './plants.js';
+import { renderPlants, setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, resetStage, setType, onVarietySelect } from './plants.js';
 import { renderHarvestPage, openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest } from './harvest.js';
 import { renderCalendar, showCalPopup } from './calendar.js';
 import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice } from './finance.js';
@@ -90,7 +90,7 @@ window.GrowLog = {
   closeModal, openPopup, closePopup, updateRating, previewHarvPhoto, clearHarvPhoto,
   openLocModal, saveLoc, deleteLoc,
   setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant,
-  markPlantLost, openStageModal, saveStage, resetStage, setType,
+  markPlantLost, openStageModal, saveStage, resetStage, setType, onVarietySelect,
   openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest,
   setHarvestYear: function(y) { state.harvestYear = y; renderHarvestPage(); },
   showCalPopup,

@@ -221,7 +221,20 @@ export async function executeConvert(seedId, nameEnc, brandEnc, sType, pricePerU
     var rows = await sb('seeds', 'GET', null, '?id=eq.' + seedId);
     var s = rows[0]; if (!s) return;
     if (qty > s.quantity) { errEl.textContent = '\u26a0\ufe0f \u041d\u0435 \u0431\u0456\u043b\u044c\u0448\u0435 ' + s.quantity; return; }
-    var nv = await sb('varieties', 'POST', { name: sName, brand: sBrand, seed_type: sType, flowering_days_min: s.flowering_days_min || 0, flowering_days_max: s.flowering_days_max || 0 });
+    // Check for existing variety first (dedup)
+    var existing = await sb('varieties', 'GET', null, '?name=ilike.' + encodeURIComponent(sName.trim()) + '&seed_type=eq.' + sType);
+    var varietyRecord = null;
+    if (existing && existing.length) {
+      varietyRecord = existing.find(function(v) {
+        return (v.brand || '').toLowerCase().trim() === sBrand.toLowerCase().trim();
+      }) || null;
+    }
+    var nv;
+    if (varietyRecord) {
+      nv = [varietyRecord];
+    } else {
+      nv = await sb('varieties', 'POST', { name: sName, brand: sBrand, seed_type: sType, flowering_days_min: s.flowering_days_min || 0, flowering_days_max: s.flowering_days_max || 0 });
+    }
     if (!nv || !nv[0]) throw new Error('Could not create variety');
     for (var i = 0; i < qty; i++) {
       await sb('plants', 'POST', { location_id: locId, variety_id: nv[0].id, name: qty > 1 ? '#' + (i + 1) : '', plant_date: date, current_stage: 'seedling', stage_overrides: {}, is_harvested: false });

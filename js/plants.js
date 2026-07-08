@@ -146,7 +146,7 @@ export function toggleTl(id) {
 
 export function toggleExpand(id) { state.expandedPlantId = state.expandedPlantId === id ? null : id; renderPlants(); }
 
-export function openPlantModal(prefill) {
+export async function openPlantModal(prefill) {
   prefill = prefill || {};
   clearErr('plant-error');
   document.getElementById('plant-edit-id').value = '';
@@ -162,7 +162,56 @@ export function openPlantModal(prefill) {
   document.getElementById('var-max').value = prefill.flowering_days_max || '';
   document.getElementById('plant-date').value = today();
   setType(prefill.seed_type || 'auto');
+  // Populate variety dropdown
+  document.getElementById('var-select-wrap').style.display = 'block';
+  await populateVarietySelect();
+  var sel = document.getElementById('var-select');
+  if (prefill.name) {
+    // Prefill from seed conversion - check if variety exists
+    var existing = state.cache.varieties.find(function(v) {
+      return v.name.toLowerCase().trim() === prefill.name.toLowerCase().trim()
+        && (v.brand || '').toLowerCase().trim() === (prefill.brand || '').toLowerCase().trim();
+    });
+    if (existing) { sel.value = existing.id; onVarietySelect(); }
+    else { sel.value = '__new__'; onVarietySelect(); }
+  } else {
+    sel.value = '';
+    document.getElementById('var-new-fields').style.display = 'none';
+  }
   openModal('modal-plant');
+}
+
+async function populateVarietySelect() {
+  if (!state.cache.varieties.length) {
+    state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
+  }
+  var sel = document.getElementById('var-select');
+  var opts = '<option value="">-- Вибери --</option><option value="__new__">&#10133; Новий сорт</option>';
+  state.cache.varieties.forEach(function(v) {
+    var label = v.name + (v.brand ? ' (' + v.brand + ')' : '') + (v.seed_type === 'auto' ? ' [A]' : ' [P]');
+    opts += '<option value="' + v.id + '">' + label + '</option>';
+  });
+  sel.innerHTML = opts;
+}
+
+export function onVarietySelect() {
+  var val = document.getElementById('var-select').value;
+  var fieldsEl = document.getElementById('var-new-fields');
+  if (val === '__new__') {
+    fieldsEl.style.display = 'block';
+  } else {
+    fieldsEl.style.display = 'none';
+    if (val) {
+      var v = state.cache.varieties.find(function(x) { return x.id === val; });
+      if (v) {
+        document.getElementById('var-name').value = v.name || '';
+        document.getElementById('var-brand').value = v.brand || '';
+        document.getElementById('var-min').value = v.flowering_days_min || '';
+        document.getElementById('var-max').value = v.flowering_days_max || '';
+        setType(v.seed_type || 'auto');
+      }
+    }
+  }
 }
 
 export async function openEditPlant(plantId) {
@@ -173,6 +222,9 @@ export async function openEditPlant(plantId) {
     document.getElementById('plant-edit-id').value = plantId;
     document.getElementById('plant-loc-id').value = p.location_id;
     document.getElementById('modal-plant-title').textContent = t('editPlant');
+    // Edit mode: hide variety selector, show fields directly
+    document.getElementById('var-select-wrap').style.display = 'none';
+    document.getElementById('var-new-fields').style.display = 'block';
     document.getElementById('plant-save-btn').textContent = t('save');
     document.getElementById('seed-cost-wrap').style.display = 'none';
     document.getElementById('plant-name').value = p.name || '';
@@ -193,30 +245,57 @@ export async function openEditPlant(plantId) {
 
 export async function savePlant() {
   var editId = document.getElementById('plant-edit-id').value;
+  var selVal = document.getElementById('var-select') ? document.getElementById('var-select').value : '__new__';
   var varName = document.getElementById('var-name').value.trim();
   var date = document.getElementById('plant-date').value;
   var minV = document.getElementById('var-min').value, maxV = document.getElementById('var-max').value;
   var min = parseInt(minV), max = parseInt(maxV);
   clearErr('plant-error'); var errs = [];
   if (!date) errs.push(t('errDate'));
-  if (!varName) errs.push(t('errVariety'));
-  if (varType === 'auto') {
-    if (!minV) errs.push(t('errMin'));
-    if (!maxV) errs.push(t('errMax'));
-    if (minV && maxV && min > max) errs.push(t('errMinMax'));
+  var isNewVariety = !editId && (selVal === '__new__' || selVal === '');
+  if (!editId && selVal === '') errs.push('Вибери сорт');
+  if (isNewVariety && selVal === '__new__') {
+    if (!varName) errs.push(t('errVariety'));
+    if (varType === 'auto') {
+      if (!minV) errs.push(t('errMin'));
+      if (!maxV) errs.push(t('errMax'));
+      if (minV && maxV && min > max) errs.push(t('errMinMax'));
+    }
   }
+  if (editId && !varName) errs.push(t('errVariety'));
   if (errs.length) { showErr('plant-error', errs.map(function(e) { return '&#9888;&#65039; ' + e; }).join('<br>')); return; }
   try {
-    var varData = { name: varName, brand: document.getElementById('var-brand').value.trim(), seed_type: varType, flowering_days_min: varType === 'auto' ? min : 0, flowering_days_max: varType === 'auto' ? max : 0 };
     var plantData = { name: document.getElementById('plant-name').value.trim(), plant_date: date, soil_type: document.getElementById('plant-soil').value.trim() || null, pot_size_l: parseFloat(document.getElementById('plant-pot').value) || null, url: document.getElementById('plant-url').value.trim() || null };
     if (editId) {
+      // Edit mode: update variety fields directly (as before)
+      var varData = { name: varName, brand: document.getElementById('var-brand').value.trim(), seed_type: varType, flowering_days_min: varType === 'auto' ? min : 0, flowering_days_max: varType === 'auto' ? max : 0 };
       var rows = await sb('plants', 'GET', null, '?id=eq.' + editId + '&select=variety_id');
       await sb('varieties', 'PATCH', varData, '?id=eq.' + rows[0].variety_id);
       await sb('plants', 'PATCH', plantData, '?id=eq.' + editId);
       closeModal('modal-plant'); toast(t('updated') + ' &#10003;');
     } else {
-      var nv = await sb('varieties', 'POST', varData); if (!nv || !nv[0]) throw new Error('Could not create variety');
-      plantData.location_id = state.curLocId; plantData.variety_id = nv[0].id;
+      var varietyId;
+      if (selVal && selVal !== '__new__') {
+        // Existing variety selected
+        varietyId = selVal;
+      } else {
+        // New variety - but first check for existing duplicate by name+brand
+        var brandVal = document.getElementById('var-brand').value.trim();
+        var dup = state.cache.varieties.find(function(v) {
+          return v.name.toLowerCase().trim() === varName.toLowerCase()
+            && (v.brand || '').toLowerCase().trim() === brandVal.toLowerCase()
+            && v.seed_type === varType;
+        });
+        if (dup) {
+          varietyId = dup.id;
+        } else {
+          var varData2 = { name: varName, brand: brandVal, seed_type: varType, flowering_days_min: varType === 'auto' ? min : 0, flowering_days_max: varType === 'auto' ? max : 0 };
+          var nv = await sb('varieties', 'POST', varData2); if (!nv || !nv[0]) throw new Error('Could not create variety');
+          varietyId = nv[0].id;
+          state.cache.varieties.push(nv[0]);
+        }
+      }
+      plantData.location_id = state.curLocId; plantData.variety_id = varietyId;
       plantData.current_stage = 'seedling'; plantData.stage_overrides = {}; plantData.is_harvested = false;
       await sb('plants', 'POST', plantData);
       closeModal('modal-plant'); toast(t('added') + ' &#10003;');

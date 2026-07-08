@@ -345,6 +345,13 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
   <div class="field"><label>Посилання <span class="opt">(опц.)</span></label><input id="plant-url" type="url" placeholder="https://..."></div>
   <div class="form-section">Сорт</div>
+  <div class="field" id="var-select-wrap"><label>Вибери сорт <span class="req">*</span></label>
+    <select id="var-select" onchange="GrowLog.onVarietySelect()">
+      <option value="">-- Вибери --</option>
+      <option value="__new__">&#10133; Новий сорт</option>
+    </select>
+  </div>
+  <div id="var-new-fields" style="display:none">
   <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="var-name" placeholder="Blue Dream..."></div>
   <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="var-brand" placeholder="Dinafem..."></div>
   <div class="field">
@@ -360,6 +367,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
       <div class="field"><label>Цвітіння до (днів) <span class="req">*</span></label><input id="var-max" type="number" min="30" max="150" placeholder="70"></div>
     </div>
   </div>
+  </div><!-- /var-new-fields -->
   <div id="seed-cost-wrap">
     <div class="form-section">Витрати на насіння</div>
     <div class="field"><label>Ціна насінини (UAH) <span class="opt">(опц.)</span></label><input id="plant-seed-cost" type="number" min="0" step="1" placeholder="0"></div>
