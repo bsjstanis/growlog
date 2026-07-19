@@ -27,7 +27,7 @@ async function refreshSession(refreshToken) {
 }
 
 export async function getSession() {
-  // Check for OAuth redirect in URL hash
+  // Check for OAuth/recovery redirect in URL hash
   var hash = window.location.hash;
   if (hash && hash.includes('access_token')) {
     var params = new URLSearchParams(hash.replace('#', ''));
@@ -36,9 +36,15 @@ export async function getSession() {
       refresh_token: params.get('refresh_token'),
       expires_in: params.get('expires_in') || 3600
     };
+    var linkType = params.get('type'); // 'recovery' | 'invite' | 'signup' | null
     if (tokenData.access_token) {
       history.replaceState(null, null, window.location.pathname);
-      return saveSession(tokenData);
+      var session = saveSession(tokenData);
+      // Recovery and invite links need password setup
+      if (linkType === 'recovery' || linkType === 'invite') {
+        window._needsPasswordReset = true;
+      }
+      return session;
     }
   }
   // Check stored session
@@ -155,4 +161,22 @@ export async function forgotPassword(email) {
   });
   var d = await r.json();
   if (!r.ok) throw new Error(d.msg || d.error_description || 'Error');
+}
+
+export async function updatePassword(newPassword) {
+  var stored = localStorage.getItem(SESSION_KEY);
+  if (!stored) throw new Error('Немає сесії');
+  var session = JSON.parse(stored);
+  var r = await fetch(SB_URL + '/auth/v1/user', {
+    method: 'PUT',
+    headers: {
+      apikey: SB_KEY,
+      Authorization: 'Bearer ' + session.access_token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ password: newPassword })
+  });
+  var data = await r.json();
+  if (!r.ok) throw new Error(data.msg || data.error_description || 'Помилка зміни пароля');
+  return data;
 }

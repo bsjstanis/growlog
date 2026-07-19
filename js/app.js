@@ -111,6 +111,27 @@ window.GrowLog = {
   handleLogout,
   handleAuthSubmit,
   toggleAuthMode: function() { renderAuthScreen(!window._authIsRegister); },
+  handlePasswordReset: async function() {
+    var p1 = document.getElementById('recovery-password').value;
+    var p2 = document.getElementById('recovery-password2').value;
+    var errEl = document.getElementById('recovery-error');
+    errEl.style.color = 'var(--red)';
+    errEl.textContent = '';
+    if (!p1 || p1.length < 6) { errEl.textContent = 'Пароль мінімум 6 символів'; return; }
+    if (p1 !== p2) { errEl.textContent = 'Паролі не співпадають'; return; }
+    var btn = document.getElementById('recovery-submit-btn');
+    btn.textContent = '...';
+    try {
+      var { updatePassword } = await import('./auth.js');
+      await updatePassword(p1);
+      window._needsPasswordReset = false;
+      document.getElementById('recovery-screen').style.display = 'none';
+      initApp();
+    } catch(e) {
+      errEl.textContent = e.message;
+      btn.textContent = 'Зберегти пароль';
+    }
+  },
   handleForgotPassword: async function() {
     var email = document.getElementById('auth-email').value.trim();
     var errEl = document.getElementById('auth-error');
@@ -131,7 +152,11 @@ window.GrowLog = {
   applyLang();
   try {
     var session = await getSession();
-    if (session) {
+    if (session && window._needsPasswordReset) {
+      // Recovery/invite link - show password setup screen
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('recovery-screen').style.display = 'flex';
+    } else if (session) {
       initApp();
     } else {
       renderAuthScreen(false);

@@ -270,6 +270,21 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <button id="auth-forgot-btn" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;margin-top:6px;width:100%;display:none" onclick="GrowLog.handleForgotPassword()">Забули пароль?</button>
   </div>
 </div>
+
+<!-- PASSWORD RECOVERY SCREEN -->
+<div class="login-screen" id="recovery-screen" style="display:none">
+  <div class="login-card">
+    <div class="login-logo"><img src="growlog-logo-512.png" style="width:72px;height:72px;border-radius:16px;object-fit:cover;display:block;margin:0 auto"></div>
+    <div class="login-title">GrowLog</div>
+    <div class="login-sub">Новий пароль</div>
+    <div style="margin-top:20px">
+      <input class="login-input" type="password" id="recovery-password" placeholder="Новий пароль" style="letter-spacing:normal;margin-bottom:10px">
+      <input class="login-input" type="password" id="recovery-password2" placeholder="Повтори пароль" style="letter-spacing:normal">
+    </div>
+    <button class="login-btn" id="recovery-submit-btn" onclick="GrowLog.handlePasswordReset()">Зберегти пароль</button>
+    <div class="login-error" id="recovery-error" style="margin-top:12px"></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <div class="popup-overlay" id="cal-popup" onclick="if(event.target===this)GrowLog.closePopup('cal-popup')">
   <div class="popup">
