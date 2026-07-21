@@ -14,7 +14,17 @@ export async function renderSeeds() {
     var countAll = active.reduce(function(a,s){ return a + (parseInt(s.quantity)||0); }, 0);
     var countAuto = active.filter(function(s){ return s.seed_type === 'auto'; }).reduce(function(a,s){ return a + (parseInt(s.quantity)||0); }, 0);
     var countPhoto = active.filter(function(s){ return s.seed_type === 'photo'; }).reduce(function(a,s){ return a + (parseInt(s.quantity)||0); }, 0);
-    var seeds = typeFilter === 'all' ? active : active.filter(function(s){ return s.seed_type === typeFilter; });
+    var countSoaked = active.filter(function(s){ return s.status === 'soaking'; }).reduce(function(a,s){ return a + (parseInt(s.quantity)||0); }, 0);
+    var seeds;
+    if (typeFilter === 'soaked') seeds = active.filter(function(s){ return s.status === 'soaking'; });
+    else if (typeFilter === 'all') seeds = active.slice();
+    else seeds = active.filter(function(s){ return s.seed_type === typeFilter; });
+    // Soaked seeds always on top
+    seeds.sort(function(a, b) {
+      var aSoak = a.status === 'soaking' ? 0 : 1;
+      var bSoak = b.status === 'soaking' ? 0 : 1;
+      return aSoak - bSoak;
+    });
     var lostFiltered = typeFilter === 'all' ? lost : lost.filter(function(s){ return s.seed_type === typeFilter; });
     var html = '<div class="inner-tabs">'
       + '<button class="inner-tab ' + (state.seedsTab === 'bag' ? 'active' : '') + '" onclick="GrowLog.setSeedsTab(\'bag\')">' + t('bagTab') + '</button>'
@@ -24,6 +34,7 @@ export async function renderSeeds() {
       + '<button class="btn btn-sm ' + (typeFilter==='all'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'all\')">All ' + countAll + '</button>'
       + '<button class="btn btn-sm ' + (typeFilter==='auto'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'auto\')">Auto ' + countAuto + '</button>'
       + '<button class="btn btn-sm ' + (typeFilter==='photo'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'photo\')">Photo ' + countPhoto + '</button>'
+      + '<button class="btn btn-sm ' + (typeFilter==='soaked'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'soaked\')">&#128166; ' + countSoaked + '</button>'
       + '</div>';
     if (!seeds.length && !lostFiltered.length) {
       html += '<div class="empty"><div class="empty-icon">&#127792;</div><p>' + t('noSeeds') + '</p></div>';
