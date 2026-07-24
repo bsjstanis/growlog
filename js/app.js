@@ -9,6 +9,7 @@ import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpen
 import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert } from './seeds.js';
 import { renderWishlistList, openWishlistModal, saveWishlist, deleteWishlist, renderWishlistItems, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag } from './wishlist.js';
 import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow } from './grows.js';
+import { openFeedingModal, recalcFeeding, openFeedEditor, saveFeedDoses, backToFeeding } from './feeding.js';
 
 import { state } from './state.js'; export { state };
 
@@ -107,6 +108,7 @@ window.GrowLog = {
   openWishlistModal, saveWishlist, deleteWishlist,
   openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag,
   openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow,
+  openFeedingModal, recalcFeeding, openFeedEditor, saveFeedDoses, backToFeeding,
   setMode, navigateToGrow, backToGrows,
   handleLogout,
   handleAuthSubmit,

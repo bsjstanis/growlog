@@ -106,6 +106,7 @@ export function renderPlantCard(p, harvests) {
     + '<div class="card-actions">'
     + '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openEditPlant(\'' + p.id + '\')">&#9999;&#65039;</button>'
     + '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openStageModal(\'' + p.id + '\',\'' + ne + '\')">&#128197;</button>'
+    + (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openFeedingModal(\'' + p.id + '\',\'' + ne + '\')">&#128166;</button>' : '')
     + (!p.is_harvested ? '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openHarvestModal(\'' + p.id + '\',\'' + ne + '\')">&#9986;&#65039;</button>' : '')
     + (!p.is_harvested ? '<button class="btn btn-warning btn-sm" onclick="GrowLog.markPlantLost(\'' + p.id + '\')">&#9760;&#65039;</button>' : '')
     + '<button class="btn btn-danger btn-sm" onclick="GrowLog.deletePlant(\'' + p.id + '\')">&#128465;</button>'
