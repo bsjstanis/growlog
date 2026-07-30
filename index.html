@@ -310,6 +310,12 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
     <div id="feeding-popup-content"></div>
   </div>
 </div>
+<div class="popup-overlay" id="feed-prod-popup" onclick="if(event.target===this)GrowLog.closePopup('feed-prod-popup')">
+  <div class="popup">
+    <div class="popup-title"><span id="feed-prod-popup-title">Добриво</span><button class="popup-close" onclick="GrowLog.closePopup('feed-prod-popup')">&#10005;</button></div>
+    <div id="feed-prod-popup-content"></div>
+  </div>
+</div>
 <header>
   <div class="logo"><img src="growlog-logo-512.png" style="width:28px;height:28px;border-radius:6px;object-fit:cover;vertical-align:middle;margin-right:6px" onerror="this.style.display='none'"> GrowLog</div>
   <div class="lang-toggle">

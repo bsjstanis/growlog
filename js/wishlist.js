@@ -11,7 +11,7 @@ export async function renderWishlistList() {
     var allItems = await sb('wishlist_items', 'GET', null, '?select=wishlist_id');
     var html = '<div class="inner-tabs">' +
       '<button class="inner-tab" onclick="GrowLog.navigate(\'seeds\')">' + t('bagTab') + '</button>' +
-      '<button class="inner-tab active">' + t('wishlistTab') + '</button></div>';
+      '<button class="inner-tab active">' + t('wishlistTab') + '</button>' + '<button class="inner-tab" onclick="GrowLog.setSeedsTab(\'feed\')">💧 Добрива</button></div>';
     if (!wishlists.length) {
       html += '<div class="empty"><div class="empty-icon">💫</div><p>' + t('noWishlists') + '</p></div>';
     } else {

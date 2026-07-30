@@ -9,7 +9,7 @@ import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpen
 import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert } from './seeds.js';
 import { renderWishlistList, openWishlistModal, saveWishlist, deleteWishlist, renderWishlistItems, openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag } from './wishlist.js';
 import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow } from './grows.js';
-import { openFeedingModal, recalcFeeding, openFeedEditor, saveFeedDoses, backToFeeding } from './feeding.js';
+import { openFeedingModal, recalcFeeding, switchFeedSet, renderFeedManager, selectFeedSet, selectFeedStage, newFeedSet, renameFeedSet, deleteFeedSet, newFeedProduct, editFeedProduct, saveFeedProduct, deleteFeedProduct, pickFeedColor, saveDose } from './feeding.js';
 
 import { state } from './state.js'; export { state };
 
@@ -64,7 +64,7 @@ function fabAction() {
     if (state.mode === 'indoor' && !state.curGrowId) openGrowModal();
     else openLocModal();
   } else if (state.curPage === 'plants') openPlantModal();
-  else if (state.curPage === 'seeds') { if (state.seedsTab === 'bag') openSeedModal(); else openWishlistModal(); }
+  else if (state.curPage === 'seeds') { if (state.seedsTab === 'bag') openSeedModal(); else if (state.seedsTab === 'feed') GrowLog.newFeedProduct(); else openWishlistModal(); }
   else if (state.curPage === 'wishlist-list') openWishlistModal();
   else if (state.curPage === 'wishlist-items') openWishlistItemModal();
 }
@@ -101,14 +101,16 @@ window.GrowLog = {
   setFinanceYear: function(y) { state.financeYear = y; renderFinance(); },
   setFinanceGrow: function(id) { state.curFinanceGrowId = id; renderFinance(); },
   setFinTab: function(tab) { state.finTab = tab; renderFinance(); },
-  setSeedsTab: function(tab) { state.seedsTab = tab; renderSeeds(); },
+  setSeedsTab: function(tab) { state.seedsTab = tab; if (tab === 'feed') { renderFeedManager(); } else { renderSeeds(); } },
   toggleLostSection: function() { state.lostSectionOpen = !state.lostSectionOpen; renderPlants(); },
   setSeedTypeFilter: function(f) { state.seedTypeFilter = f; renderSeeds(); },
   openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert,
   openWishlistModal, saveWishlist, deleteWishlist,
   openWishlistItemModal, saveWishlistItem, deleteWishlistItem, convertWishlistItemToBag,
   openGrowModal, saveGrow, completeGrow, archiveGrow, deleteGrow,
-  openFeedingModal, recalcFeeding, openFeedEditor, saveFeedDoses, backToFeeding,
+  openFeedingModal, recalcFeeding, switchFeedSet,
+  renderFeedManager, selectFeedSet, selectFeedStage, newFeedSet, renameFeedSet, deleteFeedSet,
+  newFeedProduct, editFeedProduct, saveFeedProduct, deleteFeedProduct, pickFeedColor, saveDose,
   setMode, navigateToGrow, backToGrows,
   handleLogout,
   handleAuthSubmit,

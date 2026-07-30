@@ -29,6 +29,7 @@ export async function renderSeeds() {
     var html = '<div class="inner-tabs">'
       + '<button class="inner-tab ' + (state.seedsTab === 'bag' ? 'active' : '') + '" onclick="GrowLog.setSeedsTab(\'bag\')">' + t('bagTab') + '</button>'
       + '<button class="inner-tab ' + (state.seedsTab === 'wishlist' ? 'active' : '') + '" onclick="GrowLog.navigate(\'wishlist-list\')">' + t('wishlistTab') + '</button>'
+      + '<button class="inner-tab" onclick="GrowLog.setSeedsTab(\'feed\')">💧 Добрива</button>'
       + '</div>'
       + '<div style="display:flex;gap:6px;margin-bottom:12px">'
       + '<button class="btn btn-sm ' + (typeFilter==='all'?'btn-primary':'btn-ghost') + '" onclick="GrowLog.setSeedTypeFilter(\'all\')">All ' + countAll + '</button>'
