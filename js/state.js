@@ -14,5 +14,6 @@ export var state = {
   convertFromWLItem: null,
   seedTypeFilter: 'all',
   lostSectionOpen: false,
+  harvestedSectionOpen: false,
   cache: { varieties: [], locations: [] }
 };

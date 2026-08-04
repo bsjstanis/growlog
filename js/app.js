@@ -103,6 +103,7 @@ window.GrowLog = {
   setFinTab: function(tab) { state.finTab = tab; renderFinance(); },
   setSeedsTab: function(tab) { state.seedsTab = tab; if (tab === 'feed') { renderFeedManager(); } else { renderSeeds(); } },
   toggleLostSection: function() { state.lostSectionOpen = !state.lostSectionOpen; renderPlants(); },
+  toggleHarvestedSection: function() { state.harvestedSectionOpen = !state.harvestedSectionOpen; renderPlants(); },
   setSeedTypeFilter: function(f) { state.seedTypeFilter = f; renderSeeds(); },
   openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert,
   openWishlistModal, saveWishlist, deleteWishlist,

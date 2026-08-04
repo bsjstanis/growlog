@@ -73,7 +73,7 @@ export function renderSeedCard(s) {
     + (!isLost
       ? '<div class="card-actions">'
           + (s.status === 'available' ? '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openSplitPopup(\'' + s.id + '\',\'soaking\')">' + t('soakAction') + '</button>' : '')
-          + '<button class="btn btn-warning btn-sm" onclick="GrowLog.openSplitPopup(\'' + s.id + '\',\'lost\')">' + t('lostAction') + '</button>'
+          + (s.status === 'soaking' ? '<button class="btn btn-warning btn-sm" onclick="GrowLog.openSplitPopup(\'' + s.id + '\',\'lost\')">' + t('lostAction') + '</button>' : '')
           + '<button class="btn btn-primary btn-sm" onclick="GrowLog.openConvertPopup(\'' + s.id + '\')">' + t('convertAction') + '</button>'
           + '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openSeedModal(\'' + s.id + '\')">&#9999;&#65039;</button>'
           + '<button class="btn btn-danger btn-sm" onclick="GrowLog.deleteSeed(\'' + s.id + '\')">&#128465;</button>'

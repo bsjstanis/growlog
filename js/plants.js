@@ -33,17 +33,28 @@ export async function renderPlants() {
     var plants = await sb('plants', 'GET', null, '?location_id=eq.' + state.curLocId + '&order=plant_date.asc');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g,harvest_date');
     var html = hdr();
-    var activePlants = plants.filter(function(p) { return !(p.is_harvested && p.stage_overrides && p.stage_overrides.lost); });
+    var activePlants = plants.filter(function(p) { return !p.is_harvested; });
+    var harvestedPlants = plants.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
     var lostPlants = plants.filter(function(p) { return p.is_harvested && p.stage_overrides && p.stage_overrides.lost; });
-    if (!activePlants.length && !lostPlants.length) {
+    if (!activePlants.length && !harvestedPlants.length && !lostPlants.length) {
       html += '<div class="empty"><div class="empty-icon">&#127807;</div><p>' + t('noPlants') + '</p></div>';
     } else {
       if (activePlants.length) {
         if (state.plantViewMode === 'list') html += activePlants.map(function(p) { return renderPlantList(p, harvests); }).join('');
         else html += activePlants.map(function(p) { return renderPlantCard(p, harvests); }).join('');
-      } else {
-        html += '<div class="empty"><div class="empty-icon">&#127807;</div><p>' + t('noPlants') + '</p></div>';
       }
+      // Harvested section (full color, collapsible)
+      if (harvestedPlants.length) {
+        var harvOpen = state.harvestedSectionOpen ? ' open' : '';
+        html += '<div class="lost-section">'
+          + '<div class="lost-section-header" onclick="GrowLog.toggleHarvestedSection()">'
+          + '&#129526; Зібрані (' + harvestedPlants.length + ')'
+          + '<span>' + (state.harvestedSectionOpen ? '&#9650;' : '&#9660;') + '</span></div>'
+          + '<div class="lost-section-body' + harvOpen + '">'
+          + harvestedPlants.map(function(p) { return (state.plantViewMode === 'list' ? renderPlantList(p, harvests) : renderPlantCard(p, harvests)); }).join('')
+          + '</div></div>';
+      }
+      // Lost section (greyed out, collapsible)
       if (lostPlants.length) {
         var lostOpen = state.lostSectionOpen ? ' open' : '';
         html += '<div class="lost-section">'
