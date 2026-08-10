@@ -80,3 +80,29 @@ function makeStageCell(count, icon, label, colorClass) {
     '<span class="sc-nm">' + icon + ' ' + label + '</span>' +
   '</div>';
 }
+
+// Populate shared brands + strains datalists from all known values
+export async function populateBrandsDatalist() {
+  try {
+    var { sb } = await import('./supabase.js');
+    var results = await Promise.all([
+      sb('varieties', 'GET', null, '?select=name,brand'),
+      sb('seeds', 'GET', null, '?select=name,brand'),
+      sb('wishlist_items', 'GET', null, '?select=name,brand')
+    ]);
+    var brands = {}, strains = {};
+    results.forEach(function(rows) {
+      (rows || []).forEach(function(r) {
+        var b = (r.brand || '').trim();
+        if (b) brands[b] = true;
+        var n = (r.name || '').trim();
+        if (n) strains[n] = true;
+      });
+    });
+    var sortFn = function(a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); };
+    var brandDl = document.getElementById('brands-datalist');
+    if (brandDl) brandDl.innerHTML = Object.keys(brands).sort(sortFn).map(function(b) { return '<option value="' + b.replace(/"/g, '&quot;') + '">'; }).join('');
+    var strainDl = document.getElementById('strains-datalist');
+    if (strainDl) strainDl.innerHTML = Object.keys(strains).sort(sortFn).map(function(s) { return '<option value="' + s.replace(/"/g, '&quot;') + '">'; }).join('');
+  } catch(e) { /* silent */ }
+}

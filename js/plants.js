@@ -1,6 +1,6 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { fmt, today, parseErr, showErr, clearErr } from './utils.js';
+import { fmt, today, parseErr, showErr, clearErr, populateBrandsDatalist } from './utils.js';
 import { calcStages, getStage, getWarning, getPct, STAGE_COLORS, stageName } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
@@ -190,6 +190,7 @@ export async function openPlantModal(prefill) {
     sel.value = '';
     document.getElementById('var-new-fields').style.display = 'none';
   }
+  populateBrandsDatalist();
   openModal('modal-plant');
 }
 
@@ -251,6 +252,7 @@ export async function openEditPlant(plantId) {
       document.getElementById('var-min').value = variety.flowering_days_min || '';
       document.getElementById('var-max').value = variety.flowering_days_max || '';
     }
+    populateBrandsDatalist();
     openModal('modal-plant');
   } catch(e) { toast('Error: ' + parseErr(e)); }
 }

@@ -380,7 +380,7 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
   <div id="var-new-fields" style="display:none">
   <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="var-name" placeholder="Blue Dream..."></div>
-  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="var-brand" placeholder="Dinafem..."></div>
+  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="var-brand" placeholder="Dinafem..." list="brands-datalist" autocomplete="off"></div>
   <div class="field">
     <label>Тип <span class="req">*</span></label>
     <div class="type-toggle">
@@ -506,8 +506,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="modal-title" id="modal-seed-title">Нове насіння</div>
   <div class="modal-subtitle">* — обов'язкові поля</div>
   <input type="hidden" id="seed-edit-id">
-  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="seed-name" placeholder="Blue Dream..."></div>
-  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="seed-brand" placeholder="Dinafem..."></div>
+  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="seed-name" placeholder="Blue Dream..." list="strains-datalist" autocomplete="off"></div>
+  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="seed-brand" placeholder="Dinafem..." list="brands-datalist" autocomplete="off"></div>
   <div class="field"><label>Тип</label>
     <select id="seed-type"><option value="auto">Автоцвіт</option><option value="photo">Фотоперіод</option></select>
   </div>
@@ -547,8 +547,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="modal-title" id="modal-wi-title">Додати в вишлист</div>
   <input type="hidden" id="wi-edit-id">
   <input type="hidden" id="wi-wishlist-id">
-  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="wi-name" placeholder="Blue Dream..."></div>
-  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="wi-brand" placeholder="Dinafem..."></div>
+  <div class="field"><label>Назва сорту <span class="req">*</span></label><input id="wi-name" placeholder="Blue Dream..." list="strains-datalist" autocomplete="off"></div>
+  <div class="field"><label>Сідбанк <span class="opt">(опц.)</span></label><input id="wi-brand" placeholder="Dinafem..." list="brands-datalist" autocomplete="off"></div>
   <div class="field"><label>Тип <span class="opt">(опц.)</span></label>
     <select id="wi-type"><option value="auto">Автоцвіт</option><option value="photo">Фотоперіод</option></select>
   </div>
@@ -575,6 +575,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   </div>
 </div></div>
 
+<datalist id="brands-datalist"></datalist>
+<datalist id="strains-datalist"></datalist>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { fmt, today, fmtUAH, parseErr, showErr, clearErr } from './utils.js';
+import { fmt, today, fmtUAH, parseErr, showErr, clearErr, populateBrandsDatalist } from './utils.js';
 import { toast, openModal, closeModal, openPopup, closePopup } from './ui.js';
 import { state } from './state.js';
 
@@ -109,6 +109,7 @@ export function openSeedModal(id) {
     document.getElementById('seed-flower-max').value = '';
   }
   state.convertFromWLItem = null;
+  populateBrandsDatalist();
   openModal('modal-seed');
 }
 

@@ -1,6 +1,6 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { today, fmtUAH, parseErr, showErr, clearErr } from './utils.js';
+import { today, fmtUAH, parseErr, showErr, clearErr, populateBrandsDatalist } from './utils.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 
@@ -113,6 +113,7 @@ export function openWishlistItemModal(id) {
     document.getElementById('wi-url').value = '';
     document.getElementById('wi-type').value = 'auto';
   }
+  populateBrandsDatalist();
   openModal('modal-wishlist-item');
 }
 
