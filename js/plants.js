@@ -48,7 +48,7 @@ export async function renderPlants() {
         var harvOpen = state.harvestedSectionOpen ? ' open' : '';
         html += '<div class="lost-section">'
           + '<div class="lost-section-header" onclick="GrowLog.toggleHarvestedSection()">'
-          + '&#129526; Зібрані (' + harvestedPlants.length + ')'
+          + '&#9986;&#65039; Зібрані (' + harvestedPlants.length + ')'
           + '<span>' + (state.harvestedSectionOpen ? '&#9650;' : '&#9660;') + '</span></div>'
           + '<div class="lost-section-body' + harvOpen + '">'
           + harvestedPlants.map(function(p) { return (state.plantViewMode === 'list' ? renderPlantList(p, harvests) : renderPlantCard(p, harvests)); }).join('')
