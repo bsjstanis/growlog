@@ -1,6 +1,7 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
-import { fmt, today, parseErr, showErr, clearErr } from './utils.js';
+import { fmt, today, parseErr, showErr, clearErr, renderStatsBar } from './utils.js';
+import { getStage } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 
@@ -8,11 +9,11 @@ export async function renderGrows() {
   var pg = document.getElementById('page-locations');
   pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
   try {
-    var grows = await sb('grows', 'GET', null, '?order=created_at.desc');
+    var grows = await sb('grows', 'GET', null, '?mode=eq.indoor&order=created_at.desc');
     var active = grows.filter(function(g) { return g.status === 'active'; });
     var done = grows.filter(function(g) { return g.status !== 'active' && g.status !== 'archive'; });
     var archived = grows.filter(function(g) { return g.status === 'archive'; });
-    var html = makeModeTabs();
+    var html = makeModeTabs() + await indoorStatsBar(active);
     html += '<div style="display:flex;justify-content:flex-end;margin-bottom:10px">' +
       '<button class="btn btn-primary btn-sm" onclick="GrowLog.openGrowModal()">＋ ' + t('newGrow') + '</button></div>';
     if (!grows.filter(function(g){ return g.status !== 'archive'; }).length) {
@@ -35,16 +36,42 @@ export async function renderGrows() {
   } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
 }
 
+// Stats bar for Indoor: only plants in locations of active grows
+async function indoorStatsBar(activeGrows) {
+  var growIds = activeGrows.map(function(g) { return g.id; });
+  var plants = [];
+  if (growIds.length) {
+    var locs = await sb('locations', 'GET', null, '?grow_id=in.(' + growIds.join(',') + ')&select=id');
+    var locIds = locs.map(function(l) { return l.id; });
+    if (locIds.length) plants = await sb('plants', 'GET', null, '?location_id=in.(' + locIds.join(',') + ')&select=id,variety_id,is_harvested,plant_date,stage_overrides');
+  }
+  if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
+  var active = plants.filter(function(p) { return !p.is_harvested; });
+  var sc = { seedling: 0, growth: 0, pre_flower: 0, flower: 0, ripening: 0, harvest: 0 };
+  var autoCount = 0, photoCount = 0;
+  active.forEach(function(p) {
+    var v = state.cache.varieties.find(function(x) { return x.id === p.variety_id; }); if (!v) return;
+    if (v.seed_type === 'auto') autoCount++; else photoCount++;
+    var st = getStage(p, v); if (sc[st] !== undefined) sc[st]++;
+  });
+  var harvested = plants.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); }).length;
+  return renderStatsBar('plants', {
+    active: active.length, auto: autoCount, photo: photoCount,
+    seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
+    flower: sc.flower, ripening: sc.ripening + sc.harvest, harvested: harvested
+  });
+}
+
 export function renderGrowCard(g) {
   var statusColor = g.status === 'active' ? 'var(--green)' : g.status === 'completed' ? 'var(--text3)' : 'var(--text3)';
   var statusLabel = g.status === 'active' ? t('growActive') : g.status === 'completed' ? t('growCompleted') : t('growArchive');
   return '<div class="card" style="cursor:pointer;border-left:4px solid ' + statusColor + '" onclick="GrowLog.navigateToGrow(\'' + g.id + '\',\'' + encodeURIComponent(g.name) + '\')">' +
     '<div class="card-row"><div>' +
-      '<div class="card-title">💡 ' + g.name + '</div>' +
+      '<div class="card-title">💡 ' + g.name + (g.status !== 'active' ? ' 🔒' : '') + '</div>' +
       '<div class="card-sub">📅 ' + fmt(g.start_date) + (g.end_date ? ' → ' + fmt(g.end_date) : ' → ...') + ' · ' + statusLabel + '</div>' +
     '</div><span style="color:var(--text3);font-size:20px">›</span></div>' +
     '<div class="card-actions">' +
-      (g.status === 'active' ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.completeGrow(\'' + g.id + '\')">' + t('growComplete') + '</button>' : '') +
+      (g.status === 'active' ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openCloseWizard(\'' + g.id + '\')">🔒 ' + t('growComplete') + '</button>' : '') +
       '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openGrowModal(\'' + g.id + '\')">✏️</button>' +
       (g.status !== 'archive' ? '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.archiveGrow(\'' + g.id + '\')">' + t('growArchiveBtn') + '</button>' : '') +
       '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteGrow(\'' + g.id + '\')">🗑</button>' +
@@ -77,7 +104,7 @@ export async function saveGrow() {
   var data = { name: name, start_date: startDate };
   try {
     if (id) await sb('grows', 'PATCH', data, '?id=eq.' + id);
-    else await sb('grows', 'POST', Object.assign(data, { status: 'active' }));
+    else await sb('grows', 'POST', Object.assign(data, { status: 'active', mode: 'indoor' }));
     closeModal('modal-grow'); toast(t(id ? 'updated' : 'added') + ' ✅'); renderGrows();
   } catch(e) { showErr('grow-error', '❌ ' + parseErr(e)); }
 }

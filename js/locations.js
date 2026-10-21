@@ -5,6 +5,7 @@ import { getStage } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 import { makeModeTabs, renderGrows } from './grows.js';
+import { loadSeasons, pickSeason, renderSeasonBar } from './seasons.js';
 
 export async function renderLocations() {
   if (state.mode === 'indoor') {
@@ -14,15 +15,24 @@ export async function renderLocations() {
   var pg = document.getElementById('page-locations');
   pg.innerHTML = makeModeTabs() + '<div class="spinner"></div>';
   try {
-    // Parallel fetch - all 4 queries at once instead of sequential
+    var seasons = await loadSeasons();
+    if (!seasons.length) {
+      pg.innerHTML = makeModeTabs() + '<div class="empty"><div class="empty-icon">🌿</div><p>Ще немає жодного сезону.</p>' +
+        '<button class="btn btn-primary" style="margin-top:12px" onclick="GrowLog.openNewSeasonModal()">＋ Новий сезон</button></div>';
+      return;
+    }
+    var seasonId = pickSeason(seasons);
+    var seasonBar = renderSeasonBar(seasons, seasonId);
     var results = await Promise.all([
-      sb('locations', 'GET', null, '?or=(mode.eq.outdoor,mode.is.null)&order=created_at.asc'),
+      sb('locations', 'GET', null, '?grow_id=eq.' + seasonId + '&order=created_at.asc'),
       sb('plants', 'GET', null, '?select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides'),
       state.cache.varieties.length ? Promise.resolve(state.cache.varieties) : sb('varieties', 'GET', null, '?order=name.asc'),
       sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g')
     ]);
     var allLocs = results[0]; state.cache.locations = allLocs;
-    var plants = results[1];
+    var seasonLocIds = allLocs.map(function(l) { return l.id; });
+    // Only plants of this season's locations
+    var plants = results[1].filter(function(p) { return seasonLocIds.indexOf(p.location_id) >= 0; });
     state.cache.varieties = results[2];
     var harvests = results[3];
     var activePlants = plants.filter(function(p) { return !p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
@@ -37,11 +47,12 @@ export async function renderLocations() {
     var statsHtml = renderStatsBar('plants', {
       active: activePlants.length, auto: autoCount, photo: photoCount,
       seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
-      flower: sc.flower, ripening: sc.harvest, harvested: harvestedCount
+      flower: sc.flower, ripening: sc.ripening + sc.harvest, harvested: harvestedCount
     });
-    var html = makeModeTabs() + statsHtml;
+    var html = makeModeTabs() + seasonBar + statsHtml;
     if (!allLocs.length) {
-      pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>';
+      pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p>' +
+        '<button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="GrowLog.deleteSeason(\'' + seasonId + '\')">🗑 Видалити порожній сезон</button></div>';
       return;
     }
     pg.innerHTML = html + allLocs.map(function(loc) {
@@ -72,14 +83,19 @@ async function renderGrowLocations() {
   try {
     var locs = await sb('locations', 'GET', null, '?grow_id=eq.' + state.curGrowId + '&order=created_at.asc');
     state.cache.locations = locs;
-    var plants = await sb('plants', 'GET', null, '?select=id,location_id,is_harvested');
+    var gr = await sb('grows', 'GET', null, '?id=eq.' + state.curGrowId);
+    var grow = gr[0];
+    var plants = await sb('plants', 'GET', null, '?select=id,location_id,is_harvested,stage_overrides');
     var harvests = await sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
     var locIds = locs.map(function(l) { return l.id; });
     var growStatsHtml = locs.length ? await buildLocationsStatsBar(locIds) : '';
+    var growClosed = grow && grow.status !== 'active';
     var html = makeModeTabs() +
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' +
       '<button class="btn btn-ghost btn-sm" onclick="GrowLog.backToGrows()">← Grows</button>' +
-      '<span style="font-size:16px;font-weight:700">💡 ' + growName + '</span></div>' +
+      '<span style="font-size:16px;font-weight:700;flex:1">💡 ' + growName + (growClosed ? ' 🔒' : '') + '</span>' +
+      (grow && !growClosed ? '<button class="btn btn-warning btn-sm" onclick="GrowLog.openCloseWizard(\'' + grow.id + '\')">🔒 Завершити Grow</button>' : '') +
+      '</div>' +
       growStatsHtml;
     if (!locs.length) {
       pg.innerHTML = html + '<div class="empty"><div class="empty-icon">🏕️</div><p>' + t('noLoc') + '</p></div>';
@@ -124,6 +140,10 @@ export async function saveLoc() {
   if (!id) {
     data.mode = state.mode;
     if (state.mode === 'indoor' && state.curGrowId) data.grow_id = state.curGrowId;
+    if (state.mode === 'outdoor') {
+      if (!state.curSeasonId) { showErr('loc-error', '⚠️ Спочатку відкрий сезон'); return; }
+      data.grow_id = state.curSeasonId;
+    }
   }
   try {
     if (id) await sb('locations', 'PATCH', data, '?id=eq.' + id);
@@ -155,7 +175,7 @@ async function buildLocationsStatsBar(locIds) {
   var harvests = await (await import('./supabase.js')).sb('harvests', 'GET', null, '?select=plant_id,dry_weight_g');
   var growPlants = plants.filter(function(p) { return locIds.indexOf(p.location_id) >= 0; });
   var activePlants = growPlants.filter(function(p) { return !p.is_harvested; });
-  var harvestedPlants = growPlants.filter(function(p) { return p.is_harvested; });
+  var harvestedPlants = growPlants.filter(function(p) { return p.is_harvested && !(p.stage_overrides && p.stage_overrides.lost); });
   var totalW = 0;
   harvestedPlants.forEach(function(p) {
     harvests.filter(function(h) { return h.plant_id === p.id; }).forEach(function(h) { totalW += (parseFloat(h.dry_weight_g) || 0); });
@@ -176,6 +196,6 @@ async function buildLocationsStatsBar(locIds) {
   return renderStatsBar('plants', {
     active: activePlants.length, auto: autoCount, photo: photoCount,
     seedling: sc.seedling, growth: sc.growth, pre_flower: sc.pre_flower,
-    flower: sc.flower, ripening: sc.harvest, harvested: harvestedPlants.length
+    flower: sc.flower, ripening: sc.ripening + sc.harvest, harvested: harvestedPlants.length
   });
 }

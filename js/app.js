@@ -3,7 +3,8 @@ import { initModalClosers, toast, openModal, closeModal, openPopup, closePopup, 
 import { getSession, signOut, handleAuthSubmit, renderAuthScreen } from './auth.js';
 import { renderLocations, openLocModal, saveLoc, deleteLoc } from './locations.js';
 import { renderPlants, setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant, markPlantLost, openStageModal, saveStage, resetStage, setType, onVarietySelect } from './plants.js';
-import { renderHarvestPage, openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest } from './harvest.js';
+import { renderHarvestPage, openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest, openHarvestView, openLightbox, closeLightbox } from './harvest.js';
+import { openNewSeasonModal, saveNewSeason, selectSeason, deleteSeason, openCloseWizard, wizardDecide, wizardTarget, wizardHarvest, reopenCloseWizard, cancelCloseWizard, wizardBack, wizardNext, confirmCloseSeason } from './seasons.js';
 import { renderCalendar, showCalPopup } from './calendar.js';
 import { renderFinance, toggleExpCat, openExpenseModal, saveExpense, deleteExpense, openPriceModal, savePrice } from './finance.js';
 import { renderSeeds, openSeedModal, saveSeed, deleteSeed, openSplitPopup, executeSplit, openConvertPopup, executeConvert } from './seeds.js';
@@ -62,6 +63,7 @@ function renderPage(p) { navigate(p); }
 function fabAction() {
   if (state.curPage === 'locations') {
     if (state.mode === 'indoor' && !state.curGrowId) openGrowModal();
+    else if (state.mode === 'outdoor' && !state.curSeasonId) openNewSeasonModal();
     else openLocModal();
   } else if (state.curPage === 'plants') openPlantModal();
   else if (state.curPage === 'seeds') { if (state.seedsTab === 'bag') openSeedModal(); else if (state.seedsTab === 'feed') GrowLog.newFeedProduct(); else openWishlistModal(); }
@@ -92,7 +94,10 @@ window.GrowLog = {
   openLocModal, saveLoc, deleteLoc,
   setViewMode, toggleTl, toggleExpand, openPlantModal, openEditPlant, savePlant, deletePlant,
   markPlantLost, openStageModal, saveStage, resetStage, setType, onVarietySelect,
-  openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest,
+  openHarvestModal, openEditHarvest, saveHarvest, deleteHarvest, openHarvestView, openLightbox, closeLightbox,
+  setHarvestGrow: function(id) { state.harvestGrowId = id; renderHarvestPage(); },
+  openNewSeasonModal, saveNewSeason, selectSeason, deleteSeason,
+  openCloseWizard, wizardDecide, wizardTarget, wizardHarvest, reopenCloseWizard, cancelCloseWizard, wizardBack, wizardNext, confirmCloseSeason,
   setHarvestYear: function(y) { state.harvestYear = y; renderHarvestPage(); },
   showCalPopup,
   calBack: function() { state.calOffset -= 12; renderCalendar(); },

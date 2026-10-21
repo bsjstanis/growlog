@@ -45,7 +45,7 @@ async function renderOutdoorFinance(pg) {
 }
 
 async function renderIndoorFinance(pg) {
-  var grows = await sb('grows', 'GET', null, '?status=neq.archive&order=created_at.desc');
+  var grows = await sb('grows', 'GET', null, '?mode=eq.indoor&status=neq.archive&order=created_at.desc');
   if (!grows.length) {
     pg.innerHTML = makeModeTabs() + '<div class="empty"><div class="empty-icon">💡</div><p>Немає Indoor Grow циклів</p></div>';
     return;
@@ -69,7 +69,7 @@ async function renderIndoorFinance(pg) {
   var ppg = parseFloat(ys.price_per_gram) || 0;
   // Grow tabs
   var growTabs = '<div class="year-tabs">' + grows.map(function(g) {
-    return '<div class="year-tab ' + (g.id === state.curFinanceGrowId ? 'active' : '') + '" onclick="GrowLog.setFinanceGrow(\'' + g.id + '\')">' + g.name + '</div>';
+    return '<div class="year-tab ' + (g.id === state.curFinanceGrowId ? 'active' : '') + '" onclick="GrowLog.setFinanceGrow(\'' + g.id + '\')">' + g.name + (g.status !== 'active' ? ' 🔒' : '') + '</div>';
   }).join('') + '</div>';
   renderFinancePage(pg, expenses, plants, harvests, ppg, [], settings, growTabs);
 }

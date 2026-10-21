@@ -15,5 +15,6 @@ export var state = {
   seedTypeFilter: 'all',
   lostSectionOpen: false,
   harvestedSectionOpen: false,
+  curSeasonId: null, harvestGrowId: null, closeWizard: null,
   cache: { varieties: [], locations: [] }
 };

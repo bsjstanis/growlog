@@ -201,22 +201,16 @@ export async function executeSplit(seedId, newStatus, pricePerUnit) {
 export async function openConvertPopup(seedId) {
   var rows = await sb('seeds', 'GET', null, '?id=eq.' + seedId);
   var s = rows[0]; if (!s) return;
-  var locs = await sb('locations', 'GET', null, '?order=created_at.asc');
-  var grows = await sb('grows', 'GET', null, '?order=created_at.desc');
-  var growMap = {};
-  grows.forEach(function(g) { growMap[g.id] = g.name; });
-  var outdoorLocs = locs.filter(function(l) { return l.mode !== 'indoor'; });
-  var indoorLocs = locs.filter(function(l) { return l.mode === 'indoor'; });
-  var locOpts = '';
-  if (outdoorLocs.length) {
-    locOpts += '<optgroup label="🌿 Outdoor">' + outdoorLocs.map(function(l) { return '<option value="' + l.id + '">' + l.name + '</option>'; }).join('') + '</optgroup>';
-  }
-  if (indoorLocs.length) {
-    locOpts += '<optgroup label="💡 Indoor">' + indoorLocs.map(function(l) {
-      var gName = l.grow_id && growMap[l.grow_id] ? growMap[l.grow_id] + ' / ' : '';
-      return '<option value="' + l.id + '">' + gName + l.name + '</option>';
-    }).join('') + '</optgroup>';
-  }
+  // Only locations of open seasons (Outdoor) and active Grows (Indoor), grouped
+  var grows = await sb('grows', 'GET', null, '?status=eq.active&order=created_at.desc');
+  var locs = grows.length ? await sb('locations', 'GET', null, '?grow_id=in.(' + grows.map(function(g) { return g.id; }).join(',') + ')&order=created_at.asc') : [];
+  var order = grows.filter(function(g) { return g.mode === 'outdoor'; }).concat(grows.filter(function(g) { return g.mode !== 'outdoor'; }));
+  var locOpts = order.map(function(g) {
+    var gl = locs.filter(function(l) { return l.grow_id === g.id; });
+    if (!gl.length) return '';
+    var label = (g.mode === 'outdoor' ? '🌿 Outdoor · ' : '💡 ') + g.name;
+    return '<optgroup label="' + label + '">' + gl.map(function(l) { return '<option value="' + l.id + '">' + l.name + '</option>'; }).join('') + '</optgroup>';
+  }).join('');
   var content =
     '<div style="margin-bottom:12px"><b>' + s.name + '</b>' + (s.brand ? ' &middot; ' + s.brand : '') + '</div>'
     + '<div style="margin-bottom:12px"><label style="font-size:12px;font-weight:500;color:var(--text3);display:block;margin-bottom:4px;text-transform:uppercase">\u041a\u0456\u043b\u044c\u043a\u0456\u0441\u0442\u044c (max ' + s.quantity + ') <span style="color:var(--red)">*</span></label>'
