@@ -2,7 +2,7 @@ import { sb, uploadPhoto, getPhotoUrl } from './supabase.js';
 import { t } from './i18n.js';
 import { fmt, today, diffDays, getYear, fmtUAH, parseErr, showErr, makeStatsBar, renderStatsBar } from './utils.js';
 import { getStage } from './stages.js';
-import { toast, openModal, closeModal, openPopup, updateRating, previewHarvPhoto, clearHarvPhoto } from './ui.js';
+import { toast, openModal, closeModal, openPopup, updateRating, previewHarvPhoto, clearHarvPhoto, ensurePopup, ensureLightbox } from './ui.js';
 import { state } from './state.js';
 import { makeModeTabs } from './grows.js';
 
@@ -194,6 +194,7 @@ export async function renderHarvestPage() {
 
 // ══════════ HARVEST VIEW (click on card) ══════════
 export async function openHarvestView(harvId) {
+  ensurePopup('harv-view-popup', 'harv-view-content', '⚖️ Врожай');
   try {
     var rows = await sb('harvests', 'GET', null, '?id=eq.' + harvId); var h = rows[0]; if (!h) return;
     var pr = await sb('plants', 'GET', null, '?id=eq.' + h.plant_id + '&select=id,name,variety_id,location_id,plant_date');
@@ -238,7 +239,8 @@ export async function openHarvestView(harvId) {
 
 export function openLightbox(src) {
   if (!src) return;
+  ensureLightbox();
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-export function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+export function closeLightbox() { var lb = document.getElementById('lightbox'); if (lb) lb.classList.remove('open'); }

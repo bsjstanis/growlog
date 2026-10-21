@@ -35,3 +35,30 @@ export function clearHarvPhoto() {
   document.getElementById('harv-photo-delete-btn').style.display = 'none';
   document.getElementById('harv-photo-existing').value = 'DELETE';
 }
+
+// Create a popup on the fly if the (possibly cached, older) index.html doesn't have it yet.
+// Keeps new features working right after a deploy, before the browser refreshes index.html.
+export function ensurePopup(id, contentId, titleHtml, titleId, closeJs, closeOnBackdrop) {
+  if (document.getElementById(id)) return;
+  var el = document.createElement('div');
+  el.className = 'popup-overlay'; el.id = id;
+  if (closeOnBackdrop !== false) el.setAttribute('onclick', "if(event.target===this)GrowLog.closePopup('" + id + "')");
+  el.innerHTML = '<div class="popup"><div class="popup-title"><span' + (titleId ? ' id="' + titleId + '"' : '') + '>' + titleHtml + '</span>' +
+    '<button class="popup-close" onclick="' + (closeJs || "GrowLog.closePopup('" + id + "')") + '">&#10005;</button></div>' +
+    '<div id="' + contentId + '"></div></div>';
+  document.body.appendChild(el);
+}
+
+export function ensureLightbox() {
+  if (document.getElementById('lightbox')) return;
+  if (!document.getElementById('lightbox-style')) {
+    var st = document.createElement('style'); st.id = 'lightbox-style';
+    st.textContent = '.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:700;align-items:center;justify-content:center;cursor:zoom-out}.lightbox.open{display:flex}.lightbox img{max-width:100vw;max-height:100vh;object-fit:contain}.lightbox-close{position:absolute;top:14px;right:18px;color:#fff;font-size:26px}';
+    document.head.appendChild(st);
+  }
+  var el = document.createElement('div');
+  el.className = 'lightbox'; el.id = 'lightbox';
+  el.setAttribute('onclick', 'GrowLog.closeLightbox()');
+  el.innerHTML = '<img id="lightbox-img" alt="photo"><span class="lightbox-close">&#10005;</span>';
+  document.body.appendChild(el);
+}

@@ -5,7 +5,7 @@ import { getStage, setIndoorLocations } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 import { makeModeTabs, renderGrows } from './grows.js';
-import { loadSeasons, pickSeason, renderSeasonBar } from './seasons.js';
+import { loadSeasons, pickSeason, renderSeasonBar, renderCloseSeasonButton } from './seasons.js';
 
 export async function renderLocations() {
   if (state.mode === 'indoor') {
@@ -72,7 +72,7 @@ export async function renderLocations() {
         '<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();GrowLog.openLocModal(\'' + loc.id + '\')">✏️</button>' +
         '<button class="btn btn-danger btn-sm" onclick="event.stopPropagation();GrowLog.deleteLoc(\'' + loc.id + '\')">🗑</button>' +
         '</div></div>';
-    }).join('');
+    }).join('') + renderCloseSeasonButton(seasons, seasonId);
   } catch(e) { pg.innerHTML = makeModeTabs() + '<div class="empty"><p>Error: ' + e.message + '</p></div>'; }
 }
 

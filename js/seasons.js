@@ -1,7 +1,7 @@
 import { sb } from './supabase.js';
 import { fmt, today, fmtUAH, parseErr } from './utils.js';
 import { getStage, stageName } from './stages.js';
-import { toast, openPopup, closePopup } from './ui.js';
+import { toast, openPopup, closePopup, ensurePopup } from './ui.js';
 import { state } from './state.js';
 import { openHarvestModal } from './harvest.js';
 
@@ -33,16 +33,27 @@ export function renderSeasonBar(seasons, curId) {
         (s.year || s.name) + (isClosed(s) ? ' 🔒' : '') + '</div>';
     }).join('') + '</div>' +
     '<button class="btn btn-ghost btn-sm" onclick="GrowLog.openNewSeasonModal()">＋ Новий сезон</button></div>';
-  if (cur && !isClosed(cur)) {
-    html += '<button class="btn btn-warning" style="width:100%;margin-bottom:12px" onclick="GrowLog.openCloseWizard(\'' + cur.id + '\')">🔒 Закрити сезон ' + (cur.year || '') + '</button>';
-  } else if (cur) {
+  if (cur && isClosed(cur)) {
     html += '<div style="font-size:12px;color:var(--text3);margin-bottom:12px">🔒 Сезон закрито' + (cur.end_date ? ' ' + fmt(cur.end_date) : '') + ' · дані можна редагувати</div>';
   }
   return html;
 }
 
+// Close-season button shown under the list of locations (as in the mockup)
+export function renderCloseSeasonButton(seasons, curId) {
+  var cur = seasons.find(function(s) { return s.id === curId; });
+  if (!cur || isClosed(cur)) return '';
+  return '<button class="btn" style="width:100%;margin-top:6px;justify-content:center;text-align:center;background:transparent;border:1.5px solid #f59e0b;color:#b45309" onclick="GrowLog.openCloseWizard(\'' + cur.id + '\')">🔒 Закрити сезон ' + (cur.year || '') + '</button>';
+}
+
+function ensureSeasonPopups() {
+  ensurePopup('season-popup', 'season-popup-content', '🌿 Новий сезон');
+  ensurePopup('close-popup', 'close-popup-content', 'Закрити сезон', 'close-popup-title', 'GrowLog.cancelCloseWizard()', false);
+}
+
 // ══════════ NEW SEASON ══════════
 export async function openNewSeasonModal() {
+  ensureSeasonPopups();
   try {
     var seasons = await loadSeasons();
     var curYear = new Date().getFullYear();
@@ -107,6 +118,7 @@ export async function deleteSeason(id) {
 // state.closeWizard = { growId, grow, plantIds: [...], decisions: { plantId: { type: 'lost'|'move', target } } }
 
 export async function openCloseWizard(growId) {
+  ensureSeasonPopups();
   try {
     var gr = await sb('grows', 'GET', null, '?id=eq.' + growId);
     var grow = gr[0]; if (!grow) return;
