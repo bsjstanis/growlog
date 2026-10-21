@@ -16,9 +16,10 @@ export function initModalClosers() {
 }
 
 export function updateRating(val) {
-  document.getElementById('rating-val').textContent = val;
-  var s = Math.round(val / 2);
-  document.getElementById('rating-stars').textContent = '⭐'.repeat(s) + '☆'.repeat(5 - s);
+  var v = parseFloat(val) || 0;
+  document.getElementById('rating-val').textContent = (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1));
+  var fill = document.getElementById('rating-stars-fill');
+  if (fill) fill.style.width = (v / 10 * 100) + '%';
 }
 
 export function previewHarvPhoto(input) {

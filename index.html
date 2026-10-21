@@ -186,7 +186,9 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
 .rating-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 .rating-display{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
 .rating-val{font-size:22px;font-weight:700;color:var(--green)}
-.rating-stars{font-size:14px;color:#f9a825}
+.rating-stars{position:relative;display:inline-block;font-size:17px;line-height:1;letter-spacing:1px;white-space:nowrap}
+.rating-stars-bg{color:var(--border)}
+.rating-stars-fill{position:absolute;left:0;top:0;overflow:hidden;color:#f9a825;width:50%}
 .photo-area{border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:16px;text-align:center;cursor:pointer;color:var(--text3);font-size:13px}
 .photo-preview{width:100%;border-radius:var(--radius-sm);margin-top:8px;max-height:160px;object-fit:cover;display:none}
 .empty{text-align:center;padding:48px 24px;color:var(--text3)}
@@ -450,8 +452,8 @@ main{max-width:600px;margin:0 auto;padding:14px 12px}
   <div class="field">
     <label>Оцінка 1–10 <span class="opt">(опц.)</span></label>
     <div class="rating-wrap">
-      <input type="range" class="rating-slider" id="harv-rating" min="1" max="10" value="5" oninput="GrowLog.updateRating(this.value)">
-      <div class="rating-display"><span class="rating-val" id="rating-val">5</span><span class="rating-stars" id="rating-stars">⭐⭐⭐⭐⭐</span></div>
+      <input type="range" class="rating-slider" id="harv-rating" min="0.5" max="10" step="0.5" value="5" oninput="GrowLog.updateRating(this.value)">
+      <div class="rating-display"><span class="rating-val" id="rating-val">5</span><span class="rating-stars" id="rating-stars"><span class="rating-stars-bg">★★★★★★★★★★</span><span class="rating-stars-fill" id="rating-stars-fill">★★★★★★★★★★</span></span></div>
     </div>
   </div>
   <div class="field"><label>Нотатки <span class="opt">(опц.)</span></label><textarea id="harv-notes" placeholder="Смак, ефект..."></textarea></div>

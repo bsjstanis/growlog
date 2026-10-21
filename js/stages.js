@@ -11,7 +11,7 @@ export var STAGE_ICONS = {
 };
 var STAGE_KEYS = {
   seedling: 'seedling', growth: 'growthS', pre_flower: 'preflowerS',
-  flower: 'flowerS', ripening: 'ripeningS', harvest: 'harvestS', done: 'doneS'
+  flower: 'flowerS', ripening: 'ripeningS', harvest: 'harvestS', done: 'doneS', lost: 'lostS'
 };
 
 export function stageName(sk) { return (STAGE_ICONS[sk] || '') + ' ' + (t(STAGE_KEYS[sk]) || sk); }

@@ -70,7 +70,7 @@ export async function saveHarvest() {
     if (photoFile) photoUrl = await uploadPhoto(photoFile);
     else if (existingPhoto === 'DELETE') photoUrl = null;
     else if (existingPhoto) photoUrl = existingPhoto;
-    var data = { plant_id: plantId, harvest_date: date, wet_weight_g: parseFloat(document.getElementById('harv-wet').value) || null, dry_weight_g: parseFloat(document.getElementById('harv-weight').value) || null, dry_start_date: document.getElementById('harv-dry-start').value || null, dry_end_date: document.getElementById('harv-dry-end').value || null, rating: parseInt(document.getElementById('harv-rating').value) || null, notes: document.getElementById('harv-notes').value.trim(), photo_url: photoUrl };
+    var data = { plant_id: plantId, harvest_date: date, wet_weight_g: parseFloat(document.getElementById('harv-wet').value) || null, dry_weight_g: parseFloat(document.getElementById('harv-weight').value) || null, dry_start_date: document.getElementById('harv-dry-start').value || null, dry_end_date: document.getElementById('harv-dry-end').value || null, rating: parseFloat(document.getElementById('harv-rating').value) || null, notes: document.getElementById('harv-notes').value.trim(), photo_url: photoUrl };
     if (editId) await sb('harvests', 'PATCH', data, '?id=eq.' + editId);
     else { await sb('harvests', 'POST', data); await sb('plants', 'PATCH', { is_harvested: true }, '?id=eq.' + plantId); }
     closeModal('modal-harvest-form'); toast(t('saved') + ' ✅');
