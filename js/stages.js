@@ -16,11 +16,28 @@ var STAGE_KEYS = {
 
 export function stageName(sk) { return (STAGE_ICONS[sk] || '') + ' ' + (t(STAGE_KEYS[sk]) || sk); }
 
+// Indoor location ids — photoperiod plants indoors flower after a veg period, not on a calendar date
+var INDOOR_LOCS = {};
+export function setIndoorLocations(ids) { (ids || []).forEach(function(id) { INDOOR_LOCS[id] = true; }); }
+function isIndoorPlant(plant) { return !!(plant.location_id && INDOOR_LOCS[plant.location_id]); }
+
 export function calcStages(plant, v) {
   var o = plant.stage_overrides || {};
   var avg = v.seed_type === 'auto' ? Math.round((v.flowering_days_min + v.flowering_days_max) / 2) : 70;
   if (avg < 30) avg = 65; // fallback if flowering days not set
   var pd = plant.plant_date; var s = {};
+  if (v.seed_type !== 'auto' && isIndoorPlant(plant)) {
+    // Indoor photoperiod: seedling → veg → flip to 12/12 → flowering length from variety (default 9 weeks)
+    var fl = Math.round(((v.flowering_days_min || 0) + (v.flowering_days_max || 0)) / 2);
+    if (fl < 30) fl = 63;
+    s.seedling   = o.seedling   || pd;
+    s.growth     = o.growth     || addDays(s.seedling, 14);
+    s.pre_flower = o.pre_flower || addDays(s.growth, 28);
+    s.flower     = o.flower     || addDays(s.pre_flower, 7);
+    s.ripening   = o.ripening   || addDays(s.flower, fl - 10);
+    s.harvest    = o.harvest    || addDays(s.flower, fl);
+    return s;
+  }
   if (v.seed_type === 'auto') {
     // Cascade: each stage flows from the previous one
     s.seedling   = o.seedling   || pd;
@@ -33,7 +50,9 @@ export function calcStages(plant, v) {
     var yr = new Date(pd + 'T12:00:00').getFullYear();
     s.seedling   = o.seedling   || pd;
     s.growth     = o.growth     || s.seedling;
-    s.flower     = o.flower     || (yr + '-08-01');
+    // Outdoor photoperiod: natural flowering from 1 Aug, but never earlier than 5 weeks after planting
+    var natural = yr + '-08-01', minFlower = addDays(pd, 35);
+    s.flower     = o.flower     || (natural > minFlower ? natural : minFlower);
     s.pre_flower = o.pre_flower || addDays(s.flower, -7);
     s.ripening   = o.ripening   || addDays(s.flower, 50);
     s.harvest    = o.harvest    || addDays(s.flower, 65);

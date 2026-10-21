@@ -13,6 +13,8 @@ import { renderGrows, openGrowModal, saveGrow, completeGrow, archiveGrow, delete
 import { openFeedingModal, recalcFeeding, switchFeedSet, renderFeedManager, selectFeedSet, selectFeedStage, newFeedSet, renameFeedSet, deleteFeedSet, newFeedProduct, editFeedProduct, saveFeedProduct, deleteFeedProduct, pickFeedColor, saveDose } from './feeding.js';
 
 import { state } from './state.js'; export { state };
+import { sb } from './supabase.js';
+import { setIndoorLocations } from './stages.js';
 
 // ═══ MODE ═══
 function setMode(mode) {
@@ -72,11 +74,16 @@ function fabAction() {
 }
 
 // ═══ AUTH ═══
-function initApp() {
+async function initApp() {
   updateRating(5);
   applyLang();
   initModalClosers();
   document.getElementById('login-screen').style.display = 'none';
+  // Stage calc needs to know which locations are indoor (photoperiod logic differs)
+  try {
+    var indoorLocs = await sb('locations', 'GET', null, '?mode=eq.indoor&select=id');
+    setIndoorLocations(indoorLocs.map(function(l) { return l.id; }));
+  } catch(e) { console.error('indoor locations', e); }
   navigate('locations');
 }
 

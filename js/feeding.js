@@ -15,7 +15,7 @@ var COLOR_PALETTE = ['#d32f2f', '#2d7a3a', '#e65100', '#7c3aed', '#c62828', '#15
 // ══════════ CALCULATOR (plant card 💧) ══════════
 export async function openFeedingModal(plantId, labelEnc) {
   try {
-    var rows = await sb('plants', 'GET', null, '?id=eq.' + plantId + '&select=variety_id,plant_date,stage_overrides,is_harvested');
+    var rows = await sb('plants', 'GET', null, '?id=eq.' + plantId + '&select=location_id,variety_id,plant_date,stage_overrides,is_harvested');
     var p = rows[0]; if (!p) return;
     var v = state.cache.varieties.find(function(x) { return x.id === p.variety_id; });
     if (!v) { var vr = await sb('varieties', 'GET', null, '?id=eq.' + p.variety_id); v = vr[0]; }

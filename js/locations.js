@@ -1,7 +1,7 @@
 import { sb } from './supabase.js';
 import { t } from './i18n.js';
 import { renderStatsBar, parseErr, showErr, clearErr } from './utils.js';
-import { getStage } from './stages.js';
+import { getStage, setIndoorLocations } from './stages.js';
 import { toast, openModal, closeModal } from './ui.js';
 import { state } from './state.js';
 import { makeModeTabs, renderGrows } from './grows.js';
@@ -147,7 +147,10 @@ export async function saveLoc() {
   }
   try {
     if (id) await sb('locations', 'PATCH', data, '?id=eq.' + id);
-    else await sb('locations', 'POST', data);
+    else {
+      var created = await sb('locations', 'POST', data);
+      if (data.mode === 'indoor' && created && created[0]) setIndoorLocations([created[0].id]);
+    }
     closeModal('modal-loc'); toast(t(id ? 'updated' : 'added') + ' ✅'); renderLocations();
   } catch(e) { showErr('loc-error', '❌ ' + parseErr(e)); }
 }

@@ -43,7 +43,7 @@ async function indoorStatsBar(activeGrows) {
   if (growIds.length) {
     var locs = await sb('locations', 'GET', null, '?grow_id=in.(' + growIds.join(',') + ')&select=id');
     var locIds = locs.map(function(l) { return l.id; });
-    if (locIds.length) plants = await sb('plants', 'GET', null, '?location_id=in.(' + locIds.join(',') + ')&select=id,variety_id,is_harvested,plant_date,stage_overrides');
+    if (locIds.length) plants = await sb('plants', 'GET', null, '?location_id=in.(' + locIds.join(',') + ')&select=id,location_id,variety_id,is_harvested,plant_date,stage_overrides');
   }
   if (!state.cache.varieties.length) state.cache.varieties = await sb('varieties', 'GET', null, '?order=name.asc');
   var active = plants.filter(function(p) { return !p.is_harvested; });
